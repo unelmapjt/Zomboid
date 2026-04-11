@@ -1,0 +1,7 @@
+Recipes_TH = {
+	Recipe_SWOpenBoxOfBullets50 = "แกะกล่องกระสุนปืน (50 นัด)",
+    Recipe_SWOpenBoxOfBullets25 = "แกะกล่องกระสุนปืน (25 นัด)",
+    Recipe_SWOpenBoxOfBullets12 = "แกะกล่องกระสุนปืน (12 นัด)",
+    Recipe_SWOpenBoxOfShotgunShells = "แกะกล่องกระสุนปืนลูกซอง",
+    Recipe_SWplace_ammo_in_box = "บรรจุกระสุนปืนลงกล่อง",
+}

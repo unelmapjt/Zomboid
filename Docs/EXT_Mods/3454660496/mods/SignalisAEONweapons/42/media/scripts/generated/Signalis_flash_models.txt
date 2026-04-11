@@ -1,0 +1,8 @@
+module Base
+{
+	model muzzle_flash_Type-75
+	{
+		mesh = weapons/firearm/fx/muzzle_flash_handgun02,
+		cullFace = None,
+	}
+}

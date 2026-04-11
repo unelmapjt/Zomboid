@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<clothingItem>
+	<m_MaleModel>skinned\clothes\bob_adlrbottom</m_MaleModel>
+	<m_FemaleModel>skinned\clothes\kate_ararbottom</m_FemaleModel>
+	<m_GUID>7ae1884c-0002-4099-b456-a278f0a4dc2d</m_GUID>
+	<m_Static>false</m_Static>
+	<m_AllowRandomTint>false</m_AllowRandomTint>
+	<m_AttachBone></m_AttachBone>
+	<m_Masks>2</m_Masks>
+	<m_Masks>7</m_Masks>
+	<m_Masks>9</m_Masks>
+	<textureChoices>clothes\replika\arar</textureChoices>
+</clothingItem>

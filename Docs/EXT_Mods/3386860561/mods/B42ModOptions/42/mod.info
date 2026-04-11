@@ -1,0 +1,6 @@
+name=Example B42 Mod Options
+id=B42ModOptions
+authors=dhert
+description=An example on how to use the new ModOptions that is native in B42!
+tags=Interface;Framework;
+poster=poster.png

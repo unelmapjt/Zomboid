@@ -1,0 +1,90 @@
+module Base
+{
+    sound EIN12Shoot
+    {
+        category = Item,
+        maxInstancesPerEmitter = 2,
+        clip
+        {
+			file = media/sound/gun_sfx/EIN-12Shoot1.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Shoot2.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Shoot3.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Shoot4.ogg,
+        }
+    }
+	
+	sound EIN12BringToBear
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/ein-12BringToBear.ogg,
+        }
+    }
+	
+	sound EIN12AimRelease
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/ein-12AimRelease.ogg,
+        }
+    }
+	
+	sound EIN12Loading
+	{
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/EIN-12Load1.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Load2.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Load3.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Load4.ogg,
+        }
+    }
+	
+	sound EIN12Pump
+	{
+		category = Item,
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12Pump.ogg,
+        }
+	}
+	
+	sound EIN12inseat
+	{
+		category = Item,
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12inseat.ogg,
+        }
+	}
+	
+	sound EIN12AmmoFall
+	{
+		category = Item,
+		clip
+        {
+			file = media/sound/gun_sfx/EIN-12AmmoFall.ogg,
+        }
+	}
+}

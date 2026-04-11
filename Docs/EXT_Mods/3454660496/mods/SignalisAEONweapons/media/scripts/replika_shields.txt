@@ -1,0 +1,38 @@
+module Base
+{
+	/****************************** ITEMS SHIELD ******************************/
+
+    item StarShield
+	{
+		Weight	=	2.5,
+		DisappearOnUse	=	FALSE,
+		Type	=	 Normal,
+		DisplayName	=	STAR Shield,
+		Icon	=	starshieldicon,
+		cantBeConsolided = TRUE,
+		StaticModel = Weapons/1Handed/STARShield,
+      	RunAnim	=	Run_Weapon2,
+       	IdleAnim	= HoldingTorchRight,
+		primaryAnimMask = HoldingTorchRight,
+        secondaryAnimMask = HoldingTorchLeft,
+		Tooltip = "85% Block On Left Side and Torso",
+		AttachmentType 		= ShieldSlot,
+	}
+	recipe Shield: STAR
+	{
+		
+        SheetMetal = 1,
+        LeatherStrips = 2,
+		BlowTorch=1,
+		keep [Recipe.GetItemTypes.WeldingMask],
+        Result : StarShield,
+        Time : 255.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Give25MWXP,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+
+}

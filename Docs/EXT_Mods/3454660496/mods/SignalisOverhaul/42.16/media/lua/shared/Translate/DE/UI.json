@@ -1,0 +1,25 @@
+{
+    "UI_ClothingType_RepairPatch" : "Reparaturflicken",
+
+    "UI_prof_Lstr_Replika" : "LSTR-Einheiten",
+    "UI_profdesc_Lstr_Replika" : "Grundlagen des Überlebens und grundlegende mechanische Kenntnisse.",
+    "UI_prof_eulr_Replika" : "EULR-Einheiten",
+    "UI_profdesc_eulr_Replika" : "Mehrzweck-Allzweck.",
+    "UI_prof_Fklr_Replika" : "FKLR-Einheiten",
+    "UI_profdesc_Fklr_Replika" : "Operative Führungs- und Kontrolleinheit.",
+    "UI_prof_Klbr_Replika" : "KLBR-Einheiten",
+    "UI_profdesc_Klbr_Replika" : "Bioresonanztechnologie.",
+    "UI_prof_Adlr_Replika" : "ADLR-Einheiten",
+    "UI_profdesc_Adlr_Replika" : "",
+    "UI_prof_Stcr_Replika" : "STCR-Einheiten",
+    "UI_profdesc_Stcr_Replika" : "",
+    "UI_prof_Star_Replika" : "STAR-Einheiten",
+    "UI_profdesc_Star_Replika" : "",
+    "UI_prof_Mnhr_Replika" : "MNHR-Einheiten",
+    "UI_profdesc_Mnhr_Replika" : "",
+    "UI_prof_Arar_Replika" : "ARAR-Einheiten",
+    "UI_profdesc_Arar_Replika" : "",
+
+    "UI_trait_ReplikaModel" : "Replika Modell",
+    "UI_trait_ReplikaModeldesc" : "Biomechanisch mit Polyethylenschale"
+}

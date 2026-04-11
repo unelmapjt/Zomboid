@@ -1,0 +1,5 @@
+VERSION=2
+New:Brita;Brita_2;Arsenal(26)GunFighter[MAIN MOD 2.0];Arsenal(26)GunFighter;modoptions;fonts-jp;ExpandedHelicopterEvents;EasyConfigChucked;ModManager;BunkerDayOfTheDead;Diederiks Tile Palooza;DylansTiles;SkizotsTiles;PertsPartyTiles;errorMagnifier;NOX_EVOLVED;MapTeleport;RosewoodBunker
+V2:Brita;Brita_2;Arsenal(26)GunFighter[MAIN MOD 2.0];Arsenal(26)GunFighter;modoptions;fonts-jp;ExpandedHelicopterEvents;EasyConfigChucked;ModManager;Diederiks Tile Palooza;DylansTiles;SkizotsTiles;PertsPartyTiles;errorMagnifier;MapTeleport;RosewoodBunker;StartWith;StartWithWatch;NOX_EVOLVED_V2;simonMDsTiles;CryogenicWinter2NormalMode
+NE2:Brita;Brita_2;Arsenal(26)GunFighter[MAIN MOD 2.0];Arsenal(26)GunFighter;modoptions;ExpandedHelicopterEvents;EasyConfigChucked;ModManager;Diederiks Tile Palooza;DylansTiles;SkizotsTiles;PertsPartyTiles;MapTeleport;RosewoodBunker;simonMDsTiles;NOX_EVOLVED_V2;fonts-jp
+3:Brita;Arsenal(26)GunFighter[MAIN MOD 2.0];Arsenal(26)GunFighter;modoptions;ExpandedHelicopterEvents;EasyConfigChucked;ModManager;errorMagnifier;NOX_EVOLVED_3;ModManagerServer;ModTemplate;SMUI;NightVisionChucked;eris_nightvision_goggles;SLEO;ChuckleberryFinnAlertSystem

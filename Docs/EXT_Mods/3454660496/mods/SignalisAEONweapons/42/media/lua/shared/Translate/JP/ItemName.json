@@ -1,0 +1,26 @@
+{
+	"Signalis_Weapons.Bullets8" : "8mm弾",
+	"Signalis_Weapons.Bullets10" : "10mm弾",
+	"Signalis_Weapons.Bullets12" : "12mm弾",
+	"Signalis_Weapons.Bullets16" : "16mm弾",
+	"Signalis_Weapons.Bullets185" : "18.5mm弾",
+
+	"Signalis_Weapons.Bullets8Box" : "8mm弾 (箱)",
+	"Signalis_Weapons.Bullets10Box" : "10mm弾 (箱)",
+	"Signalis_Weapons.Bullets12Box" : "12mm弾 (箱)",
+	"Signalis_Weapons.Bullets16Box" : "16mm弾 (箱)",
+	"Signalis_Weapons.Bullets185Box" : "18.5mm弾 (箱)",
+
+	"Signalis_Weapons.8mmClip" : "Type-84 マガジン",
+	"Signalis_Weapons.10mmClip" : "Type-75 マガジン",
+
+	"Signalis_Weapons.DisposableStunProd" : "使い捨て電気ショック棒",
+	"Signalis_Weapons.DisposableStunProd_Used" : "使い捨て電気ショック棒 (使用済)",
+	"Signalis_Weapons.FalkeSpear" : "Falke 槍",
+	"Signalis_Weapons.Type-75" : "Type-75 プロテクター",
+	"Signalis_Weapons.EU-K508S" : "EU-K508 S アインホーン",
+	"Signalis_Weapons.EIN-12" : "EIN-12 フレシェット",
+	"Signalis_Weapons.BW-5" : "BW-5 ナイトロエクスプレス",
+	"Signalis_Weapons.Type-84" : "Type-84 ドラッヘ",
+	"Signalis_Weapons.RiotBatonSTCR" : "STCRの暴動警棒"
+}

@@ -1,0 +1,77 @@
+UI_RU = {
+    UI_mainscreen_btn_configs = "КОНФИГУРАЦИИ",
+
+    UI_modselector_separator = "из",
+
+    UI_modselector_showEnabledMods = "Показать включенные",
+    UI_modselector_showDisabledMods = "Показать отключенные",
+    UI_modselector_showHiddenMods = "Показать скрытые",
+
+    UI_modselector_disableWarningTitle = "ВНИМАНИЕ!",
+    UI_modselector_disableWarningText = "Отключение данной модификации так-же приведёт к отключению следующих:",
+
+    UI_modselector_modOptions = "КОНФИГУРАЦИИ",
+
+    UI_modlistpanel_sortBy = "Сортировка:",
+    UI_modlistpanel_sortBy_name = "По имени (А-Я)",
+    UI_modlistpanel_sortBy_date = "По дате добавления",
+    UI_modlistpanel_sortBy_dateUpdated = "По дате обновления",
+
+    UI_modselector_status_installed = "Актуальная",
+    UI_modselector_status_needsUpdate = "Доступно обновление!",
+
+    UI_modoptions_title = "НАСТРОЙКИ МОДИФИКАЦИЙ",
+
+    UI_btn_sort_apply = "СОРТИРОВАТЬ И ПРИНЯТЬ",
+
+    UI_modpresets_title = "СПИСОК ПРЕСЕТОВ",
+
+    UI_modpresets_presetsTab = "ПРЕСЕТЫ",
+    UI_modpresets_historyTab = "ИСТОРИЯ",
+
+    UI_modpresets_copy = "КОПИРОВАТЬ",
+
+    UI_btn_select = "ВЫБРАТЬ",
+    UI_btn_deleteAll = "УДАЛИТЬ ВСЁ",
+
+    UI_modpresets_deleteAll_dialog = "Удалить всю историю?",
+
+    UI_modselector_btn_hide = "СКРЫТЬ",
+    UI_modselector_btn_show = "ПОКАЗАТЬ",
+    UI_modselector_btn_favorite = "В ИЗБРАННОЕ",
+    UI_modselector_btn_unfavorite = "ИЗ ИЗБРАННОГО",
+    UI_modselector_btn_enable = "ВКЛЮЧИТЬ",
+    UI_modselector_btn_disable = "ОТКЛЮЧИТЬ",
+
+    UI_modinfopanel_Status = "Статус",
+    UI_modinfopanel_Version = "Версия",
+    UI_modinfopanel_Author = "Автор",
+    UI_modinfopanel_ModID = "Mod ID",
+    UI_modinfopanel_WorkshopID = "Workshop ID",
+    UI_modinfopanel_LastUpdate = "Последнее обновление",
+    UI_modinfopanel_ZomboidVersion = "Версия игры",
+    UI_modinfopanel_Dependencies = "Зависимости",
+    UI_modinfopanel_IncompatibleWith = "Несовместимости",
+    UI_modinfopanel_Changelog = "Список изменений",
+
+    UI_modinfopanel_TimeFormat_Today = "Сегодня в {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_Yesterday = "Вчера в {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_ThisYear = "{day} {month} в {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_OtherYears = "{day} {month} {year} г. в {hour24}:{min}",
+
+    UI_modinfopanel_AM = "AM",
+    UI_modinfopanel_PM = "PM",
+
+    UI_modinfopanel_Month_Short_1 = "янв.",
+    UI_modinfopanel_Month_Short_2 = "февр.",
+    UI_modinfopanel_Month_Short_3 = "марта",
+    UI_modinfopanel_Month_Short_4 = "апр.",
+    UI_modinfopanel_Month_Short_5 = "мая",
+    UI_modinfopanel_Month_Short_6 = "июня",
+    UI_modinfopanel_Month_Short_7 = "июля",
+    UI_modinfopanel_Month_Short_8 = "авг.",
+    UI_modinfopanel_Month_Short_9 = "сент.",
+    UI_modinfopanel_Month_Short_10 = "окт.",
+    UI_modinfopanel_Month_Short_11 = "нояб.",
+    UI_modinfopanel_Month_Short_12 = "дек.",
+}

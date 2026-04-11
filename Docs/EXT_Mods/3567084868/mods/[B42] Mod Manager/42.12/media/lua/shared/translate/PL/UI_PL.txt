@@ -1,0 +1,77 @@
+UI_PL = {
+    UI_mainscreen_btn_configs = "KONFIGI",
+
+    UI_modselector_separator = "z",
+
+    UI_modselector_showEnabledMods = "Pokaż włączone mody",
+    UI_modselector_showDisabledMods = "Pokaż wyłączone mody",
+    UI_modselector_showHiddenMods = "Pokaż ukryte mody",
+
+    UI_modselector_disableWarningTitle = "UWAGA!",
+    UI_modselector_disableWarningText = "Wyłączenie tej modyfikacji spowoduje również wyłączenie następujących:",
+
+    UI_modselector_modOptions = "KONFIGURACJA",
+
+    UI_modlistpanel_sortBy = "Sortuj według:",
+    UI_modlistpanel_sortBy_name = "Nazwa (A-Z)",
+    UI_modlistpanel_sortBy_date = "Data dodania",
+    UI_modlistpanel_sortBy_dateUpdated = "Data aktualizacji",
+
+    UI_modselector_status_installed = "Aktualny",
+    UI_modselector_status_needsUpdate = "Dostępna aktualizacja!",
+
+    UI_modoptions_title = "OPCJE MODÓW",
+
+    UI_btn_sort_apply = "SORTUJ I ZASTOSUJ",
+
+    UI_modpresets_title = "LISTA PRESETÓW",
+
+    UI_modpresets_presetsTab = "PRESETY",
+    UI_modpresets_historyTab = "HISTORIA",
+
+    UI_modpresets_copy = "KOPIUJ",
+
+    UI_btn_select = "WYBIERZ",
+    UI_btn_deleteAll = "USUŃ WSZYSTKO",
+
+    UI_modpresets_deleteAll_dialog = "Usunąć całą historię?",
+
+    UI_modselector_btn_hide = "UKRYJ",
+    UI_modselector_btn_show = "POKAŻ",
+    UI_modselector_btn_favorite = "ULUBIONE",
+    UI_modselector_btn_unfavorite = "USUŃ",
+    UI_modselector_btn_enable = "WŁĄCZ",
+    UI_modselector_btn_disable = "WYŁĄCZ",
+
+    UI_modinfopanel_Status = "Status",
+    UI_modinfopanel_Version = "Wersja",
+    UI_modinfopanel_Author = "Autor",
+    UI_modinfopanel_ModID = "Mod ID",
+    UI_modinfopanel_WorkshopID = "Workshop ID",
+    UI_modinfopanel_LastUpdate = "Ostatnia aktualizacja",
+    UI_modinfopanel_ZomboidVersion = "Wersja gry",
+    UI_modinfopanel_Dependencies = "Wymagane",
+    UI_modinfopanel_IncompatibleWith = "Niekompatybilne",
+    UI_modinfopanel_Changelog = "Lista zmian",
+
+    UI_modinfopanel_TimeFormat_Today = "Dzisiaj o {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_Yesterday = "Wczorajo {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_ThisYear = "{day} {month} o {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_OtherYears = "{day} {month} {year} o {hour24}:{min}",
+
+    UI_modinfopanel_AM = "AM",
+    UI_modinfopanel_PM = "PM",
+
+    UI_modinfopanel_Month_Short_1 = "stycznia",
+    UI_modinfopanel_Month_Short_2 = "lutego",
+    UI_modinfopanel_Month_Short_3 = "marca",
+    UI_modinfopanel_Month_Short_4 = "kwietnia",
+    UI_modinfopanel_Month_Short_5 = "maja",
+    UI_modinfopanel_Month_Short_6 = "czerwca",
+    UI_modinfopanel_Month_Short_7 = "lipca",
+    UI_modinfopanel_Month_Short_8 = "sierpnia",
+    UI_modinfopanel_Month_Short_9 = "września",
+    UI_modinfopanel_Month_Short_10 = "października",
+    UI_modinfopanel_Month_Short_11 = "listopada",
+    UI_modinfopanel_Month_Short_12 = "grudnia",
+}

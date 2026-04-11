@@ -1,0 +1,84 @@
+module Base
+{
+    sound Type84Shoot
+    {
+        category = Item,
+        maxInstancesPerEmitter = 2,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-84Shoot1.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/Type-84Shoot2.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/Type-84Shoot3.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/Type-84Shoot4.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/Type-84Shoot5.ogg,
+        }
+    }
+	
+	sound Type84BringToBear
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-75BringToBear.ogg,
+        }
+    }
+	
+	sound Type84AimRelease
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-75AimRelease.ogg,
+        }
+    }
+	
+	sound Type84LoadOut
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-84LoadA.ogg,
+        }
+    }
+	sound Type84LoadIn
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-84LoadB.ogg,
+        }
+    }
+	
+	sound Type84Rack
+    {
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-84Rack.ogg,
+        }
+    }
+	sound Type84AmmoFall
+	{
+        category = Item,
+        clip
+        {
+			file = media/sound/gun_sfx/Type-84AmmoFall1.ogg,
+        }
+		clip
+        {
+			file = media/sound/gun_sfx/Type-84AmmoFall2.ogg,
+        }
+    }
+}

@@ -1,0 +1,13 @@
+{
+  "Tooltip_ArarFullBody" : "",
+
+  "Tooltip_Repair_Patch_type_k" : "ใช้ปิดบาดแผล ซ่อมแซมอย่างรวดเร็ว",
+  "Tooltip_Repair_Spray" : "เครื่องพ่นสารเคลือบแข็งตัว เร็วระงับบาดแผล",
+
+  "Tooltip_SignalisSuppressor" : "Gun suppressor for Empire and Nation weaponry.",
+  "Tooltip_SignalisSMGStock" : "Reduces recoil.",
+  "Tooltip_SignalisSMGGrip" : "Reduces weight.",
+  "Tooltip_SignalisShotgunStock" : "Reduces recoil.",
+  "Tooltip_SignalisLaser" : "Increases hit chance.",
+  "Tooltip_SignalisScope" : "Reduce aim time."
+}

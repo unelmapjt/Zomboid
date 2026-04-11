@@ -1,0 +1,7 @@
+IGUI_ES = {
+    IGUI_HTT_Opt_Mod_Title = "HTT Cliente",
+    IGUI_HTT_Opt_Audio_Title = "Audio de eventos",
+    IGUI_HTT_Opt_Audio_Desc = "Ajusta el volumen local de reproduccion de sonidos HTT. No cambia el ruido que atrae zombies.",
+    IGUI_HTT_Opt_EventVolume = "Volumen de eventos (%)",
+    IGUI_HTT_Opt_EventVolume_tt = "Volumen local del cliente para sonidos de eventos de helicoptero.",
+}

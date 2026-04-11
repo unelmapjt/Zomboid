@@ -1,0 +1,33 @@
+---@meta _
+
+---(Not exposed)
+---@class Action: INetworkPacketField
+local __Action = {}
+
+---@param act Action
+function __Action:copyFrom(act) end
+
+---@return number
+function __Action:getProgress() end
+
+---@param connection IConnection
+---@return boolean
+function __Action:isConsistent(connection) end
+
+---@param b ByteBufferReader
+---@param connection IConnection
+function __Action:parse(b, connection) end
+
+---@param player IsoPlayer
+function __Action:set(player) end
+
+---@param duration integer
+function __Action:setDuration(duration) end
+
+---@param state Transaction.TransactionState
+function __Action:setState(state) end
+
+function __Action:setTimeData() end
+
+---@param b ByteBufferWriter
+function __Action:write(b) end

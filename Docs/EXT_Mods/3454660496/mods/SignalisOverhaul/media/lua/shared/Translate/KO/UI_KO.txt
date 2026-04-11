@@ -1,0 +1,25 @@
+UI_EN = {
+    UI_ClothingType_RepairPatch = "수리 패치",
+
+    UI_prof_Lstr_Replika = "LSTR 단위",
+    UI_profdesc_Lstr_Replika = "생존의 기본과 기본적인 기계 기술.",
+    UI_prof_eulr_Replika = "EULR 단위",
+    UI_profdesc_eulr_Replika = "다목적 일반용.",
+    UI_prof_Fklr_Replika = "FKLR 단위",
+    UI_profdesc_Fklr_Replika = "작전 지휘 통제 장치.",
+    UI_prof_Klbr_Replika = "KLBR 단위",
+    UI_profdesc_Klbr_Replika = "생체공명 기술.",
+    UI_prof_Adlr_Replika = "ADLR 단위",
+    UI_profdesc_Adlr_Replika = "",
+    UI_prof_Stcr_Replika = "STCR 단위",
+    UI_profdesc_Stcr_Replika = "",
+    UI_prof_Star_Replika = "STAR 단위",
+    UI_profdesc_Star_Replika = "",
+    UI_prof_Mnhr_Replika = "MNHR 단위",
+    UI_profdesc_Mnhr_Replika = "",
+    UI_prof_Arar_Replika = "ARAR 단위",
+    UI_profdesc_Arar_Replika = "",
+
+    UI_trait_ReplikaModel = "Replika 모델",
+    UI_trait_ReplikaModeldesc = "폴리에틸렌 쉘을 사용한 생체역학",
+}

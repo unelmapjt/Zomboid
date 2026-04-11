@@ -1,0 +1,87 @@
+{
+    "Sandbox_SIGNAILS" : "ตั้งค่า Signalis (Beta)",
+
+    "Sandbox_SIGNAILS_RateSpawnList_tooltip" : "โอกาสเกิดของ Replika ทั้งหมด",
+    "Sandbox_SIGNAILS_RateSpawnList" : "โอกาสเกิดของ Replika",
+    "Sandbox_SIGNAILS_RateSpawnList_option1" : "ไม่มี",
+    "Sandbox_SIGNAILS_RateSpawnList_option2" : "หายากมาก",
+    "Sandbox_SIGNAILS_RateSpawnList_option3" : "หายาก",
+    "Sandbox_SIGNAILS_RateSpawnList_option4" : "บางครั้ง",
+    "Sandbox_SIGNAILS_RateSpawnList_option5" : "บ่อยครั้ง",
+    "Sandbox_SIGNAILS_RateSpawnList_option6" : "บ่อยมาก",
+
+    "Sandbox_SIGNAILS_RateSpawn_EULRVeryCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น EULR.",
+    "Sandbox_SIGNAILS_RateSpawn_EULRVeryCommon" : "โอกาสเกิดของ Replika ที่เป็น EULR",
+
+    "Sandbox_SIGNAILS_RateSpawn_EULRCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น EULR ธรรดา.",
+    "Sandbox_SIGNAILS_RateSpawn_EULRCommon" : "โอกาสเกิดของ Replika ที่เป็น EULR ธรรดา",
+
+    "Sandbox_SIGNAILS_RateSpawn_EULRRare_tooltip" : "โอกาสเกิดของ Replika ที่เป็น EULR หายาก.",
+    "Sandbox_SIGNAILS_RateSpawn_EULRRare" : "โอกาสเกิดของ Replika ที่เป็น EULR หายาก",
+
+    "Sandbox_SIGNAILS_RateSpawn_ARARVeryCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น ARAR.",
+    "Sandbox_SIGNAILS_RateSpawn_ARARVeryCommon" : "โอกาสเกิดของ Replika ที่เป็น ARAR",
+
+    "Sandbox_SIGNAILS_RateSpawn_ARARCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น ARAR ธรรดา.",
+    "Sandbox_SIGNAILS_RateSpawn_ARARCommon" : "โอกาสเกิดของ Replika ที่เป็น ARAR ธรรดา",
+
+    "Sandbox_SIGNAILS_RateSpawn_ARARRare_tooltip" : "โอกาสเกิดของ Replika ที่เป็น ARAR หายาก.",
+    "Sandbox_SIGNAILS_RateSpawn_ARARRare" : "โอกาสเกิดของ Replika ที่เป็น ARAR หายาก",
+
+    "Sandbox_SIGNAILS_RateSpawn_ADLRVeryCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น ADLR.",
+    "Sandbox_SIGNAILS_RateSpawn_ADLRVeryCommon" : "โอกาสเกิดของ Replika ที่เป็น ADLR",
+
+    "Sandbox_SIGNAILS_RateSpawn_ADLRCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น ADLR ธรรดา.",
+    "Sandbox_SIGNAILS_RateSpawn_ADLRCommon" : "โอกาสเกิดของ Replika ที่เป็น ADLR ธรรดา",
+
+    "Sandbox_SIGNAILS_RateSpawn_KLBRCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น KLBR.",
+    "Sandbox_SIGNAILS_RateSpawn_KLBRCommon" : "โอกาสเกิดของ Replika ที่เป็น KLBR",
+
+    "Sandbox_SIGNAILS_RateSpawn_KLBRRare_tooltip" : "โอกาสเกิดของ Replika ที่เป็น KLBR หายาก.",
+    "Sandbox_SIGNAILS_RateSpawn_KLBRRare" : "โอกาสเกิดของ Replika ที่เป็น KLBR หายาก",
+
+    "Sandbox_SIGNAILS_RateSpawn_STARVeryCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น STAR.",
+    "Sandbox_SIGNAILS_RateSpawn_STARVeryCommon" : "โอกาสเกิดของ Replika ที่เป็น STAR",
+
+    "Sandbox_SIGNAILS_RateSpawn_STARCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น STAR ธรรดา.",
+    "Sandbox_SIGNAILS_RateSpawn_STARCommon" : "โอกาสเกิดของ Replika ที่เป็น STAR ธรรดา",
+
+    "Sandbox_SIGNAILS_RateSpawn_STARRare_tooltip" : "โอกาสเกิดของ Replika ที่เป็น STAR หายาก.",
+    "Sandbox_SIGNAILS_RateSpawn_STARRare" : "โอกาสเกิดของ Replika ที่เป็น STAR หายาก",
+    
+    "Sandbox_SIGNAILS_RateSpawn_STCRVeryCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น STCR.",
+    "Sandbox_SIGNAILS_RateSpawn_STCRVeryCommon" : "โอกาสเกิดของ Replika ที่เป็น STCR",
+
+    "Sandbox_SIGNAILS_RateSpawn_STCRCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น STCR ธรรดา.",
+    "Sandbox_SIGNAILS_RateSpawn_STCRCommon" : "โอกาสเกิดของ Replika ที่เป็น STCR ธรรดา",
+
+    "Sandbox_SIGNAILS_RateSpawn_STCRRare_tooltip" : "โอกาสเกิดของ Replika ที่เป็น STCR หายาก.",
+    "Sandbox_SIGNAILS_RateSpawn_STCRRare" : "โอกาสเกิดของ Replika ที่เป็น STCR หายาก",
+
+    "Sandbox_SIGNAILS_RateSpawn_KNCRCommon_tooltip" : "โอกาสเกิดของ Replika ที่เป็น KNCR.",
+    "Sandbox_SIGNAILS_RateSpawn_KNCRCommon" : "โอกาสเกิดของ Replika ที่เป็น KNCR",
+
+    "Sandbox_SIGNAILS_RateSpawn_GesBioVeryCommon_tooltip" : "โอกาสเกิดของ GesBio.",
+    "Sandbox_SIGNAILS_RateSpawn_GesBioVeryCommon" : "โอกาสเกิดของ GesBio",
+
+    "Sandbox_SIGNAILS_RateSpawn_GestaltStudentLong_tooltip" : "โอกาสเกิดของ Gestalt นักเรียนกระโปงยาว.",
+    "Sandbox_SIGNAILS_RateSpawn_GestaltStudentLong" : "โอกาสเกิดของ Gestalt นักเรียนกระโปงยาว",
+
+    "Sandbox_SIGNAILS_RateSpawn_GestaltStudentMid_tooltip" : "โอกาสเกิดของ Gestalt นักเรียน.",
+    "Sandbox_SIGNAILS_RateSpawn_GestaltStudentMid" : "โอกาสเกิดของ Gestalt นักเรียน",
+
+    "Sandbox_SIGNAILS_RateSpawn_GestaltStudentMale_tooltip" : "โอกาสเกิดของ Gestalt นักเรียน (ชาย).",
+    "Sandbox_SIGNAILS_RateSpawn_GestaltStudentMale" : "โอกาสเกิดของ Gestalt นักเรียน (ชาย)",
+
+    "Sandbox_SIGNAILS_RateSpawn_FKLR_tooltip" : "โอกาสเกิดของ Replika ที่เป็น FKLR.",
+    "Sandbox_SIGNAILS_RateSpawn_FKLR" : "โอกาสเกิดของ Replika ที่เป็น FKLR",
+
+    "Sandbox_SIGNAILS_RateSpawn_MNHR_tooltip" : "โอกาสเกิดของ Replika ที่เป็น MNHR.",
+    "Sandbox_SIGNAILS_RateSpawn_MNHR" : "โอกาสเกิดของ Replika ที่เป็น MNHR",
+
+    "Sandbox_SIGNAILS_RateSpawn_PAVeteran_tooltip" : "โอกาสเกิดของ PA Veteran.",
+    "Sandbox_SIGNAILS_RateSpawn_PAVeteran" : "โอกาสเกิดของ PA Veteran",
+
+    "Sandbox_SIGNAILS_RateSpawn_PAMedic_tooltip" : "โอกาสเกิดของ PA Medic.",
+    "Sandbox_SIGNAILS_RateSpawn_PAMedic" : "โอกาสเกิดของ PA Medic"
+}

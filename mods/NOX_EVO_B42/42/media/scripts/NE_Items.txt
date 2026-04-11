@@ -1,0 +1,16 @@
+module NOX_EVOLVED
+{
+    imports
+    {
+        Base
+    }
+
+    item B17_AccessCardKey
+    {
+        Type = Normal,
+        DisplayName = DisplayName_NOX_EVOLVED_B17_AccessCardKey,
+        DisplayCategory = Item,
+        Icon = SecurityCard,
+        Weight = 0.1,
+    }
+}

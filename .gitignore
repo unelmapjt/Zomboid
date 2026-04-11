@@ -1,0 +1,12 @@
+# Zomboid logs
+Logs/
+Console.txt
+Console-Logs/
+
+# temp
+*.log
+*.tmp
+
+# vscode local
+.vscode/*
+!.vscode/settings.json

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<clothingItem>
+	<m_MaleModel>skinned\clothes\kate_fklrpin</m_MaleModel>
+	<m_FemaleModel>skinned\clothes\kate_fklrpin</m_FemaleModel>
+	<m_GUID>e4f42aa6-7692-4fe3-9801-4728e92d384f</m_GUID>
+	<m_Static>false</m_Static>
+	<m_AllowRandomTint>false</m_AllowRandomTint>
+	<m_AttachBone></m_AttachBone>
+	<textureChoices>clothes\replika\fklrcrown</textureChoices>
+</clothingItem>

@@ -1,0 +1,25 @@
+{
+    "UI_ClothingType_RepairPatch" : "Repair Patch",
+
+    "UI_prof_Lstr_Replika" : "LSTR Units",
+    "UI_profdesc_Lstr_Replika" : "Survival Basics and basic mechanics skill.",
+    "UI_prof_eulr_Replika" : "EULR Units",
+    "UI_profdesc_eulr_Replika" : "Multipurpose general purpose.",
+    "UI_prof_Fklr_Replika" : "FKLR Units",
+    "UI_profdesc_Fklr_Replika" : "Operational Command Control Unit.",
+    "UI_prof_Klbr_Replika" : "KLBR Units",
+    "UI_profdesc_Klbr_Replika" : "Bioresonance Technology.",
+    "UI_prof_Adlr_Replika" : "ADLR Units",
+    "UI_profdesc_Adlr_Replika" : "",
+    "UI_prof_Stcr_Replika" : "STCR Units",
+    "UI_profdesc_Stcr_Replika" : "",
+    "UI_prof_Star_Replika" : "STAR Units",
+    "UI_profdesc_Star_Replika" : "",
+    "UI_prof_Mnhr_Replika" : "MNHR Units",
+    "UI_profdesc_Mnhr_Replika" : "",
+    "UI_prof_Arar_Replika" : "ARAR Units",
+    "UI_profdesc_Arar_Replika" : "",
+
+    "UI_trait_ReplikaModel" : "Replika Model",
+    "UI_trait_ReplikaModeldesc" : "Biomechanical with Polyethylene Shell"
+}

@@ -1,0 +1,7 @@
+Recipes_RU = {
+	Recipe_SWOpenBoxOfBullets50 = "Открытая коробка (50 пуль)",
+    Recipe_SWOpenBoxOfBullets25 = "Открытая коробка (25 пуль)",
+    Recipe_SWOpenBoxOfBullets12 = "Открытая коробка (12 пуль)",
+    Recipe_SWOpenBoxOfShotgunShells = "Вынуть патроны из коробки",
+    Recipe_SWplace_ammo_in_box = "Упакуйте боеприпасы в коробку",
+}

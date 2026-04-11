@@ -1,0 +1,26 @@
+ItemName_DE = {
+	ItemName_Signalis_Weapons.Bullets8 = "8mm Patronen",
+	ItemName_Signalis_Weapons.Bullets10 = "10mm Patronen",
+	ItemName_Signalis_Weapons.Bullets12 = "12mm Patronen",
+	ItemName_Signalis_Weapons.Bullets16 = "16mm Patronen",
+	ItemName_Signalis_Weapons.Bullets185 = "18.5mm Patronen",
+
+	ItemName_Signalis_Weapons.Bullets8Box = "Schachtel mit 8mm Patronen",
+	ItemName_Signalis_Weapons.Bullets10Box = "Schachtel mit 10mm Patronen",
+	ItemName_Signalis_Weapons.Bullets12Box = "Schachtel mit 12mm Patronen",
+	ItemName_Signalis_Weapons.Bullets16Box = "Schachtel mit 16mm Patronen",
+	ItemName_Signalis_Weapons.Bullets185Box = "Schachtel mit 18.5mm Patronen",
+
+	ItemName_Signalis_Weapons.8mmClip = "Type-84 Magazin",
+	ItemName_Signalis_Weapons.10mmClip = "Type-75 Magazin",
+
+	ItemName_Signalis_Weapons.DisposableStunProd = "Einweg-Elektroschocker",
+	ItemName_Signalis_Weapons.DisposableStunProd_Used = "Einweg-Elektroschocker (verwendet)",
+	ItemName_Signalis_Weapons.FalkeSpear = "Falke Speer",
+	ItemName_Signalis_Weapons.Type-75 = "Type-75 Protektor",
+	ItemName_Signalis_Weapons.EU-K508S = "EU-K508 S 'Einhorn'",
+	ItemName_Signalis_Weapons.EIN-12 = "EIN-12 Flechette",
+	ItemName_Signalis_Weapons.BW-5 = "BW-5 Nitro Express",
+	ItemName_Signalis_Weapons.Type-84 = "Type-84 Drache",
+	ItemName_Signalis_Weapons.RiotBatonSTCR = "STCR Riot Baton",
+}

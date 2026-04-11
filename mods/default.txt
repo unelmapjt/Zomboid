@@ -1,0 +1,19 @@
+VERSION = 1,
+
+mods
+{
+    mod = ModLoadOrderSorter_b42,
+    mod = ModManager,
+    mod = HelicopterEventExpansionFramework,
+    mod = ArmoredVestsPatch,
+    mod = B42ModOptions,
+    mod = BLTRandomZombies,
+    mod = NOX_EVO_B42,
+    mod = ArmoredVests,
+    mod = ChuckleberryFinnAlertSystem,
+    mod = errorMagnifier,
+}
+
+maps
+{
+}

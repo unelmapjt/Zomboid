@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<clothingItem>
+	<m_MaleModel>skinned\clothes\bob_officergloves</m_MaleModel>
+	<m_FemaleModel>skinned\clothes\kate_officergloves</m_FemaleModel>
+	<m_GUID>a74f045f-b17b-43f6-be0f-cf302cbc538e</m_GUID>
+	<m_Static>false</m_Static>
+	<m_AllowRandomTint>false</m_AllowRandomTint>
+	<m_AttachBone></m_AttachBone>
+	<textureChoices>clothes\replika\officerneck</textureChoices>
+</clothingItem>

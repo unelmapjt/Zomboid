@@ -1,0 +1,77 @@
+UI_TR = {
+    UI_mainscreen_btn_configs = "AYARLAR",
+
+    UI_modselector_separator = "/",
+
+    UI_modselector_showEnabledMods = "Etkin modları göster",
+    UI_modselector_showDisabledMods = "Devre dışı modları göster",
+    UI_modselector_showHiddenMods = "Gizli modları göster",
+
+    UI_modselector_disableWarningTitle = "UYARI!",
+    UI_modselector_disableWarningText = "Bu modifikasyonu devre dışı bırakmak şunları da devre dışı bırakacaktır:",
+
+    UI_modselector_modOptions = "YAPILANDIRMA",
+
+    UI_modlistpanel_sortBy = "Sırala:",
+    UI_modlistpanel_sortBy_name = "İsim (A-Z)",
+    UI_modlistpanel_sortBy_date = "Eklenme tarihi",
+    UI_modlistpanel_sortBy_dateUpdated = "Güncelleme tarihi",
+
+    UI_modselector_status_installed = "Güncel",
+    UI_modselector_status_needsUpdate = "Güncelleme mevcut!",
+
+    UI_modoptions_title = "MOD SEÇENEKLERİ",
+
+    UI_btn_sort_apply = "SIRALA VE KABUL ET",
+
+    UI_modpresets_title = "ÖNAYAR LİSTESİ",
+
+    UI_modpresets_presetsTab = "ÖNAYARLAR",
+    UI_modpresets_historyTab = "GEÇMİŞ",
+
+    UI_modpresets_copy = "KOPYALA",
+
+    UI_btn_select = "SEÇ",
+    UI_btn_deleteAll = "TÜMÜNÜ SİL",
+
+    UI_modpresets_deleteAll_dialog = "Tüm geçmiş silinsin mi?",
+
+    UI_modselector_btn_hide = "GİZLE",
+    UI_modselector_btn_show = "GÖSTER",
+    UI_modselector_btn_favorite = "FAVORİ",
+    UI_modselector_btn_unfavorite = "KALDIR",
+    UI_modselector_btn_enable = "ETKİNLEŞTİR",
+    UI_modselector_btn_disable = "DEVRE DIŞI",
+
+    UI_modinfopanel_Status = "Durum",
+    UI_modinfopanel_Version = "Sürüm",
+    UI_modinfopanel_Author = "Yazar",
+    UI_modinfopanel_ModID = "Mod ID",
+    UI_modinfopanel_WorkshopID = "Workshop ID",
+    UI_modinfopanel_LastUpdate = "Son Güncelleme",
+    UI_modinfopanel_ZomboidVersion = "Oyun Sürümü",
+    UI_modinfopanel_Dependencies = "Gereksinimler",
+    UI_modinfopanel_IncompatibleWith = "Uyumsuzluklar",
+    UI_modinfopanel_Changelog = "Değişiklikler",
+
+    UI_modinfopanel_TimeFormat_Today = "Bugün @ {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_Yesterday = "Dün @ {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_ThisYear = "{day} {month} @ {hour24}:{min}",
+    UI_modinfopanel_TimeFormat_OtherYears = "{day} {month} {year} @ {hour24}:{min}",
+
+    UI_modinfopanel_AM = "ÖÖ",
+    UI_modinfopanel_PM = "ÖS",
+
+    UI_modinfopanel_Month_Short_1 = "Oca",
+    UI_modinfopanel_Month_Short_2 = "Şub",
+    UI_modinfopanel_Month_Short_3 = "Mar",
+    UI_modinfopanel_Month_Short_4 = "Nis",
+    UI_modinfopanel_Month_Short_5 = "May",
+    UI_modinfopanel_Month_Short_6 = "Haz",
+    UI_modinfopanel_Month_Short_7 = "Tem",
+    UI_modinfopanel_Month_Short_8 = "Ağu",
+    UI_modinfopanel_Month_Short_9 = "Eyl",
+    UI_modinfopanel_Month_Short_10 = "Eki",
+    UI_modinfopanel_Month_Short_11 = "Kas",
+    UI_modinfopanel_Month_Short_12 = "Ara",
+}

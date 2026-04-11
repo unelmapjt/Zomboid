@@ -1,0 +1,7 @@
+Recipes_CN = {
+	Recipe_SWOpenBoxOfBullets50 = "打开盒装50子弹",
+    Recipe_SWOpenBoxOfBullets25 = "打开盒装25子弹",
+    Recipe_SWOpenBoxOfBullets12 = "打开盒装12子弹",
+    Recipe_SWOpenBoxOfShotgunShells = "打开盒装霰弹",
+    Recipe_SWplace_ammo_in_box = "将弹药装入盒中",
+}

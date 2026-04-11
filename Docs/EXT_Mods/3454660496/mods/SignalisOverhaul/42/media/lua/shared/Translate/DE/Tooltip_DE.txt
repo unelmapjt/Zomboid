@@ -1,0 +1,7 @@
+Tooltip_DE = {
+  Tooltip_ArarFullBody = "",
+
+  Tooltip_Repair_Patch_type_k = "Schnellreparaturflicken",
+  Tooltip_Repair_Spray = "Aufsprühen einer schnellhärtenden Beschichtung zur Wundheilung",
+
+}

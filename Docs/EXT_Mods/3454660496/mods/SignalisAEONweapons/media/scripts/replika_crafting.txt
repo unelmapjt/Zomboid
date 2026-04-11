@@ -1,0 +1,1199 @@
+module Replika_Crafting
+{
+
+	imports
+	{
+		Base,
+	}
+	
+    recipe Armor: EULR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : EuleTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: EULR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : EuleBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: ARAR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : ArarTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: ARAR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : ArarBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: KLBR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : KlbrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: KLBR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : KlbrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: KLBR Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : KlbrPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: STAR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : StarTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: STAR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : StarBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: STAR Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : StarPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: STAR Mask
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : StarMask,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: STCR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : StcrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: STCR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : StcrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: STCR Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : StcrPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: KNCR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : KncrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: KNCR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : KncrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: KNCR Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : KncrPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: LSTR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : LstrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: LSTR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : LstrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: LSTR Classic Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : LstrClassicTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: LSTR Classic Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : LstrClassicBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: LSTR Classic Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : LstrClassicPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: AVA Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : AvaTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: AVA Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : AvaBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: FKLR Top
+    {
+        
+        SheetMetal = 3,
+        DenimStrips = 6,
+		keep Needle,
+        Result : FklrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: FKLR Bottom
+    {
+        
+        SheetMetal = 3,
+        DenimStrips = 6,
+		keep Needle,
+        Result : FklrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: FKLR Pin
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : FklrPin,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+		
+        Category: Signalis,
+	}
+	recipe Armor: FKLR Crown
+	{
+		
+        SheetMetal = 3,
+        DenimStrips = 6,
+		keep Needle,
+        Result : FklrCrown,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Bioresonant Tattoo
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : BioRes,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+		
+        Category: Signalis,
+	}
+	recipe Armor: MNHR Top
+    {
+        
+        SheetMetal = 2,
+        DenimStrips = 6,
+		keep Needle,
+        Result : MnhrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: MNHR Bottom
+    {
+        
+        SheetMetal = 2,
+        DenimStrips = 6,
+		keep Needle,
+        Result : MnhrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: MNHR Plate
+    {
+        
+        SheetMetal = 2,
+        DenimStrips = 6,
+		keep Needle,
+        Result : MnhrPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: MNHR Neck
+	{
+		
+        SheetMetal = 2,
+        DenimStrips = 6,
+		keep Needle,
+        Result : MnhrNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: MNHR Helmet
+	{
+		
+        SheetMetal = 2,
+        DenimStrips = 6,
+		keep Needle,
+        Result : MnhrHelmet,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE,
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: MNHR Mask
+	{
+		
+        SheetMetal = 2,
+        DenimStrips = 6,
+		keep Needle,
+        Result : MnhrMask,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: SAPR Mask
+	{
+		
+        SheetMetal = 3,
+        DenimStrips = 6,
+		keep Needle,
+        Result : SaprMask,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Gestalt Officer Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesOfficerTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: Gestalt Officer Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesOfficerBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Gestalt School Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesSchoolTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: Gestalt School Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesSchoolBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Gestalt School Medium Skirt
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesSchoolMedSkirt,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Gestalt School Long Skirt
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesSchoolLongSkirt,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Gestalt Biologist Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesBioTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: Gestalt Biologist Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : GesBioBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Hardened Gestalt Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : IsaTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: Hardened Gestalt Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : IsaBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Hardened Gestalt Skirt
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : IsaSkirt,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: People's Army Veteran Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 5,
+		keep Needle,
+        Result : GesPeopleArmyVeteranTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: People's Army Veteran Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 5,
+		keep Needle,
+        Result : GesPeopleArmyVeteranBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: People's Army Medic Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 5,
+		keep Needle,
+        Result : GesPeopleArmyMedicTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: People's Army Medic Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 5,
+		keep Needle,
+        Result : GesPeopleArmyMedicBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: ADLR Top
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : AdlrTop,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+    recipe Armor: ADLR Bottom
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 4,
+		keep Needle,
+        Result : AdlrBottom,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: ADLR Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : AdlrPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Common Replika Neckpiece
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : CommonNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: ADLR Neck
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : AdlrNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Gestalt Officer Neck
+	{
+		
+        DenimStrips = 2,
+		keep Needle,
+        Result : OfficerNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Hardened Gestalt Neck
+	{
+		
+        DenimStrips = 2,
+		keep Needle,
+        Result : IsaNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Gestalt School Neck
+	{
+		
+        DenimStrips = 2,
+		keep Needle,
+        Result : SchoolNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: People's Army Veteran Neck
+	{
+		
+        DenimStrips = 5,
+		keep Needle,
+        Result : GesPeopleArmyVeteranNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: People's Army Medic Neck
+	{
+		
+        DenimStrips = 5,
+		keep Needle,
+        Result : GesPeopleArmyMedicNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: People's Army Plate
+    {
+        
+        SheetMetal = 1,
+        DenimStrips = 6,
+		keep Needle,
+        Result : GesPeopleArmyPlate,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: People's Army Gloves
+    {
+        
+        DenimStrips = 6,
+		keep Needle,
+        Result : GesPeopleArmyGloves,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+    }
+	recipe Armor: Black Replika Neck
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : BlackNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: White Replika Neck
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : WhiteNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: AVA Neck
+	{
+		
+        DenimStrips = 2,
+		keep Needle,
+        Result : AvaNeck,
+        Time : 175.0,
+        CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+        Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: AVA Helmet
+	{
+		
+        SheetMetal = 2,
+        DenimStrips = 4,
+		keep Needle,
+        Result : AvaHelmet,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Replika Facial Structure
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : ReplikaFace,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+		
+        Category: Signalis,
+	}
+	recipe Armor: Replika Facial Structure (Light Jaw)
+	{
+		
+        SheetMetal = 1,
+		keep Needle,
+        Result : ReplikaFaceLight,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+		
+        Category: Signalis,
+	}
+	recipe Armor: Black Eusan Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : BlackGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: White Eusan Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : WhiteGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: KLBR Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : KlbrGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: ARAR Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : ArarGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: MNHR Gloves
+	{
+		
+        SheetMetal = 2,
+        DenimStrips = 3,
+		keep Needle,
+        Result : MnhrGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Hardened Gestalt Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : IsaGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Gestalt Officer Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : GesOfficerGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Gestalt Biologist Gloves
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : GesBioGloves,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Black Eusan Boots
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : BlackReplikaBoots,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: White Eusan Boots
+	{
+		
+        SheetMetal = 1,
+        DenimStrips = 3,
+		keep Needle,
+        Result : WhiteReplikaBoots,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE,
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+	recipe Armor: Eusan Beret
+	{
+
+        SheetMetal = 1,
+        DenimStrips = 2,
+		keep Needle,
+        Result : EusanBeret,
+        Time : 175.0,
+		CanBeDoneFromFloor : TRUE,
+        AnimNode : BuildLow,
+		OnGiveXP : Recipe.OnGiveXP.MetalWelding10,
+		NeedToBeLearn : FALSE, 
+		Sound : Dismantle, 
+        Category: Signalis,
+	}
+
+}

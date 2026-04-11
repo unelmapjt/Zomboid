@@ -1,0 +1,4 @@
+ItemName_TH = {
+	ItemName_replika_health_item.RepairPatch = "แผ่นปิดซ่อมแซม",
+	ItemName_replika_health_item.RepairSpray = "สเปรย์ซ่อมแซม",
+}

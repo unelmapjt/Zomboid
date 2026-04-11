@@ -1,0 +1,77 @@
+---@meta
+
+---@class ObjectViewer : ISCollapsableWindow
+---@field filter ISTextEntryBox
+---@field history table[]
+---@field historyPrev ISButton
+---@field obj unknown
+---@field objectView ISScrollingListBox
+---@field sc number
+---@field selected integer
+---@field title string
+ObjectViewer = ISCollapsableWindow:derive("ObjectViewer")
+ObjectViewer.Type = "ObjectViewer"
+ObjectViewer.map = {} ---@type table<unknown, ObjectViewer>
+
+---@param data umbrella.ObjectViewer.WatchItem
+function ObjectViewer.onDataRead(data) end
+
+---@param data umbrella.ObjectViewer.WatchItem
+function ObjectViewer.onDataWrite(data) end
+
+---@param item umbrella.ObjectViewer.WatchItem
+function ObjectViewer.onWatch(item) end
+
+function ObjectViewer:checkFontSize() end
+
+function ObjectViewer:createChildren() end
+
+---@param y number
+---@param item umbrella.ISScrollingListBox.Item
+---@param alt boolean
+---@return number
+function ObjectViewer:doDrawItem(y, item, alt) end
+
+function ObjectViewer:fill() end
+
+---@param list ArrayList
+function ObjectViewer:fillJavaList(list) end
+
+function ObjectViewer:historyPop() end
+
+function ObjectViewer:historyPush() end
+
+function ObjectViewer:initialise() end
+
+function ObjectViewer:onFilterTextChange() end
+
+function ObjectViewer:onMouseDoubleClickListItem(item) end
+
+function ObjectViewer:onMouseDoubleClickOpenObject(item) end
+
+---@param self ISScrollingListBox
+---@param x number
+---@param y number
+function ObjectViewer:onRightMouseDownObject(x, y) end
+
+---@param self ISScrollingListBox
+---@param del number
+---@return boolean
+function ObjectViewer:onSourceMouseWheel(del) end
+
+function ObjectViewer:prerender() end
+
+function ObjectViewer:restorePos() end
+
+function ObjectViewer:storePos() end
+
+---@param x number
+---@param y number
+---@param width number
+---@param height number
+---@return ObjectViewer
+function ObjectViewer:new(x, y, width, height, obj) end
+
+---@class umbrella.ObjectViewer.WatchItem
+---@field item umbrella.ISScrollingListBox.Item
+---@field obj unknown

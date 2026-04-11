@@ -1,0 +1,12 @@
+module Signalis_Weapons
+{
+	imports
+	{
+		Base,
+	}
+	fixing Fix Type-75
+    {
+        Require = Signalis_Weapons.Type-75,
+        Fixer = Signalis_Weapons.Type-75; Aiming=3,
+    }
+}

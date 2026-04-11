@@ -1,0 +1,26 @@
+{
+	"Signalis_Weapons.Bullets8" : "8mm Rounds",
+	"Signalis_Weapons.Bullets10" : "10mm Rounds",
+	"Signalis_Weapons.Bullets12" : "12mm Rounds",
+	"Signalis_Weapons.Bullets16" : "16mm Rounds",
+	"Signalis_Weapons.Bullets185" : "18.5mm Rounds",
+
+	"Signalis_Weapons.Bullets8Box" : "Box of 8mm Rounds",
+	"Signalis_Weapons.Bullets10Box" : "Box of 10mm Rounds",
+	"Signalis_Weapons.Bullets12Box" : "Box of 12mm Rounds",
+	"Signalis_Weapons.Bullets16Box" : "Box of 16mm Rounds",
+	"Signalis_Weapons.Bullets185Box" : "Box of 18.5mm Rounds",
+
+	"Signalis_Weapons.8mmClip" : "Type-84 Magazine",
+	"Signalis_Weapons.10mmClip" : "Type-75 Magazine",
+
+	"Signalis_Weapons.DisposableStunProd" : "Disposable Stun Prod",
+	"Signalis_Weapons.DisposableStunProd_Used" : "Disposable Stun Prod (Used)",
+	"Signalis_Weapons.FalkeSpear" : "Falke Spear",
+	"Signalis_Weapons.Type-75" : "Type-75 The Protektor",
+	"Signalis_Weapons.EU-K508S" : "EU-K508 S 'Einhorn'",
+	"Signalis_Weapons.EIN-12" : "EIN-12 Flechette",
+	"Signalis_Weapons.BW-5" : "BW-5 Nitro Express",
+	"Signalis_Weapons.Type-84" : "Type-84 The Drache",
+	"Signalis_Weapons.RiotBatonSTCR" : "STCR Riot Baton"
+}

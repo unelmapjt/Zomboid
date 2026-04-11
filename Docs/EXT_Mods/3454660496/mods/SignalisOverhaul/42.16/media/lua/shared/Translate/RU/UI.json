@@ -1,0 +1,25 @@
+{
+    "UI_ClothingType_RepairPatch" : "Ремонтная заплатка",
+
+    "UI_prof_Lstr_Replika" : "Единицы LSTR",
+    "UI_profdesc_Lstr_Replika" : "Основы выживания и базовые навыки механики.",
+    "UI_prof_eulr_Replika" : "Единицы EULR",
+    "UI_profdesc_eulr_Replika" : "Многоцелевой общего назначения.",
+    "UI_prof_Fklr_Replika" : "Единицы FKLR",
+    "UI_profdesc_Fklr_Replika" : "Оперативное командное управление.",
+    "UI_prof_Klbr_Replika" : "Единицы KLBR",
+    "UI_profdesc_Klbr_Replika" : "Биорезонансная технология.",
+    "UI_prof_Adlr_Replika" : "Единицы ADLR",
+    "UI_profdesc_Adlr_Replika" : "",
+    "UI_prof_Stcr_Replika" : "Единицы STCR",
+    "UI_profdesc_Stcr_Replika" : "",
+    "UI_prof_Star_Replika" : "Единицы STAR",
+    "UI_profdesc_Star_Replika" : "",
+    "UI_prof_Mnhr_Replika" : "Единицы MNHR",
+    "UI_profdesc_Mnhr_Replika" : "",
+    "UI_prof_Arar_Replika" : "Единицы ARAR",
+    "UI_profdesc_Arar_Replika" : "",
+
+    "UI_trait_ReplikaModel" : "Replika Модель",
+    "UI_trait_ReplikaModeldesc" : "Биомеханический с полиэтиленовой оболочкой"
+}

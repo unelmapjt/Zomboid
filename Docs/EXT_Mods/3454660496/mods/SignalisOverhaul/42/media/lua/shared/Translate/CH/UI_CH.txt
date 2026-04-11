@@ -1,0 +1,25 @@
+UI_CH = {
+    UI_ClothingType_RepairPatch = "維修保養",
+
+    UI_prof_Lstr_Replika = "LSTR 單位",
+    UI_profdesc_Lstr_Replika = "生存基礎知識和基本機械技能。",
+    UI_prof_eulr_Replika = "EULR 單位",
+    UI_profdesc_eulr_Replika = "多用途通用型。",
+    UI_prof_Fklr_Replika = "FKLR 單位",
+    UI_profdesc_Fklr_Replika = "作戰指揮控制單元。",
+    UI_prof_Klbr_Replika = "KLBR 單位",
+    UI_profdesc_Klbr_Replika = "生物共振技術",
+    UI_prof_Adlr_Replika = "ADLR 單位",
+    UI_profdesc_Adlr_Replika = "",
+    UI_prof_Stcr_Replika = "STCR 單位",
+    UI_profdesc_Stcr_Replika = "",
+    UI_prof_Star_Replika = "STAR 單位",
+    UI_profdesc_Star_Replika = "",
+    UI_prof_Mnhr_Replika = "MNHR 單位",
+    UI_profdesc_Mnhr_Replika = "",
+    UI_prof_Arar_Replika = "ARAR 單位",
+    UI_profdesc_Arar_Replika = "",
+
+    UI_trait_ReplikaModel = "Replika模型",
+    UI_trait_ReplikaModeldesc = "生物力學聚乙烯外殼",
+}

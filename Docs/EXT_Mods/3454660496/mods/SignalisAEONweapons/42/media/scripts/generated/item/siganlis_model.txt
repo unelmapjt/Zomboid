@@ -1,0 +1,282 @@
+module Base
+{
+	model DisposableStunProdModel
+	{
+		mesh = weapons/1handed/DisposableStunProdRemake,
+		texture = weapons/1handed/DisposableStunProd,
+		attachment world
+		{
+			offset = -0.03 0.0 0.0,
+			rotate = 90.0 0.0 0.0,
+		}
+		attachment Bip01_Prop2
+        {
+            offset = 0.0 0.0 0.0,
+            rotate = 0.0 0.0 120.0,
+        }
+	}
+	model RiotBatonSTCRModel
+	{
+		mesh = weapons/2handed/RiotBaton,
+		texture = weapons/2handed/RiotBaton,
+
+		attachment world
+		{
+			offset = -0.0116 0.0000 0.0034,
+			rotate = 90.0000 -0.0768 -21.5367,
+		}
+
+		attachment Bip01_Prop2
+		{
+			offset = 0.0000 0.0000 0.0000,
+			rotate = 0.0000 0.0000 120.0000,
+		}
+	}
+	model FalkeSpearModel
+	{
+		mesh = weapons/2handed/FalkeSpear,
+		texture = weapons/2handed/FalkeSpear,
+		attachment Bip01_Prop2
+        {
+            offset = 0.0 0.0 0.0,
+            rotate = 180.0 -88.7733 -178.5756,
+        }
+        attachment world
+        {
+            offset = -0.0117 0.2412 0.0,
+            rotate = 0.0 90.0 0.0,
+        }
+	}
+	model Type75Model
+	{
+		mesh = weapons/firearm/Type-75,
+		texture = weapons/firearm/type-75ReMake,
+
+		attachment Bip01_Prop2
+		{
+			offset = -0.0338 0.0424 0.0000,
+			rotate = 90.0008 1.1964 -90.0396,
+		}
+
+		attachment muzzle
+		{
+			offset = 0.0020 0.1578 -0.0324,
+			rotate = -90.0000 0.0000 0.0000,
+		}
+
+		attachment reddot
+		{
+			offset = 0.0010 0.0440 -0.0400,
+			rotate = 1.0000 1.0000 1.0000,
+		}
+
+		attachment gunlight
+		{
+			offset = 0.0000 0.1121 -0.0063,
+			rotate = 1.0000 1.0000 1.0000,
+		}
+
+		attachment scope
+		{
+			offset = 0.0000 0.1240 -0.0380,
+			rotate = 180.0000 0.0000 0.0000,
+		}
+
+		attachment laser
+		{
+			offset = -0.0057 0.0242 -0.0090,
+			rotate = 0.0000 0.0000 0.0000,
+		}
+
+		attachment world
+		{
+			offset = -0.0068 0.0570 0.0002,
+			rotate = -0.0000 1.3097 -0.0000,
+		}
+	}
+	model EUK508SModel
+	{
+		mesh = weapons/firearm/EU-K508S,
+		texture = weapons/firearm/EU-K508SReMake,
+
+		attachment muzzle
+		{
+			offset = 0.0000 0.1420 -0.0318,
+			rotate = -90.0000 0.0000 0.0000,
+		}
+
+		attachment scope
+		{
+			offset = 0.0010 0.0440 -0.0722,
+			rotate = 0.0000 180.0000 0.0000,
+		}
+
+		attachment reddot
+		{
+			offset = 0.0080 0.1150 -0.0125,
+			rotate = 1.0000 1.0000 1.0000,
+		}
+
+		attachment world
+		{
+			offset = -0.0170 0.0374 -0.0258,
+			rotate = 0.0488 4.0245 0.2563,
+		}
+
+		attachment Bip01_Prop2
+		{
+			offset = -0.0542 0.0363 0.0009,
+			rotate = 89.9394 0.2064 -73.9456,
+		}
+	}
+	model EIN12Model
+	{
+		mesh = weapons/firearm/EIN-12,
+		texture = weapons/firearm/EIN-12ReMake,
+
+		attachment muzzle
+		{
+			offset = 0.0000 0.4578 0.0389,
+			rotate = -90.0000 0.0000 0.0000,
+		}
+
+		attachment recoilpad
+		{
+			offset = 0.0000 -0.1388 -0.0002,
+			rotate = 10.0000 0.0000 0.0000,
+			scale = 1.1300,
+		}
+
+		attachment world
+		{
+			offset = 0.0143 0.2000 0.0000,
+			rotate = 180.0000 0.0000 180.0000,
+		}
+
+		attachment Bip01_Prop2
+		{
+			offset = 0.0000 0.0000 0.0000,
+			rotate = 180.0000 0.0000 180.0000,
+		}
+	}
+	model BW5Model
+	{
+		mesh = weapons/firearm/BW-5,
+		texture = weapons/firearm/BW-5ReMake,
+
+		attachment muzzle
+		{
+			offset = 0.0000 0.4578 0.0389,
+			rotate = -90.0000 0.0000 0.0000,
+		}
+
+		attachment recoilpad
+		{
+			offset = 0.0000 -0.1388 -0.0002,
+			rotate = 10.0000 0.0000 0.0000,
+			scale = 1.1300,
+		}
+
+		attachment world
+		{
+			offset = 0.0143 0.2000 0.0000,
+			rotate = 180.0000 0.0000 180.0000,
+		}
+
+		attachment Bip01_Prop2
+		{
+			offset = 0.0000 0.0000 0.0000,
+			rotate = 180.0000 0.0000 180.0000,
+		}
+	}
+	model BW5Model_OPEN
+	{
+		mesh = weapons/firearm/BW-5open,
+		texture = weapons/firearm/BW-5ReMake,
+	}
+	model Type84Model
+	{
+		mesh = weapons/firearm/Type-84,
+		texture = weapons/firearm/Type-84ReMake,
+
+		attachment muzzle
+		{
+			offset = 0.0000 0.4578 0.0389,
+			rotate = -90.0000 0.0000 0.0000,
+		}
+
+		attachment recoilpad
+		{
+			offset = 0.0000 -0.1388 -0.0002,
+			rotate = 10.0000 0.0000 0.0000,
+			scale = 1.1300,
+		}
+
+		attachment world
+		{
+			offset = 0.0143 0.2000 0.0000,
+			rotate = 180.0000 0.0000 180.0000,
+		}
+
+		attachment Bip01_Prop2
+		{
+			offset = 0.0000 0.0000 0.0000,
+			rotate = 180.0000 0.0000 180.0000,
+		}
+	}
+	model Tpye84ModelMag
+	{
+		mesh = WorldItems/8mmMag,
+		texture = weapons/firearm/Type-84ReMake,
+	}
+	model 8mmModel
+	{
+		mesh = WorldItems/8mm,
+		texture = WorldItems/8mm,
+	}
+	model 8mmModelBox
+	{
+		mesh = WorldItems/8mmBox,
+		texture = WorldItems/8mm,
+	}
+	model 10mmModel
+	{
+		mesh = WorldItems/10mm,
+		texture = WorldItems/10mm,
+	}
+	model 10mmModelBox
+	{
+		mesh = WorldItems/10mmBox,
+		texture = WorldItems/10mm,
+	}
+	model 12mmModel
+	{
+		mesh = WorldItems/12mm,
+		texture = WorldItems/12mm,
+	}
+	model 12mmModelBox
+	{
+		mesh = WorldItems/12mmBox,
+		texture = WorldItems/12mm,
+	}
+	model 16mmModel
+	{
+		mesh = WorldItems/16mm,
+		texture = WorldItems/16mm,
+	}
+	model 16mmModelBox
+	{
+		mesh = WorldItems/16mmBox,
+		texture = WorldItems/16mm,
+	}
+	model 185mmModel
+	{
+		mesh = WorldItems/185mm,
+		texture = WorldItems/185mm,
+	}
+	model 185mmModelBox
+	{
+		mesh = WorldItems/185mmBox,
+		texture = WorldItems/185mm,
+	}
+}

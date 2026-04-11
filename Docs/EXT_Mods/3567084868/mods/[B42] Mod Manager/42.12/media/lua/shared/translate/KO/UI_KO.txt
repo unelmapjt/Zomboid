@@ -1,0 +1,77 @@
+UI_KO = {
+    UI_mainscreen_btn_configs = "설정",
+
+    UI_modselector_separator = "/",
+
+    UI_modselector_showEnabledMods = "활성화된 모드 표시",
+    UI_modselector_showDisabledMods = "비활성화된 모드 표시",
+    UI_modselector_showHiddenMods = "숨겨진 모드 표시",
+
+    UI_modselector_disableWarningTitle = "경고!",
+    UI_modselector_disableWarningText = "이 모드를 비활성화하면 다음 모드도 비활성화됩니다:",
+
+    UI_modselector_modOptions = "설정",
+
+    UI_modlistpanel_sortBy = "정렬 기준:",
+    UI_modlistpanel_sortBy_name = "이름 (A-Z)",
+    UI_modlistpanel_sortBy_date = "추가 날짜",
+    UI_modlistpanel_sortBy_dateUpdated = "업데이트 날짜",
+
+    UI_modselector_status_installed = "최신",
+    UI_modselector_status_needsUpdate = "업데이트 가능!",
+
+    UI_modoptions_title = "모드 옵션",
+
+    UI_btn_sort_apply = "정렬 및 적용",
+
+    UI_modpresets_title = "프리셋 목록",
+
+    UI_modpresets_presetsTab = "프리셋",
+    UI_modpresets_historyTab = "기록",
+
+    UI_modpresets_copy = "복사",
+
+    UI_btn_select = "선택",
+    UI_btn_deleteAll = "모두 삭제",
+
+    UI_modpresets_deleteAll_dialog = "전체 기록을 삭제하시겠습니까?",
+
+    UI_modselector_btn_hide = "숨기기",
+    UI_modselector_btn_show = "보이기",
+    UI_modselector_btn_favorite = "즐겨찾기",
+    UI_modselector_btn_unfavorite = "제거",
+    UI_modselector_btn_enable = "활성화",
+    UI_modselector_btn_disable = "비활성화",
+
+    UI_modinfopanel_Status = "상태",
+    UI_modinfopanel_Version = "버전",
+    UI_modinfopanel_Author = "제작자",
+    UI_modinfopanel_ModID = "Mod ID",
+    UI_modinfopanel_WorkshopID = "Workshop ID",
+    UI_modinfopanel_LastUpdate = "마지막 업데이트",
+    UI_modinfopanel_ZomboidVersion = "게임 버전",
+    UI_modinfopanel_Dependencies = "선행 모드",
+    UI_modinfopanel_IncompatibleWith = "호환되지 않음",
+    UI_modinfopanel_Changelog = "변경 로그",
+
+    UI_modinfopanel_TimeFormat_Today = "오늘 {ampm} {hour12}시 {min}분",
+    UI_modinfopanel_TimeFormat_Yesterday = "어제 {ampm} {hour12}시 {min}분",
+    UI_modinfopanel_TimeFormat_ThisYear = "{month}월 {day}일 {ampm} {hour12}시 {min}분",
+    UI_modinfopanel_TimeFormat_OtherYears = "{year}년 {month}월 {day}일 {ampm} {hour12}시 {min}분",
+
+    UI_modinfopanel_AM = "오전",
+    UI_modinfopanel_PM = "오후",
+
+    UI_modinfopanel_Month_Short_1 = "1",
+    UI_modinfopanel_Month_Short_2 = "2",
+    UI_modinfopanel_Month_Short_3 = "3",
+    UI_modinfopanel_Month_Short_4 = "4",
+    UI_modinfopanel_Month_Short_5 = "5",
+    UI_modinfopanel_Month_Short_6 = "6",
+    UI_modinfopanel_Month_Short_7 = "7",
+    UI_modinfopanel_Month_Short_8 = "8",
+    UI_modinfopanel_Month_Short_9 = "9",
+    UI_modinfopanel_Month_Short_10 = "10",
+    UI_modinfopanel_Month_Short_11 = "11",
+    UI_modinfopanel_Month_Short_12 = "12",
+}

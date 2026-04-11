@@ -1,0 +1,4 @@
+ContextMenu_EN ={
+	ContextMenu_ReplikaRepair = "수리",
+	ContextMenu_Apply_REPBandage = "수리하다",
+}

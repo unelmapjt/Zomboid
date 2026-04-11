@@ -1,0 +1,16 @@
+{
+  "Lua.runtime.version": "Lua 5.1",
+
+  "Lua.workspace.library": [
+    "C:/Users/atstm/Zomboid/Docs/Umbrella-main",
+    "C:/Users/atstm/Zomboid/Docs/JAVA_Docs",
+    "C:/Users/atstm/Zomboid/Docs/EXT-Mods"
+  ],
+
+  "Lua.workspace.preloadFileSize": 2000,
+  "Lua.workspace.maxPreload": 5000,
+
+  "Lua.workspace.ignoreDir": [
+    "**/Logs/**"
+  ]
+}

@@ -1,0 +1,7 @@
+Recipes_JP = {
+	Recipe_SWOpenBoxOfBullets50 = "50弾 (箱)を開ける",
+    Recipe_SWOpenBoxOfBullets25 = "25弾 (箱)を開ける",
+    Recipe_SWOpenBoxOfBullets12 = "12弾 (箱)を開ける",
+    Recipe_SWOpenBoxOfShotgunShells = "ショットガンシェル (箱)を開ける",
+    Recipe_SWplace_ammo_in_box = "弾薬を箱に詰める",
+}

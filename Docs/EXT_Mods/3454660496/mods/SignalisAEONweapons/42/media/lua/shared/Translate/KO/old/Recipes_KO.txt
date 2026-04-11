@@ -1,0 +1,7 @@
+Recipes_KO = {
+	Recipe_SWOpenBoxOfBullets50 = "오픈박스(총알 50개)",
+    Recipe_SWOpenBoxOfBullets25 = "오픈박스(총알 25개)",
+    Recipe_SWOpenBoxOfBullets12 = "오픈박스(총알 12개)",
+    Recipe_SWOpenBoxOfShotgunShells = "산탄총 탄약 상자 열기",
+    Recipe_SWplace_ammo_in_box = "상자에 탄약 포장",
+}
