@@ -1,0 +1,17 @@
+{
+    "Sandbox_NOX_EVO_B42": "NOX: EVOLVED Settings",
+    "Sandbox_NOX_EVO_B42_MutationBaseRate": "Base Mutation Rate",
+    "Sandbox_NOX_EVO_B42_MutationBaseRate_tooltip": "Base amount of virus accumulated in the body every minute. Increasing this dramatically raises survival difficulty.",
+    "Sandbox_NOX_EVO_B42_ExpansionRate": "Erosion Expansion Rate",
+    "Sandbox_NOX_EVO_B42_ExpansionRate_tooltip": "The radius (in tiles) that the erosion expands per day.",
+    "Sandbox_NOX_EVO_B42_EnableMilestones": "Enable Evolution Milestones",
+    "Sandbox_NOX_EVO_B42_EnableMilestones_tooltip": "Enables point distribution and self-purification (Detox) based on survival days.",
+    "Sandbox_NOX_EVO_B42_AwakeningPoints": "Awakening Point Grant",
+    "Sandbox_NOX_EVO_B42_AwakeningPoints_tooltip": "Number of Evolution Points (EP) granted when mutation reaches 100%.",
+    "Sandbox_NOX_EVO_B42_MaxActiveScripts": "Max Active AI Scripts",
+    "Sandbox_NOX_EVO_B42_MaxActiveScripts_tooltip": "Maximum number of zombies executing special AI simultaneously. Affects PC performance.",
+    "Sandbox_NOX_EVO_B42_DistanceCulling": "AI Distance Culling",
+    "Sandbox_NOX_EVO_B42_DistanceCulling_tooltip": "Distance from the player at which complex AI calculations are completely stopped。",
+    "Sandbox_NOX_EVO_B42_DaysToAirstrike": "Days Until Airstrike",
+    "Sandbox_NOX_EVO_B42_DaysToAirstrike_tooltip": "Grace period until final purification (airstrike) by the military begins."
+}

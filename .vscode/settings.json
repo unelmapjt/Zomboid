@@ -1,16 +1,51 @@
 {
-  "Lua.runtime.version": "Lua 5.1",
-
   "Lua.workspace.library": [
-    "C:/Users/atstm/Zomboid/Docs/Umbrella-main",
-    "C:/Users/atstm/Zomboid/Docs/JAVA_Docs",
-    "C:/Users/atstm/Zomboid/Docs/EXT-Mods"
+    "${workspaceFolder}/Docs/Umbrella-main",
+    "${workspaceFolder}/Docs/JAVA_Docs"
   ],
-
+  "Lua.diagnostics.globals": [
+    "sandboxVars",
+    "getSpecificPlayer",
+    "getCore",
+    "Events",
+    "ISBaseObject",
+    "ISUIElement",
+    "getPlayer",
+    "sendClientCommand",
+    "sendServerCommand",
+    "isClient",
+    "isServer",
+    "ZombRand",
+    "getGameTime",
+    "UIManager",
+    "getText",
+    "require",
+    "Z_CORE",
+    "Z_TRACER"
+  ],
+  "Lua.diagnostics.disable": [
+    "lowercase-global"
+  ],
+  "Lua.runtime.version": "Lua 5.1",
+  "Lua.diagnostics.workspaceDelay": 1000,
+  "Lua.diagnostics.workspaceRate": 25,
   "Lua.workspace.preloadFileSize": 2000,
   "Lua.workspace.maxPreload": 5000,
-
   "Lua.workspace.ignoreDir": [
-    "**/Logs/**"
-  ]
+    "**/Logs/**",
+    "**/EXT-Mods/**"
+  ],
+  "errorLens.enabledDiagnosticLevels": [
+    "error",
+    "warning"
+  ],
+  "editor.formatOnSave": true,
+  "[lua]": {
+    "editor.defaultFormatter": "sumneko.lua"
+  },
+  "github.copilot.enable": {
+    "*": true,
+    "markdown": false
+  },
+  "editor.inlineSuggest.enabled": true
 }

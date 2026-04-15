@@ -1,12 +1,56 @@
-# Zomboid logs
+# =========================
+# Zomboid Logs
+# =========================
 Logs/
 Console.txt
 Console-Logs/
-
-# temp
 *.log
-*.tmp
 
-# vscode local
+# =========================
+# Temp
+# =========================
+*.tmp
+*.cache
+
+# =========================
+# VSCode
+# =========================
 .vscode/*
 !.vscode/settings.json
+!.vscode/extensions.json
+
+# =========================
+# AI Agent Cache
+# =========================
+.cline/
+.clinerules-cache/
+*.clinecheckpoint
+
+# =========================
+# Lua Language Server
+# =========================
+.lua/
+luac.out
+
+# =========================
+# Zomboid Generated
+# =========================
+*.bak
+*.old
+*.zip
+
+# =========================
+# Large Reference Docs
+# =========================
+# 巨大な外部リファレンスのみGit管理から除外
+Docs/EXT_Mods/
+Docs/JAVA_Docs/
+Docs/Umbrella-main/
+
+# ※ Docs/Specifications/ (仕様書) は除外しない（Gitでバージョン管理する）
+
+# =========================
+# OS
+# =========================
+.DS_Store
+Thumbs.db
