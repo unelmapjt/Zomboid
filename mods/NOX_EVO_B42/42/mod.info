@@ -6,4 +6,4 @@ modversion=2
 version=42.1
 supported=42
 author=Antigravity AI
-require=B42ModOptions,errorMagnifier,chuckleberryModdingAlertSystem,HEF
+require=B42ModOptions,errorMagnifier,ChuckleberryFinnAlertSystem,HelicopterEventExpansionFramework

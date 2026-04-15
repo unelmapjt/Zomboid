@@ -1,6 +1,6 @@
 <debugOptionsXml>
     <setDebugMode>true</setDebugMode>
-    <debugMode>false</debugMode>
+    <debugMode>true</debugMode>
     <options>
         <name>Asset.SlowLoad</name>
         <value>false</value>

@@ -1,16 +1,13 @@
-module NOX_EVOLVED
+module NOX_EVO_B42
 {
-    imports
+    item B17_AccessKey
     {
-        Base
-    }
-
-    item B17_AccessCardKey
-    {
-        Type = Normal,
-        DisplayName = DisplayName_NOX_EVOLVED_B17_AccessCardKey,
-        DisplayCategory = Item,
-        Icon = SecurityCard,
-        Weight = 0.1,
+        DisplayCategory  = Security,
+        ItemType         = base:key,
+        Weight           = 0.05,
+        Icon             = Key_Blank,
+        DisplayName      = B17 Access Key,
+        WorldStaticModel = Key_Blank,
+        Tags             = base:fitswallet,
     }
 }

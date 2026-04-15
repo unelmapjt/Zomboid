@@ -1,3 +1,2 @@
-ModManager = 1.4.1
 ChuckleberryFinnAlertSystem = 4/8/26
 errorMagnifier = 2/2/26

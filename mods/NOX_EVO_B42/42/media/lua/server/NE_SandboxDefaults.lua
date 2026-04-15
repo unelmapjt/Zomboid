@@ -5,7 +5,9 @@
 -- --------------------------------------------------------------------------
 
 local function NE_ForceSandboxOptions()
-    print("[NOX] Enforcing sandbox defaults...")
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        Z_TRACER.EmitTrace("NE_INIT", "SandboxDefaults", "EnforcingDefaults:START", "INFO")
+    end
     
     local sb = SandboxVars
     
@@ -39,7 +41,9 @@ local function NE_ForceSandboxOptions()
     sb.ElecShutModifier = 1                 -- 0-30 days
     sb.WaterShutModifier = 1                -- 0-30 days
 
-    print("[NOX] Sandbox defaults applied.")
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        Z_TRACER.EmitTrace("NE_INIT", "SandboxDefaults", "EnforcingDefaults:DONE", "INFO")
+    end
 end
 
 Events.OnInitWorld.Add(NE_ForceSandboxOptions)

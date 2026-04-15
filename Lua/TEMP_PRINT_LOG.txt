@@ -1,0 +1,250 @@
+:[ vanilla ] [HTT] HTT client main loaded 
+:[ vanilla ] [HTT] Client vanilla hook disabled. Event authority is now server-side. 
+:[ vanilla ] [HTT] Toxic overlay renderer disabled (climate-fog only mode). 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"DebugMenu", "action":"Load:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"PlayerManager", "action":"Load:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"PlayerManager", "action":"Load:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"StartScene", "action":"Load:OK"} 
+:[ vanilla ] OnLoadSoundbanks 
+:[ vanilla ] Initializing Randomized World Tabletop Clutter Tables 
+:[ vanilla ] [HTT] Event not available: OnPlayerConnect 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"WorldManager", "action":"Load:OK"} 
+:[ vanilla ] [HTT] Sandbox applied preset=normal toxicPreset=soft modEnabled=true eventDuration=1.50h toxicEventDuration=0.25h eventCooldown=72.00h randomCooldown=false fixedDailyHour=false dailyHour=9.00 disableDuringSleep=true toxicTick=30.0s toxicDmgPerMin=1.100 toxicMinPerMin=0.120 toxicCurve=1.60 toxicExtraPerMin=0.010 toxicExpGain=0.140 hostileHit=32.0% vanillaChance=100.0 weights(t/s/h)=(60/30/10) enabled(t/s/h/b/c/v/i/m)=(true/true/true/true/true/true/true/true) incendiaryRisk=false 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"SandboxDefaults", "action":"EnforcingDefaults:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"SandboxDefaults", "action":"EnforcingDefaults:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"World", "action":"InitWorldData:OK"} 
+:[ vanilla ] scriptmanager = zombie.radio.scripting.RadioScriptManager@5ecae742, isNewGame = true 
+:[ vanilla ] name = Automated Emergency Broadcast System, freq = 90800, cat = Emergency, uuid = EMRG-711984 
+:[ vanilla ] Found radio channel: Automated Emergency Broadcast System, freq = EMRG-711984, freqcheck = 90800, multi = 1 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_INIT", "target":"Player", "action":"InitPlayerData:OK|Mutation:0.0"} 
+:[ vanilla ] 1 players found 
+:[ vanilla ] player 0 is mouse 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_INIT", "target":"NE_Core", "action":"Bootstrap:refreshSandboxSwitches:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_DIAG", "target":"NE_Core", "action":"EnableMutation=ON|EnableToxicity=ON|DebugLog=ON"} 
+:[ vanilla ] [HTT] Fog controller snapshot [post-clear-game-start]: internal=0.000 final=0.000 override=0.000 modded=0.000 admin=0.000 overrideOn=true adminOn=false 
+:[ vanilla ] [HTT] Event fog cleared: game-start 
+:[ vanilla ] [HTT] Toxic fog renderer loaded 
+:[ vanilla ] [HTT] Directional sound indicator loaded 
+:[ vanilla ] [HTT] Client presentation draw hook=OnPostUIDraw 
+:[ vanilla ] [HTT] Client toxic presentation loaded 
+:[ vanilla ] [HTT] Client network handler loaded (emiClockUIHook=OnPostUIDraw, signature=2026-03-19-clock-mask-v13-local-host-bounds) 
+:[ vanilla ] [HTT] Debug commands loaded. Run HTT.DebugHelp() in Lua console. 
+:[ vanilla ] [HTT] Server event manager loaded. Event start mode = automatic interval (next in 72.00 h). 
+:[ vanilla ] [HTT] Server air bombardment system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server downed-heli system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server EMI system loaded (hook=OnTick, signature=2026-03-19-emi-world-vehicle-lights-v3) 
+:[ vanilla ] [HTT] Server fuel reclamation system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server hostile attack system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server incendiary sweep system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server military vehicle strike system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server propaganda broadcast system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server smoke curtain system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server sniper cover system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server support attack system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server surveillance system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server toxic system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Server UAV scan system loaded (hook=OnTick) 
+:[ vanilla ] [HTT] Vanilla helicopter trigger hook loaded (enabled=true, chance=100%) 
+:[ vanilla ] [HTT] Client sync active=false local=false event=nil phase= source=none center=(0.0,0.0,0.0) radius=15.0 fade=0 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] [HTT] Fog controller snapshot [none]: internal=0.000 final=0.000 override=0.000 modded=0.000 admin=0.000 overrideOn=true adminOn=false 
+:[ vanilla ] [HTT] Fog controller snapshot [post-clear-legacy-smoke-fog-migration]: internal=0.000 final=0.000 override=0.000 modded=0.000 admin=0.000 overrideOn=true adminOn=false 
+:[ vanilla ] [HTT] Event fog cleared: legacy-smoke-fog-migration 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_SCENE", "target":"Equipment", "action":"Setup:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_INIT", "target":"Player", "action":"InitPlayerData:OK|Mutation:0.0"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_SCENE", "target":"StartScene", "action":"Run:OK|Debug:false"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Spawn:WAIT:ChunkNotLoaded"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Spawn:WAIT:ChunkNotLoaded"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Spawn:WAIT:ChunkNotLoaded"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Spawn:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Dress:JacketLong_Doctor:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Dress:Shoes_Slippers:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Item:FirstAidKit:Added"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Item:B17_AccessKey:Added"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_SCENE", "target":"DrHiro", "action":"Name:Set:DrHiro"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_SCENE", "target":"DrHiro", "action":"Spawn:OK|body=true|(15640,3910,0)"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_SCENE", "target":"Intro", "action":"Cinematic:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"BuildMenu:START"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A1:addOption:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A2:getNew:OK|sub=true"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"A3:addSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"B:MutItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DaySubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"C:DayItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpSubMenu:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"D:TpItems:OK"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_DEBUG", "target":"ContextMenu", "action":"E:DONE"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"DEBUG", "type":"NE_HEARTBEAT", "target":"PlayerManager", "action":"EveryOneMinute"} 
+:[ vanilla ] {"Z_TRACE":true, "level":"INFO", "type":"NE_MUTATION", "target":"Update", "action":"Value:0.0000|Delta:-0.0050|Zone:0.00|Loc:0.70|Mask:3.0|Phase:1.0|Fog:1.00"} 
+:[ vanilla ] removing all player data 
+:[ vanilla ] - player: 0 
+:[ vanilla ] removing all player data 
+:[ vanilla ] - player: 0 

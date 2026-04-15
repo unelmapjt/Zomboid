@@ -27,6 +27,19 @@ If the user provides a block of `{"Z_TRACE": true...}` logs before an error:
 If the user provides the exact same `Z_LOG` id twice:
 Do NOT guess. Generate a 3-line Lua snippet to print the variable state (Minimal Reproduction) at that exact line.
 
-## 5. MEMORY BANK PROTOCOL (STATE MANAGEMENT)
-1. Before starting a new implementation, ALWAYS read `memory-bank/activeContext.md`.
-2. After completing a feature or resolving a major bug, explicitly UPDATE `memory-bank/activeContext.md` to reflect the current progress and next priorities.
+## 5. WHICH RULE APPLIES
+
+| 作業種別 | 従うルール | 原則 |
+|---|---|---|
+| バグ修正・クラッシュ対応 | **この `.cursorrules`** | 最小 DIFF、Z_TRACE を根拠に |
+| 新機能実装・定数変更 | **`nox-evo-dev-principles.mdc`** | 設計書を絶対視、推測は申告 |
+
+両方が関わる場合はバグ修正を先に `.cursorrules` で行い、機能追加は別作業とする。
+
+## 6. MEMORY BANK PROTOCOL (STATE MANAGEMENT)
+1. 新しい実装を開始する前に ALWAYS `memory-bank/activeContext.md` を読む。
+2. 以下のタイミングで `memory-bank/activeContext.md` を**必ず更新する**:
+   - 機能の実装が完了したとき
+   - 重大なバグを解消したとき
+   - ロードマップのチェック項目が変化したとき
+3. 更新内容: 「現在の状況」「完了事項」「次の優先作業」を上書きする。

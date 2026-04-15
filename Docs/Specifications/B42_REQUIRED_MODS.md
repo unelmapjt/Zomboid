@@ -7,8 +7,8 @@ Build 42 環境で動作が確認されている、または B42 ネイティブ
 | :--- | :--- | :--- | :--- |
 | **B42 ModOptions** | **3386860561** | `B42ModOptions` | **必須**。B42 本体の設定システム。 |
 | **Error Magnifier** | **2896041179** | `errorMagnifier` | 必須。詳細なデバッグログ出力。 |
-| **Mod Update and Alert System** | **3077900375** | `chuckleberryModdingAlertSystem` | 必須。ErrorMagnifier の前提。 |
-| **HEF - Helicopter Event Framework** | **3672792485** | `HEF` | **必須**。B42 専用イベント基盤（空爆・毒ガス）。 |
+| **Mod Update and Alert System** | **3077900375** | `ChuckleberryFinnAlertSystem` | 必須。ErrorMagnifier の前提。 |
+| **HEF - Helicopter Event Framework** | **3672792485** | `HelicopterEventExpansionFramework` | **必須**。B42 専用イベント基盤（空爆・毒ガス）。 |
 
 ## 2. 推奨機能拡張 (Recommended Extensions)
 | MOD 名 | **Workshop ID** | **Mod ID** | 役割 |

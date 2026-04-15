@@ -2,7 +2,7 @@ Z_TRACER = {}
 local unpackFn = rawget(table, "unpack") or unpack
 Z_TRACER.Config = {
     TRACE_ENABLED = true,
-    TRACE_LEVEL = "INFO"
+    TRACE_LEVEL = "DEBUG"
 }
 
 local LEVEL_PRIORITY = {
@@ -40,6 +40,11 @@ local function emitTrace(traceType, name, action, optionalLevel)
         '{"Z_TRACE":true, "level":"%s", "type":"%s", "target":"%s", "action":"%s"}',
         msgLevel, traceType, name, action
     ))
+end
+
+--- 外部モジュール（NE_Core 等）から Z_TRACE 形式で出力するための公開API
+function Z_TRACER.EmitTrace(traceType, name, action, optionalLevel)
+    emitTrace(traceType, name, action, optionalLevel)
 end
 
 -- 1. イベント・ライフサイクル監視
