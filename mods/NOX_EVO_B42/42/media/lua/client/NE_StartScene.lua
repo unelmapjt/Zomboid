@@ -30,9 +30,9 @@ local START_X = 15640
 local START_Y = 3909
 local START_Z = 0
 
--- Dr.Hiro の生成起点 (設計書 3.3)
-local HIRO_X = 15640
-local HIRO_Y = 3910
+-- Dr.Hiro の生成起点 (設計書 3.3) — 壁めり込み回避のため 15641,3909
+local HIRO_X = 15641
+local HIRO_Y = 3909
 local HIRO_Z = 0
 
 -- --------------------------------------------------------------------------
@@ -217,6 +217,7 @@ function NE.InitialEvent.setupInitialState(player)
         Z_TRACER.EmitTrace("NE_SCENE", "Setup", "Skip:AlreadyFinished", "DEBUG")
         return
     end
+
     modData.NE_SetupFinished = true
 
     setupInitialEquipment(player)
@@ -248,6 +249,10 @@ local function showIntroDialogue(player)
 
     local function showPage()
         if pageIndex > #pageKeys then return end
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "Intro",
+                "showPage|pageIndex=" .. tostring(pageIndex) .. "|key=" .. tostring(pageKeys[pageIndex]), "DEBUG")
+        end
         local text = getText(pageKeys[pageIndex])
 
         -- 既存ダイアログを除去 (重複防止)
@@ -255,6 +260,40 @@ local function showIntroDialogue(player)
         if currentDlg then
             pcall(function() currentDlg:removeFromUIManager() end)
             currentDlg = nil
+        end
+
+        -- ページ 3: 地面の血・嘔吐音・首の擦り傷相当（DeepWound / Fluid 系は不使用）
+        local isNeckWoundPage = (pageIndex == 3) and (pageKeys[pageIndex] == "UI_NE_Start_3")
+        if isNeckWoundPage then
+            if Z_TRACER and Z_TRACER.EmitTrace then
+                Z_TRACER.EmitTrace("NE_SCENE", "Intro", "NeckWoundPage:TRIGGER|pageIndex=3|UI_NE_Start_3", "INFO")
+            end
+            local sq = player and player:getCurrentSquare() or nil
+            if Z_TRACER and Z_TRACER.EmitTrace then
+                local px = player and player:getX()
+                local py = player and player:getY()
+                Z_TRACER.EmitTrace("NE_SCENE", "Intro",
+                    "NeckWoundPage:sqPresent=" .. tostring(sq ~= nil) .. "|player=" .. tostring(player ~= nil)
+                        .. "|xy=" .. tostring(px) .. "," .. tostring(py), "DEBUG")
+            end
+            if sq then
+                sq:splatBlood(5, 5)
+                player:playSound("Vomit")
+                local bd = player:getBodyDamage()
+                if bd then
+                    local neck = bd:getBodyPart(BodyPartType.Neck)
+                    if neck then
+                        neck:setAdditionalPain(60.0)
+                        neck:AddDamage(1.5)
+                        -- generateScratch は BodyPart に存在しないため擦り傷は setScratched で同等化
+                        neck:setScratched(true, false)
+                        neck:setBleedingTime(5.0)
+                    end
+                end
+                player:Say(getText("UI_NE_Start_3_ThroatPain"))
+            elseif Z_TRACER and Z_TRACER.EmitTrace then
+                Z_TRACER.EmitTrace("NE_SCENE", "Intro", "NeckWoundPage:sq=nil|SKIP", "WARN")
+            end
         end
 
         -- 画面中央座標を計算
@@ -286,16 +325,23 @@ local function showIntroDialogue(player)
                 end
             )
             dlg:initialise()
+            local dlgBtn = dlg.yes or dlg.ok
+            if dlgBtn then
+                dlgBtn:setTitle(getText("UI_Next"))
+            end
+            local isFinalPage = (pageIndex == 5) and (pageKeys[pageIndex] == "UI_NE_Start_5")
+            if isFinalPage and dlgBtn then
+                dlgBtn:setTitle(getText("UI_Finish"))
+            end
             dlg:addToUIManager()
             currentDlg = dlg
         end)
 
         if not ok then
             currentDlg = nil
-            print("[NE_SCENE] Dialog fallback: " .. tostring(text))
             if Z_TRACER and Z_TRACER.EmitTrace then
                 Z_TRACER.EmitTrace("NE_SCENE", "Intro",
-                    "Dialog:FALLBACK|page=" .. pageIndex .. "|err=" .. tostring(err), "WARN")
+                    "Dialog:FALLBACK|page=" .. pageIndex .. "|text=" .. tostring(text) .. "|err=" .. tostring(err), "WARN")
             end
         end
     end
@@ -311,6 +357,8 @@ end
 ---@param skipCinematic boolean
 local function runStartScene(player, skipCinematic)
     local modData = player:getModData()
+    -- 非同期ダイアログ中の OnCreatePlayer 再発火による二重生成（Dr.Hiro 等）を防ぐ
+    modData.NE_StartSceneFinished = true
 
     -- テレポート: B42 バニラ確認済み (DebugContextMenu.lua:1175)
     player:teleportTo(START_X, START_Y, START_Z)
@@ -320,16 +368,12 @@ local function runStartScene(player, skipCinematic)
 
     -- 演出の実行
     if skipCinematic then
-        print("[NE_SCENE] Start scene skipped (debug mode)")
         if Z_TRACER and Z_TRACER.EmitTrace then
             Z_TRACER.EmitTrace("NE_SCENE", "Intro", "Cinematic:SKIPPED(debug)", "INFO")
         end
     else
         showIntroDialogue(player)
     end
-
-    -- 完了フラグ
-    modData.NE_StartSceneFinished = true
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         Z_TRACER.EmitTrace("NE_SCENE", "StartScene",

@@ -75,6 +75,26 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects)
         tpSubMenu:addOption("Safe Area (Reset)",     player, NE.Debug.Teleport, 8250,  11750, 0)
         Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "D:TpItems:OK", "DEBUG")
 
+        -- [F] フェーズ / EP 操作
+        local sysOption  = subMenu:addOption("Systems API...", worldobjects, nil)
+        local sysSubMenu = ISContextMenu:getNew(subMenu)
+        subMenu:addSubMenu(sysOption, sysSubMenu)
+
+        local phaseSub = sysSubMenu:addOption("Force Phase Shift...", worldobjects, nil)
+        local phaseSubMenu = ISContextMenu:getNew(sysSubMenu)
+        sysSubMenu:addSubMenu(phaseSub, phaseSubMenu)
+        phaseSubMenu:addOption("Phase 1 (Quiet)",     player, NE.Debug.SetPhase, 1)
+        phaseSubMenu:addOption("Phase 2 (Omen)",      player, NE.Debug.SetPhase, 2)
+        phaseSubMenu:addOption("Phase 3 (Collapse)",  player, NE.Debug.SetPhase, 3)
+        phaseSubMenu:addOption("Phase 4 (Judgement)", player, NE.Debug.SetPhase, 4)
+
+        sysSubMenu:addOption("Add 10 Evolution Points", player, NE.Debug.AddEP, 10)
+        sysSubMenu:addOption("Reset Reminder Flags", player, function(p)
+            p:getModData().NE_HiroReminderDone = nil
+            p:Say("[NE] Reminder flags reset")
+        end)
+        Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "F:SysAPI:OK", "DEBUG")
+
         -- [E] スタートシーン強制再実行 / マスク破壊 / カードキー付与
         subMenu:addOption("Force Start Scene",   player, NE.Debug.ForceStartScene)
         subMenu:addOption("Break Equipped Mask", player, NE.Debug.BreakMask)
@@ -152,6 +172,25 @@ function NE.Debug.GiveCardKey(player)
         Z_TRACER.EmitTrace("NE_DEBUG", "GiveCardKey", "FAILED:item=nil", "ERROR")
         player:Say("...キーが見つからない。定義ファイルを確認してください。")
     end
+end
+
+--- フェーズを強制設定し、遷移トリガーを発火させる
+---@param player IsoPlayer
+---@param value integer フェーズ(1-4)
+function NE.Debug.SetPhase(player, value)
+    local modData = getGameTime():getModData()
+    modData.NE_Phase = value
+    modData.NE_PhaseShiftTrigger = true
+    player:Say("[NE] Phase Set to " .. tostring(value) .. " - Triggering...")
+end
+
+--- 進化ポイント(EP)を付与する
+---@param player IsoPlayer
+---@param amount integer 加算量
+function NE.Debug.AddEP(player, amount)
+    local modData = player:getModData()
+    modData.NE_EvolutionPoints = (modData.NE_EvolutionPoints or 0) + amount
+    player:Say("[NE] Added " .. amount .. " EP. Total: " .. modData.NE_EvolutionPoints)
 end
 
 --- スタートシーンを強制再実行するデバッグ関数

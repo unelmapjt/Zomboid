@@ -19,17 +19,23 @@ function NE.UpdateSurvivalDays()
         end
     end
 
-    -- フェーズ遷移判定 (設計書 11.1)
-    -- Phase 1: Day 1-15 (1.0x) / Phase 2: Day 16-35 (1.5x) / Phase 3: Day 36-49 (2.5x)
+    -- フェーズ遷移: サンドボックス「空爆までの猶予日数」に対する比率 (30% / 70% / 空爆前 / 審判)
+    local noxSv = SandboxVars and (SandboxVars.NOX_EVOLVED or SandboxVars.NOX_EVO_B42 or SandboxVars.NOX_EVO)
+    local sandboxLimit = 50
+    if type(noxSv) == "table" and noxSv.DaysToAirstrike then
+        sandboxLimit = noxSv.DaysToAirstrike
+    end
+    sandboxLimit = math.max(7, math.min(365, sandboxLimit))
+
     local newPhase
-    if currentDay <= 15 then
+    if currentDay <= math.floor(sandboxLimit * 0.3) then
         newPhase = 1
-    elseif currentDay <= 35 then
+    elseif currentDay <= math.floor(sandboxLimit * 0.7) then
         newPhase = 2
-    elseif currentDay <= 49 then
+    elseif currentDay < sandboxLimit then
         newPhase = 3
     else
-        newPhase = 4  -- EndGame
+        newPhase = 4
     end
 
     local prevPhase = modData.NE_Phase or 1

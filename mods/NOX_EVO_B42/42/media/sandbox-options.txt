@@ -1,0 +1,17 @@
+VERSION = 1
+option DaysToAirstrike
+{
+	type = integer,
+	min = 7,
+	max = 365,
+	default = 50,
+	page = NOX_EVOLVED,
+	translation = UI_Sandbox_DaysToAirstrike,
+}
+option InstinctVoice
+{
+	type = boolean,
+	default = true,
+	page = NOX_EVOLVED,
+	translation = UI_Sandbox_InstinctVoice,
+}

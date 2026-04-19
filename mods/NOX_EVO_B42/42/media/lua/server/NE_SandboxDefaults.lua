@@ -23,7 +23,7 @@ local function NE_ForceSandboxOptions()
     sb.PopulationPeakDay = 28
     
     -- --- Time & World ---
-    sb.StartMonth = 10                      -- October
+    sb.StartMonth = 7                       -- July
     sb.StartDay = 1
     
     -- --- Loot Rarity ---
@@ -34,7 +34,7 @@ local function NE_ForceSandboxOptions()
     
     -- --- Nature & Erosion ---
     sb.ErosionSpeed = 2                     -- Normal
-    sb.ErosionDays = 0                      -- Already progressed (start with some vines)
+    sb.ErosionDays = 1825                   -- ~5 years since apocalypse (NOX challenge)
     sb.NatureAbundance = 3                  -- Rare
     
     -- --- Infrastructure ---

@@ -1,7 +1,0 @@
-Recipes_EN = {
-	Recipe_SWOpenBoxOfBullets50 = "Open Box (50 Bullets)",
-    Recipe_SWOpenBoxOfBullets25 = "Open Box (25 Bullets)",
-    Recipe_SWOpenBoxOfBullets12 = "Open Box (12 Bullets)",
-    Recipe_SWOpenBoxOfShotgunShells = "Open Box of Shotgun Shells",
-    Recipe_SWplace_ammo_in_box = "Pack Ammo in Box",
-}

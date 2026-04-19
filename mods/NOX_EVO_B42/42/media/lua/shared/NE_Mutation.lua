@@ -76,7 +76,7 @@ function NE.UpdateMutation(player, forceRecalc)
         end
     end
 
-    -- 4. PhaseMult: 世界の侵食段階 (設計書 11.1)
+    -- 4. PhaseMult: 世界の汚染段階 (設計書 11.1)
     --    Phase1(Day1-15)=1.0 / Phase2(Day16-35)=1.5 / Phase3(Day36-49)=2.5
     local phaseMult = NE.GetPhaseMult()
 

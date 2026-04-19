@@ -54,3 +54,13 @@ Docs/Umbrella-main/
 # =========================
 .DS_Store
 Thumbs.db
+# =========================
+# Zomboid Project Specific
+# =========================
+Saves/
+BackupFiles/
+Docs/Decomp/
+Docs/WEB reference/
+debugChunkState-options.ini
+latestSave.ini
+Zomboid.code-workspace

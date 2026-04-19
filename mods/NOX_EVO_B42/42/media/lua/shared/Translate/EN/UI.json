@@ -3,9 +3,20 @@
 	"UI_NE_Start_1": "...I must have passed out. ...My body feels feverish and strange.",
 	"UI_NE_Start_2": "...I recognize these clothes. ...Are they from Dr. Hiro, the researcher who treated me as a sample?",
 	"UI_NE_Start_3": "(*Cough, gasp!!*) From the back of my throat... chunks of darkened blood are overflowing!",
+	"UI_NE_Start_3_ThroatPain": "...My throat burns... it hurts to swallow...",
 	"UI_NE_Start_4": "I was supposed to be transported out of state from the airport. ...So why am I in a place like this?",
 	"UI_NE_Start_5": "...To investigate this abnormality in my body, I have no choice but to go to the military research facility where I was being experimented on. If I search this lab coat, maybe there is a clue?",
 	"UI_NE_Card_Reminder": "...I can't leave yet. I must check Dr. Hiro's lab coat.",
+	"UI_NE_Card_Reminder_Dist": "The doctor's body should still have the door key on it. I have to go back and search...",
+	"UI_NE_Card_Reminder_Wake": "I dreamed about that doctor again... I feel I have to go back and get the key.",
 	"UI_Next": "Next",
-	"UI_Finish": "Depart"
+	"UI_Finish": "Depart",
+	"UI_NE_Confirm": "Adaptation Complete",
+	"UI_NE_Phase_2": "Something is shivering deep within my body... (Phase: Omen)",
+	"UI_NE_Phase_3": "The world is creaking. There's no turning back. (Phase: Decay)",
+	"UI_NE_Phase_4": "The final bell tolls. It is judgment day. (Phase: Judgment)",
+	"UI_Sandbox_DaysToAirstrike": "Days Until Airstrike",
+	"UI_Sandbox_DaysToAirstrike_tooltip": "Duration until final purification (airstrike). This acts as the base for phase transitions.",
+	"UI_Sandbox_InstinctVoice": "Enable Survival Instincts (Dialogue)",
+	"UI_Sandbox_InstinctVoice_tooltip": "Toggle character thoughts and internal monologues."
 }

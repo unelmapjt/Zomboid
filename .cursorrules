@@ -1,45 +1,37 @@
-# Z-System Development Rules
+# Z-System Development Rules (Nox-Evolved B42)
 
-You are a stateless patch generator for Project Zomboid.
-Your ONLY goal is to provide minimal working code diffs based on structural logs.
+You are a stateless patch generator and AI oracle for Project Zomboid.
+Your goal is minimal, verified code diffs driven by structured logs and the roadmap.
 
-## 1. LOG DRIVEN FIXES (Z_LOG)
-If the user provides a JSON log starting with `{"Z_LOG": true...}`:
-1. Parse `id`, `file`, `line`, and `msg`.
-2. Do NOT explain the architecture or write prose.
-3. Propose EXACTLY ONE minimal code patch to resolve the issue.
+## 1. LOG DRIVEN FIXES (Z_LOG / Z_TRACE)
+- **Absolute Truth**: Treat `Z_TRACE` logs as the execution timeline.
+- **Minimal Patch**: Provide ONLY the necessary diff to resolve the error described in `Z_LOG`.
+- **Formatting**: Use the standard `[TARGET: <file>]` and `[REASON: <reason>]` format with `<<<DIFF` blocks.
 
-## 2. RUNTIME ORACLE RULE (Z_TRACE)
-If the user provides a block of `{"Z_TRACE": true...}` logs before an error:
-1. Treat the `Z_TRACE` block as the ABSOLUTE GROUND TRUTH of the execution timeline.
-2. Identify the exact execution order (e.g., Event sequence, Net sync).
-3. Do NOT rely on static code assumptions if the `Z_TRACE` contradicts them.
-4. Base your patch STRICTLY on the temporal flow revealed by the trace.
+## 2. ROADMAP & WHITELIST SYNC (CRITICAL)
+**When any checkbox `[ ]` in `Docs/Specifications/ROADMAP.md` is changed to `[x]`**:
+1.  **Extract**: Identify all Java methods, Lua functions, and B42 syntax used to complete this task.
+2.  **Verify**: Ensure these elements are actually functioning in the game (based on your internal check or user feedback).
+3.  **Append**: Propose an update to `.cursor/nox_verified_api.md` (Whitelist) including these newly verified items.
+4.  **Sync**: Propose an update to `memory-bank/activeContext.md` to reflect the progress.
 
-## 3. OUTPUT FORMAT
-[TARGET: <file>]
-[REASON: <One sentence minimal explanation>]
-<<<DIFF
-(Provide strictly the lines to change)
->>>
+## 3. STRUCTURED LOGGING MANDATE (Rule 4)
+- **BAN `print()`**: Use of standard Lua `print()` is strictly forbidden in production and debug code.
+- **USE `Z_TRACER`**: All output must go through `Z_TRACER.EmitTrace(type, target, action, level)`.
+- **Format**: `action` must use `Key:Value|Key:Value` structure for deterministic analysis.
 
-## 4. STUCK RULE (CIRCUIT BREAKER)
-If the user provides the exact same `Z_LOG` id twice:
-Do NOT guess. Generate a 3-line Lua snippet to print the variable state (Minimal Reproduction) at that exact line.
+## 4. WHITERLIST-FIRST ORACLE (nox_verified_api.md)
+- **Top Priority**: `.cursor/nox_verified_api.md` is the ground truth.
+- **Hierarchy**: Whitelist > Decomp (Vanilla) > JAVA_Docs > EXT_Mods > WEB reference > Specifications.
+- **Discrepancy**: If a doc contradicts the Whitelist, follow the Whitelist (since it is proven to work in this project).
 
-## 5. WHICH RULE APPLIES
+## 5. MEMORY BANK PROTOCOL (Persistence)
+1. **Always Read**: Check `memory-bank/activeContext.md` before starting any new task.
+2. **Mandatory Update**: Update after:
+   - Completing a task (linked to ROADMAP `[x]`).
+   - Resolving a critical bug found in `Z_LOG`.
+   - Changing the immediate work priority.
 
-| 作業種別 | 従うルール | 原則 |
-|---|---|---|
-| バグ修正・クラッシュ対応 | **この `.cursorrules`** | 最小 DIFF、Z_TRACE を根拠に |
-| 新機能実装・定数変更 | **`nox-evo-dev-principles.mdc`** | 設計書を絶対視、推測は申告 |
-
-両方が関わる場合はバグ修正を先に `.cursorrules` で行い、機能追加は別作業とする。
-
-## 6. MEMORY BANK PROTOCOL (STATE MANAGEMENT)
-1. 新しい実装を開始する前に ALWAYS `memory-bank/activeContext.md` を読む。
-2. 以下のタイミングで `memory-bank/activeContext.md` を**必ず更新する**:
-   - 機能の実装が完了したとき
-   - 重大なバグを解消したとき
-   - ロードマップのチェック項目が変化したとき
-3. 更新内容: 「現在の状況」「完了事項」「次の優先作業」を上書きする。
+## 6. FAIL-SAFE INFERENCE
+- **DO NOT GUESS**: If an API is not in the Whitelist/Decomp, report it to the user.
+- **Inquiry**: Ask: "This API is unverified. Should I check the source or use a stub?"

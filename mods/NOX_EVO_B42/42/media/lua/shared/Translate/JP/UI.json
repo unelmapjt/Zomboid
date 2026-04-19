@@ -1,11 +1,22 @@
 {
 	"UI_NE_Prologue_Title": "Knox Evolved: プロローグ",
 	"UI_NE_Start_1": "……気絶していたようだ。……身体が、燃えるように熱くておかしい。",
-	"UI_NE_Start_2": "……この服は見覚えがある。……私を実験体として扱っていた研究員、Dr.Hiroのものか？",
-	"UI_NE_Start_3": "（……ゴホッ、ガハッ！！） 喉の奥から……黒ずんだ血の塊が溢れ出す……！",
+	"UI_NE_Start_2": "……この死体は見覚えがある。……私を実験体として扱っていた研究員、Dr.Hiroのものか？",
+	"UI_NE_Start_3": "（……ゴホッ、ガハッ！！） …………謎の点滴を外した際に喉に深い傷を負った！",
+	"UI_NE_Start_3_ThroatPain": "……喉が、焼けるように痛い……",
 	"UI_NE_Start_4": "空港から州外へ移送されるはずだった。……なのに、なぜ私はこんな場所に？",
 	"UI_NE_Start_5": "……この身体の異変を調べるには、実験されていた軍事研究施設へ行くしかない。この白衣を調べれば、何か手がかりが？",
-	"UI_NE_Card_Reminder": "……いけない。Dr.Hiroの白衣を調べるんだ。",
+	"UI_NE_Card_Reminder": "……いけない。Dr.Hiroの白衣を調べなければ...",
+	"UI_NE_Card_Reminder_Dist": "博士の遺体に扉の鍵と書類が残されているはずだ。探しに戻らなければ...",
+	"UI_NE_Card_Reminder_Wake": "あの博士の夢を見た... 鍵と書類を回収しに、戻らなければいけない気がする。",
 	"UI_Next": "次へ",
-	"UI_Finish": "出発する"
+	"UI_Finish": "出発する",
+	"UI_NE_Confirm": "適応完了",
+	"UI_NE_Phase_2": "……身体の奥で、何かが震え始めた（フェーズ：予兆）",
+	"UI_NE_Phase_3": "世界が軋んでいる。もう引き返せない（フェーズ：崩壊）",
+	"UI_NE_Phase_4": "終わりの鐘が鳴る。審判の時だ（フェーズ：審判の日）",
+	"UI_Sandbox_DaysToAirstrike": "空爆までの猶予日数",
+	"UI_Sandbox_DaysToAirstrike_tooltip": "軍による空爆（ゲーム終了）までの日数。これがフェーズ遷移の計算基準になります。",
+	"UI_Sandbox_InstinctVoice": "本能テキスト（独白）の有効化",
+	"UI_Sandbox_InstinctVoice_tooltip": "キャラクターによる脳内テキスト表示を許可するか設定します。"
 }

@@ -1,4 +1,0 @@
-ContextMenu_RU ={
-	ContextMenu_ReplikaRepair = "Ремонт",
-	ContextMenu_Apply_REPBandage = "использовать Ремонт",
-}

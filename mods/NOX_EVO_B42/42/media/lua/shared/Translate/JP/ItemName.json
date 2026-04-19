@@ -1,3 +1,8 @@
 {
-	"DisplayName_NOX_EVO_B42_B17_AccessKey": "B17アクセスキー"
+	"DisplayName_NOX_EVO_B42_B17_AccessKey": "軍事研究所アクセスキー",
+	"DisplayName_NOX_EVO_B42_B17_AccessKey_1": "軍事研究所アクセスキー (#1)",
+	"DisplayName_NOX_EVO_B42_B17_AccessKey_2": "軍事研究所アクセスキー (#2)",
+	"DisplayName_NOX_EVO_B42_B17_AccessKey_3": "軍事研究所アクセスキー (#3)",
+	"DisplayName_NOX_EVO_B42_B17_AccessKey_4": "軍事研究所アクセスキー (#4)",
+	"DisplayName_NOX_EVO_B42_NE_SecretReport": "機密書類「NOX:EVOLVED Report」"
 }

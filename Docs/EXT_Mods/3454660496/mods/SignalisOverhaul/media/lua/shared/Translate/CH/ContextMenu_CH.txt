@@ -1,4 +1,0 @@
-ContextMenu_CH ={
-	ContextMenu_ReplikaRepair = "維修",
-	ContextMenu_Apply_REPBandage = "使用修復",
-}

@@ -5,5 +5,5 @@ poster=poster.png
 modversion=2
 version=42.1
 supported=42
-author=Antigravity AI
+author=UnelmaPJT
 require=B42ModOptions,errorMagnifier,ChuckleberryFinnAlertSystem,HelicopterEventExpansionFramework

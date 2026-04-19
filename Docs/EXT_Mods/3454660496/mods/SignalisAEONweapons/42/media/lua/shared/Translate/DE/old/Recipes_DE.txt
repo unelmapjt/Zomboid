@@ -1,7 +1,0 @@
-Recipes_DE = {
-	Recipe_SWOpenBoxOfBullets50 = "Offene Schachtel (50 Patronen)",
-    Recipe_SWOpenBoxOfBullets25 = "Offene Schachtel (25 Patronen)",
-    Recipe_SWOpenBoxOfBullets12 = "Offene Schachtel (12 Patronen)",
-    Recipe_SWOpenBoxOfShotgunShells = "Schrotpatronen aus Schachtel entnehmen",
-    Recipe_SWplace_ammo_in_box = "Munition in die Schachtel packen",
-}
