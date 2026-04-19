@@ -1,2 +1,0 @@
-ChuckleberryFinnAlertSystem = 4/8/26
-errorMagnifier = 2/2/26

@@ -1,66 +1,84 @@
-# =========================
-# Zomboid Logs
-# =========================
-Logs/
-Console.txt
-Console-Logs/
-*.log
+# ==============================================================================
+# PROJECT ZOMBOID - NOX: EVOLVED .gitignore
+# ==============================================================================
 
-# =========================
-# Temp
-# =========================
+# ------------------------------------------------------------------------------
+# Game Generated Folders (ROOT ONLY)
+# ------------------------------------------------------------------------------
+/BackupFiles/
+/Console-Logs/
+/Logs/
+/Recording/
+/Saves/
+/Server/
+/Workshop/
+/db/
+/messaging/
+/Sandbox\ Presets/
+/Lua/
+
+# Config Files (ROOT ONLY)
+/*.ini
+/options.ini
+/latestSave.ini
+/debug-options.ini
+/debuglog.ini
+/debugChunkState-options.ini
+
+# Log Files (ROOT ONLY)
+/Console.txt
+/*.log
+/Z_Filtered_Log.txt
+
+# Version Info
+/version.txt
+
+# ------------------------------------------------------------------------------
+# Asset & Archive Files (ANYWHERE)
+# ------------------------------------------------------------------------------
+*.zip
+*.rar
+*.7z
+*.bak
+*.old
 *.tmp
 *.cache
 
-# =========================
-# VSCode
-# =========================
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
+# ------------------------------------------------------------------------------
+# OS Generated Files (ANYWHERE)
+# ------------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
 
-# =========================
-# AI Agent Cache
-# =========================
-.cline/
-.clinerules-cache/
-*.clinecheckpoint
+# ------------------------------------------------------------------------------
+# IDE & Tool Specific (ROOT ONLY)
+# ------------------------------------------------------------------------------
+/.vscode/*
+!/.vscode/settings.json
+!/.vscode/extensions.json
+/.cursor/
+/.cursorignore
+/.cline/
+/.clinerules-cache/
+/*.clinecheckpoint
+/.lua/
+/luac.out
+/Zomboid.code-workspace
 
-# =========================
-# Lua Language Server
-# =========================
-.lua/
-luac.out
-
-# =========================
-# Zomboid Generated
-# =========================
-*.bak
-*.old
-*.zip
-
-# =========================
-# Large Reference Docs
-# =========================
-# 巨大な外部リファレンスのみGit管理から除外
+# ------------------------------------------------------------------------------
+# Large Reference Materials (ANYWHERE)
+# ------------------------------------------------------------------------------
 Docs/EXT_Mods/
 Docs/JAVA_Docs/
 Docs/Umbrella-main/
-
-# ※ Docs/Specifications/ (仕様書) は除外しない（Gitでバージョン管理する）
-
-# =========================
-# OS
-# =========================
-.DS_Store
-Thumbs.db
-# =========================
-# Zomboid Project Specific
-# =========================
-Saves/
-BackupFiles/
 Docs/Decomp/
-Docs/WEB reference/
-debugChunkState-options.ini
-latestSave.ini
-Zomboid.code-workspace
+Docs/WEB\ reference/
+
+# ------------------------------------------------------------------------------
+# ALWAYS TRACK (Whitelist)
+# ------------------------------------------------------------------------------
+!Docs/Specifications/
+!/mods/
+!/memory-bank/
+!/Crafting/

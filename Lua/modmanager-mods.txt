@@ -1,2 +1,0 @@
-VERSION=1
-ModTemplate;errorMagnifier;EasyConfigChucked;ExpandedHelicopterEvents;Arsenal(26)GunFighter[MAIN MOD 2.0];Arsenal(26)GunFighter;ChuckleberryFinnAlertSystem;ModManager;Brita;eris_nightvision_goggles;NightVisionChucked;SLEO;SMUI;ModManagerServer;modoptions;NOX_EVOLVED_3
