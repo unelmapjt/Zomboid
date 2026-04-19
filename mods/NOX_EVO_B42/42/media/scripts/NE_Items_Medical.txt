@@ -1,0 +1,73 @@
+module NOX_EVO_B42
+{
+    /* ------------------------------------------- */
+    /* 1. 抗変異薬 (Anti-Mutant Drug)              */
+    /* ------------------------------------------- */
+    item NE_AntiMutantDrug
+    {
+        ItemType = base:food,
+        DisplayName = DisplayName_NE_AntiMutantDrug,
+        Icon = Vitamins,
+        Weight = 0.1,
+        
+        /* 消耗品としての設定 */
+        CustomDrinkTime = 10,
+        EatType = Pill,
+        
+        /* 視覚効果 (B42のリカラー) */
+        ColorRed = 0.4,
+        ColorGreen = 0.6,
+        ColorBlue = 1.0,
+        
+        /* タグ定義 (Build 42) */
+        Tags = Medical;Pill;SicknessMedicine,
+        Tooltip = Tooltip_NE_AntiMutantDrug,
+    }
+
+    /* ------------------------------------------- */
+    /* 2. 汚染遅延剤 (Viral Retardant)             */
+    /* ------------------------------------------- */
+    item NE_Retardant
+    {
+        ItemType = base:food,
+        DisplayName = DisplayName_NE_Retardant,
+        Icon = BetaBlockers,
+        Weight = 0.1,
+        
+        /* 消耗品としての設定 */
+        CustomDrinkTime = 10,
+        EatType = Pill,
+        
+        /* 視覚効果 */
+        ColorRed = 1.0,
+        ColorGreen = 0.9,
+        ColorBlue = 0.4,
+        
+        /* タグ定義 (Build 42) */
+        Tags = Medical;Pill;EnergyMedicine,
+        Tooltip = Tooltip_NE_Retardant,
+    }
+
+    /* ------------------------------------------- */
+    /* 3. NE-セラム (NE-Serum)                     */
+    /* ------------------------------------------- */
+    item NE_Serum
+    {
+        ItemType = base:food,
+        DisplayName = DisplayName_NE_Serum,
+        Icon = Inhaler,
+        Weight = 0.2,
+        
+        /* 消耗品としての設定 */
+        CustomDrinkTime = 20,
+        EatType = Pill,
+        
+        /* 視覚効果 (毒々しい紫) */
+        ColorRed = 0.8,
+        ColorGreen = 0.2,
+        ColorBlue = 0.9,
+        
+        /* タグ定義 (Build 42) */
+        Tags = Medical;Experimental,
+    }
+}

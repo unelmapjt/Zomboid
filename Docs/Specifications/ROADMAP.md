@@ -90,8 +90,8 @@
 - [x] **3.2 Key Item Assignment**
   Dr.Hiro への `B17_AccessKey` の確実な付与。
   - [x] `inv:AddItem("NOX_EVO_B42.B17_AccessKey")` 実装済み (`IsoDeadBody` 変換前のゾンビ段階で付与)。
-  - [x] アイテム定義を `ItemType = base:key` (B42 正規形式) に修正・確定済み。`NE_Items.txt` の `B17_AccessKey` 定義: `Weight=0.05`, `Icon=Key_Blank`, `Tags=base:fitswallet` (2026-04-15)。
-  - [x] デバッグメニュー「Give B17 Access Key」オプション実装済み (`NE_DebugMenu.lua`)。
+  - [x] アイテム定義を `ItemType = base:normal` (B42 正規形式) に修正・確定済み。
+  - [x] デバッグメニュー「Give B17 Access Key」オプション実装済み。
   - [x] **残作業**: 階層型リマインダーの実装 (設計書 §3.2):
     - [x] 離脱リマインド: 10タイル以上の離脱に対し `UI_NE_Card_Reminder_Dist` を最大 5 回 Say。
     - [ ] 起床リマインド: 5回離脱後も未所持なら `OnPlayerWake` で `UI_NE_Card_Reminder_Wake` を Say。
@@ -176,9 +176,9 @@
     - [ ] `addXP` メソッドを用いた、バニラ互換のスキルレベル向上ロジック。
     - [ ] 重要コンテナおよび SWAT からの稀少ドロップ設定。
     - [ ] 検証: 使用時にスキル経験値が加算され、既存のレベル進捗と矛盾しないこと。
-  - [ ] **追加作業**: 5つの B17 アクセスキー (Master + Sub 1-4) の完全実装と紛失防止ガード。
+  - [ ] **追加作業**: B17 アクセスキーと 4 つの変異核 (Alpha~Delta) の完全実装と紛失防止ガード。
     - [ ] `CantBeDropped = TRUE` および `ISInventoryTransferAction` フックによる移動規制。
-    - [ ] §15.4 に基づく Master Key と Sub Key (#) への名称更新。
+    - [ ] 各サンプル（バイアル）が March Ridge, Riverside, Brandenburg, Rosewood の拠点にあることを保証。
 
 - [ ] **6.2 Contamination Retardant**
   汚染抑制剤（30分 ΔMutation ゼロ固定）の実装 (設計書 §8.1.2)。
@@ -390,12 +390,11 @@
   - [ ] Day 45 からの「終末の予兆」本能テキスト表示。
   - [ ] 検証: 51 日目 0:00 に到達した瞬間、空爆警告と演出が開始されること。
 
-- [ ] **13.2 B17 Terminal & 5-Key System**
-  最深部端末への到達と解錠プロセスの完遂 (設計書 §7.1, §7.2)。
-  - [ ] **Master Key + Sub Key 1〜4** の計 5 つを所持時にのみ扉を開放可能にする判定。
-  - [ ] カード未所持時の「拒絶」警告 Say および境界アクセス警告 (§7.5)。
-  - [ ] Z-System による重要アイテムコンテナの破壊耐性 (Invulnerability) 付与。
-  - [ ] 検証: 5 つの鍵を揃えた時のみ、地下 17 階の扉を解読してエンディング UI が開くこと。
+- [ ] **13.2 B17 Terminal & Integrated Quest Item System**
+  最深部端末への到達と解錠プロセスの完遂。
+  - [ ] **Master Key + 4 Mutation Nuclei (Samples)** の全 5 アイテムを所持時にのみ扉を開放可能にする。
+  - [ ] 不足しているアイテムがある場合の「アクセス拒絶」警告メッセージ (§7.5)。
+  - [ ] 17階最深部でのサンプル提出・解析シーケンス。
 
 - [ ] **13.3 3 Branded Endings & Final Hesitation**
   浄化 / 共生 / 破滅 の 3 分岐と「逡巡」ステップの実装 (設計書 §7.4, §7.6)。

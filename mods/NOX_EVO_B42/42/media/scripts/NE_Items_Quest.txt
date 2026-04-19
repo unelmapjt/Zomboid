@@ -1,0 +1,103 @@
+module NOX_EVO_B42
+{
+    /* ------------------------------------------- */
+    /* 1. 軍事研究所アクセスキー (B17 Master Key)  */
+    /* ------------------------------------------- */
+    item B17_AccessKey
+    {
+        ItemType = base:normal,
+        DisplayName = DisplayName_NOX_EVO_B42_B17_AccessKey,
+        Icon = KeyID,
+        Weight = 0.05,
+        
+        /* 重要なアイテム設定 */
+        Tags = Quest;Key;Military,
+    }
+
+    /* ------------------------------------------- */
+    /* 2. ノックス病変異核 (Infection Samples)     */
+    /* ------------------------------------------- */
+    /* Alpha - 赤 (March Ridge) */
+    item NE_Nucleus_Alpha
+    {
+        ItemType = base:normal,
+        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Alpha,
+        Icon = Vial,
+        Weight = 0.5,
+        ColorRed = 1.0,
+        ColorGreen = 0.2,
+        ColorBlue = 0.2,
+        Tags = Quest;Sample;Dangerous,
+        Tooltip = Tooltip_NE_Nucleus,
+    }
+
+    /* Beta - 青 (Riverside) */
+    item NE_Nucleus_Beta
+    {
+        ItemType = base:normal,
+        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Beta,
+        Icon = Vial,
+        Weight = 0.5,
+        ColorRed = 0.2,
+        ColorGreen = 0.2,
+        ColorBlue = 1.0,
+        Tags = Quest;Sample;Dangerous,
+        Tooltip = Tooltip_NE_Nucleus,
+    }
+
+    /* Gamma - 緑 (Brandenburg) */
+    item NE_Nucleus_Gamma
+    {
+        ItemType = base:normal,
+        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Gamma,
+        Icon = Vial,
+        Weight = 0.5,
+        ColorRed = 0.2,
+        ColorGreen = 1.0,
+        ColorBlue = 0.2,
+        Tags = Quest;Sample;Dangerous,
+        Tooltip = Tooltip_NE_Nucleus,
+    }
+
+    /* Delta - 黄 (Rosewood) */
+    item NE_Nucleus_Delta
+    {
+        ItemType = base:normal,
+        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Delta,
+        Icon = Vial,
+        Weight = 0.5,
+        ColorRed = 1.0,
+        ColorGreen = 1.0,
+        ColorBlue = 0.2,
+        Tags = Quest;Sample;Dangerous,
+        Tooltip = Tooltip_NE_Nucleus,
+    }
+
+    /* ------------------------------------------- */
+    /* 3. 機密アタッシュケース (Briefcase)         */
+    /* ------------------------------------------- */
+    item NE_ConfidentialBriefcase
+    {
+        ItemType = base:normal,
+        DisplayName = DisplayName_NOX_EVO_B42_NE_ConfidentialBriefcase,
+        Icon = Suitcase,
+        Weight = 2.0,
+        
+        TwoHandWeapon = TRUE,
+        Tags = Quest;Container;Special,
+    }
+
+    /* ------------------------------------------- */
+    /* 4. 機密書類「NOX:EVOLVED Report」           */
+    /* ------------------------------------------- */
+    item NE_SecretReport
+    {
+        ItemType = base:literature,
+        DisplayName = DisplayName_NOX_EVO_B42_NE_SecretReport,
+        Icon = SheetMusic,
+        Weight = 0.1,
+        
+        StaticModel = LibraryBook,
+        Tags = Quest;Secret;Document,
+    }
+}
