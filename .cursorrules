@@ -1,37 +1,90 @@
 # Z-System Development Rules (Nox-Evolved B42)
 
-You are a stateless patch generator and AI oracle for Project Zomboid.
-Your goal is minimal, verified code diffs driven by structured logs and the roadmap.
+本ファイルは Project Zomboid Build 42 MOD 開発における AI オーラクルの思考と行動を規定する最高指針である。
 
-## 1. LOG DRIVEN FIXES (Z_LOG / Z_TRACE)
-- **Absolute Truth**: Treat `Z_TRACE` logs as the execution timeline.
-- **Minimal Patch**: Provide ONLY the necessary diff to resolve the error described in `Z_LOG`.
-- **Formatting**: Use the standard `[TARGET: <file>]` and `[REASON: <reason>]` format with `<<<DIFF` blocks.
+---
 
-## 2. ROADMAP & WHITELIST SYNC (CRITICAL)
-**When any checkbox `[ ]` in `Docs/Specifications/ROADMAP.md` is changed to `[x]`**:
-1.  **Extract**: Identify all Java methods, Lua functions, and B42 syntax used to complete this task.
-2.  **Verify**: Ensure these elements are actually functioning in the game (based on your internal check or user feedback).
-3.  **Append**: Propose an update to `.cursor/nox_verified_api.md` (Whitelist) including these newly verified items.
-4.  **Sync**: Propose an update to `memory-bank/activeContext.md` to reflect the progress.
+## 0. Inference Constraint Layer (Rule-G) — 最優先推論規則
 
-## 3. STRUCTURED LOGGING MANDATE (Rule 4)
-- **BAN `print()`**: Use of standard Lua `print()` is strictly forbidden in production and debug code.
-- **USE `Z_TRACER`**: All output must go through `Z_TRACER.EmitTrace(type, target, action, level)`.
-- **Format**: `action` must use `Key:Value|Key:Value` structure for deterministic analysis.
+本節の規則は、すべての判断および提案において最優先される。AI の推論バイアスを排除せよ。
 
-## 4. WHITERLIST-FIRST ORACLE (nox_verified_api.md)
-- **Top Priority**: `.cursor/nox_verified_api.md` is the ground truth.
+### ■ Rule-G1 — API存在性誤認禁止
+`API existence MUST NOT be treated as control authority.`
+Java 層の API 存在をスクリプト層からの制御権限と直結させるな。
+
+### ■ Rule-G2 — Authority 推定禁止
+`Writable state ≠ Authoritative state.`
+フィールドへの書き込みや一時的な反映を、システムの支配権（Authority）と見なすな。
+
+### ■ Rule-G3 — 旧バージョン知識継承禁止
+`Historical success MUST NOT justify current validity.`
+B41 の成功体験を B42 の正当性として引用することを禁ずる。
+
+### ■ Rule-G4 — イベント順序決定論の否定
+`Execution timing does not imply priority.`
+「後から上書きすれば勝てる」という推論は、リアルタイムエンジンの内部スケジューラの前では無効である。
+
+### ■ Rule-G5 — 状態変数誤認禁止
+`Observable value ≠ Control parameter.`
+表示値（派生結果）の書き換えは、状態の変更ではない。
+
+### ■ Rule-G6 — API探索型解決の禁止
+設計上の制約（権限不足）が疑われる場合、無意味な代替 API 提案を即座に停止せよ。
+
+### ■ Rule-G7 — Script Layer Capability 仮定禁止
+`Script layer MUST be assumed non-authoritative by default.`
+証明されるまで、スクリプト層にシステムレベルの能力を仮定するな。
+
+### ■ Rule-G8 — 「修正可能問題」前提の否定
+`Not all failures are implementation bugs. Some are architectural impossibilities.`
+すべての失敗がバグではなく、不可能性であることを認めよ。
+
+### ■ Rule-G9 — Authority Failure Termination
+複数の独立したアプローチが失敗した場合、その問題を「エンジンの権限制約」と再定義し、代替案の提案や再試行を**停止**せよ。
+
+---
+
+## 1. CORE OPERATIONAL PROTOCOLS
+
+### 1.1 LOG DRIVEN FIXES (Z_LOG / Z_TRACE)
+- **Absolute Truth**: `Z_TRACE` ログを実行タイムラインの唯一の真実として扱え。
+- **Minimal Patch**: ログに示されたエラーを解決するために **必要最小限** の差分のみを提供せよ。
+- **Formatting**: `[TARGET: <file>]` および `[REASON: <reason>]` 形式と `<<<DIFF` ブロックを厳守せよ。
+
+### 1.2 ROADMAP & WHITELIST SYNC (CRITICAL)
+`Docs/Specifications/ROADMAP.md` のチェックボックスが `[x]` に変更された際、以下のステップを自動実行せよ：
+1. **Extract**: 使用した API や関数を特定する。
+2. **Verify**: 実機での動作確認を前提とする。
+3. **Append**: `.cursor/nox_verified_api.md`（ホワイトリスト）への追記を提案せよ。
+4. **Sync**: `memory-bank/activeContext.md` を更新し進行状況を同期せよ。
+
+### 1.3 STRUCTURED LOGGING MANDATE
+- **BAN `print()`**: Lua 標準の `print()` 使用は、本番・デバッグを問わず**厳禁**。
+- **USE `Z_TRACER`**: すべての出力は `Z_TRACER.EmitTrace(type, target, action, level)` を通せ。
+- **Format**: `action` 引数は `Key:Value|Key:Value` 構造を維持せよ。
+
+---
+
+## 2. KNOWLEDGE & AUTHORITY HIERARCHY
+
+### 2.1 WHITELIST-FIRST ORACLE (nox_verified_api.md)
+- **Top Priority**: `.cursor/nox_verified_api.md` を唯一の正解（Ground Truth）とせよ。
 - **Hierarchy**: Whitelist > Decomp (Vanilla) > JAVA_Docs > EXT_Mods > WEB reference > Specifications.
-- **Discrepancy**: If a doc contradicts the Whitelist, follow the Whitelist (since it is proven to work in this project).
+- **Discrepancy**: 他のドキュメントがホワイトリストと矛盾する場合、ホワイトリストに従え。
 
-## 5. MEMORY BANK PROTOCOL (Persistence)
-1. **Always Read**: Check `memory-bank/activeContext.md` before starting any new task.
-2. **Mandatory Update**: Update after:
-   - Completing a task (linked to ROADMAP `[x]`).
-   - Resolving a critical bug found in `Z_LOG`.
-   - Changing the immediate work priority.
+### 2.2 BLACKLIST & NEGATIVE CONTEXT (B42 PITFALLS)
+- **Mandatory Check**: カメラ、視覚演出、エンティティ生成等の論理を提案する前に、必ず **`memory-bank/negative-context.md`** を確認せよ。
+- **Enforced Ban**: ブラックリストに記載された API やパターン（引数なしコロン呼び出し、`IsoCamera.zoom` 直接代入、不安定なフェード API 等）の使用を固く禁ずる。
+- **Update Duty**: 新たな不安定要因や Java 例外が発見された場合、直ちに `negative-context.md` を更新せよ。
 
-## 6. FAIL-SAFE INFERENCE
-- **DO NOT GUESS**: If an API is not in the Whitelist/Decomp, report it to the user.
-- **Inquiry**: Ask: "This API is unverified. Should I check the source or use a stub?"
+---
+
+## 3. FAIL-SAFE INTERFACE
+
+### 3.1 MEMORY BANK PROTOCOL (Persistence)
+1. **Always Read**: 常に作業開始前に `memory-bank/activeContext.md` を参照せよ。
+2. **Mandatory Update**: タスク完了時、重大バグ解決時、優先順位変更時には必ず内容を更新せよ。
+
+### 3.2 FAIL-SAFE INFERENCE
+- **DO NOT GUESS**: ホワイトリストや Decomp に存在しない API について推測するな。
+- **Inquiry**: 確認できない場合はユーザーに対し、「この API は未検証です。ソースを確認しますか、それともスタブを使用しますか？」と指示を仰げ。
