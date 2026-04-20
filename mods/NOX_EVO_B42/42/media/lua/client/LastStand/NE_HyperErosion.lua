@@ -14,7 +14,7 @@ challenge.id = "NOX_EVOLVED"
 challenge.name = "Challenge_NOX_EVOLVED_name"
 challenge.description = "Challenge_NOX_EVOLVED_desc"
 
-local POSTER = "media/lua/client/LastStand/NE_HyperErosion.png"
+local POSTER = "media/ui/nox_challenge_source.png"
 challenge.image = POSTER
 challenge.poster = POSTER
 challenge.video = "NE_HyperErosion.bik"
@@ -39,6 +39,13 @@ function challenge.Add()
     challengeAddDone = true
 
     function challenge.Render()
+    end
+
+    -- MDD §2.4.1: LastStandSetup が無条件で呼ぶため、空でも定義必須
+    function challenge.Init()
+    end
+
+    function challenge.AddPlayer(playerNum, playerObj)
     end
 
     function challenge.AddSandboxOptions()

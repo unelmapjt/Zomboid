@@ -35,6 +35,55 @@ local HIRO_X = 15641
 local HIRO_Y = 3909
 local HIRO_Z = 0
 
+-- 病院着・ガスマスク・ハザマットの初期耐久（設計書 3.3: 5% / ぼろぼろ）
+local INITIAL_GEAR_CONDITION_RATIO = 0.05
+
+---@param item InventoryItem|nil
+local function applyRaggedCondition(item)
+    if not item or not item.getConditionMax or not item.setCondition then return end
+    local maxC = item:getConditionMax()
+    if not maxC or maxC <= 0 then return end
+    item:setCondition(math.max(1, math.ceil(maxC * INITIAL_GEAR_CONDITION_RATIO)))
+end
+
+-- --------------------------------------------------------------------------
+-- 装着の完全解除 (設計書 3.3 / SS 対策: インベントリ空でも装備だけ残るケース)
+-- B42: getWornItems():clear() を優先、不可なら各スロットを setWornItem(loc, nil)
+-- --------------------------------------------------------------------------
+
+---@param player IsoPlayer
+local function stripAllWornItems(player)
+    if not player then return end
+    local worn = player.getWornItems and player:getWornItems() or nil
+    if not worn then return end
+
+    if worn.clear then
+        pcall(function() worn:clear() end)
+    end
+
+    -- clear 後も残る環境向け: 列挙して nil で外す（複数パスで取りこぼし防止）
+    if not (worn.size and worn.get) then return end
+    local safety = 0
+    while worn:size() > 0 and safety < 24 do
+        safety = safety + 1
+        local locs = {}
+        for i = 0, worn:size() - 1 do
+            local wi = worn:get(i)
+            if wi and wi.getItem then
+                local item = wi:getItem()
+                if item and item.getBodyLocation then
+                    local loc = item:getBodyLocation()
+                    if loc then locs[#locs + 1] = loc end
+                end
+            end
+        end
+        if #locs == 0 then break end
+        for _, loc in ipairs(locs) do
+            pcall(function() player:setWornItem(loc, nil) end)
+        end
+    end
+end
+
 -- --------------------------------------------------------------------------
 -- 初期装備セットアップ (設計書 3.3)
 -- B42 確認済み API: getInventory / AddItem / setWornItem / getBodyLocation /
@@ -46,13 +95,16 @@ local function setupInitialEquipment(player)
     local inventory = player:getInventory()
     if not inventory then return end
 
+    stripAllWornItems(player)
+
     -- 既存アイテムを全削除 (ItemContainer:clear は B41/B42 共通)
     inventory:clear()
 
-    -- 病院着を着用状態で追加
+    -- 病院着を着用状態で追加（耐久はぼろぼろ＝設計書どおり 5%）
     local ok, err = pcall(function()
         local gown = inventory:AddItem("Base.HospitalGown")
         if gown then
+            applyRaggedCondition(gown)
             player:setWornItem(gown:getBodyLocation(), gown)
         end
     end)
@@ -60,21 +112,58 @@ local function setupInitialEquipment(player)
         Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Gown:ERR:" .. tostring(err), "WARN")
     end
 
-    -- ガスマスク (耐久値 5%)
+    -- ガスマスク（ぼろぼろ）
     -- B42: Base.GasMask は存在しない。正しくは Base.Hat_GasMask (with filter drainable)
     local mask = inventory:AddItem("Base.Hat_GasMask")
-    if mask then
-        mask:setCondition(math.max(1, math.ceil(mask:getConditionMax() * 0.05)))
-    end
+    if mask then applyRaggedCondition(mask) end
 
-    -- ハザマットスーツ (耐久値 5%)
+    -- ハザマットスーツ（ぼろぼろ）
     local hazmat = inventory:AddItem("Base.HazmatSuit")
-    if hazmat then
-        hazmat:setCondition(math.max(1, math.ceil(hazmat:getConditionMax() * 0.05)))
-    end
+    if hazmat then applyRaggedCondition(hazmat) end
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Setup:OK", "INFO")
+    end
+end
+
+-- --------------------------------------------------------------------------
+-- §3.2 喉の負傷（開始時に一度適用）
+-- MDD: 即死回避のため DeepWound は使わない。Throat があれば優先、なければ Neck。
+-- 「点滴破片」は存在する API のみ pcall で付与（無ければ痛み・擦り傷・出血のみ）
+-- --------------------------------------------------------------------------
+
+---@param player IsoPlayer
+local function applyPrologueThroatInjury(player)
+    if not player then return end
+    local bd = player.getBodyDamage and player:getBodyDamage() or nil
+    if not bd or not bd.getBodyPart then return end
+
+    local part = nil
+    if BodyPartType and BodyPartType.Throat then
+        part = bd:getBodyPart(BodyPartType.Throat)
+    end
+    if not part and BodyPartType and BodyPartType.Neck then
+        part = bd:getBodyPart(BodyPartType.Neck)
+    end
+    if not part then return end
+
+    if part.setAdditionalPain then part:setAdditionalPain(60.0) end
+    if part.AddDamage then part:AddDamage(1.5) end
+    if part.setScratched then part:setScratched(true, false) end
+    if part.setBleedingTime then part:setBleedingTime(5.0) end
+
+    pcall(function()
+        if part.setHaveGlass then
+            part:setHaveGlass(true)
+        elseif part.setSplinter then
+            part:setSplinter(true)
+        elseif part.setEmbeddedGlass then
+            part:setEmbeddedGlass(true)
+        end
+    end)
+
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        Z_TRACER.EmitTrace("NE_SCENE", "Throat", "PrologueInjury:APPLIED", "INFO")
     end
 end
 
@@ -227,11 +316,8 @@ end
 
 -- --------------------------------------------------------------------------
 -- シネマティック演出 (設計書 3.2)
--- バニラ確認済み:
---   ISModalDialog:new(x,y,w,h,text,yesno,target,onclick,player,p1,p2)
---   ISModalDialog:onClick → self:destroy() を先行呼び出し後に onclick を呼ぶため
---   コールバック内での destroy() の二重呼び出しは不要
---   翻訳キーは Translate/JP/UI.json (既存) から getText で参照
+-- 暗転系 API は使わず、ページダイアログを表示。
+-- ページ終了時またはエラー時はそのままインゲームを開始。
 -- --------------------------------------------------------------------------
 
 ---@param player IsoPlayer
@@ -279,17 +365,7 @@ local function showIntroDialogue(player)
             if sq then
                 sq:splatBlood(5, 5)
                 player:playSound("Vomit")
-                local bd = player:getBodyDamage()
-                if bd then
-                    local neck = bd:getBodyPart(BodyPartType.Neck)
-                    if neck then
-                        neck:setAdditionalPain(60.0)
-                        neck:AddDamage(1.5)
-                        -- generateScratch は BodyPart に存在しないため擦り傷は setScratched で同等化
-                        neck:setScratched(true, false)
-                        neck:setBleedingTime(5.0)
-                    end
-                end
+                -- 身体症状は開始時 applyPrologueThroatInjury で適用済み（二重デバフ回避）
                 player:Say(getText("UI_NE_Start_3_ThroatPain"))
             elseif Z_TRACER and Z_TRACER.EmitTrace then
                 Z_TRACER.EmitTrace("NE_SCENE", "Intro", "NeckWoundPage:sq=nil|SKIP", "WARN")
@@ -297,7 +373,7 @@ local function showIntroDialogue(player)
         end
 
         -- 画面中央座標を計算
-        -- getCore():getScreenWidth/Height() は CoopOptionsScreen.lua:371-372 で確認済み
+        -- LuaLS / バインディング上は Core のインスタンスメソッドとして getCore():getScreenWidth() 形式
         -- ISModalDialog:new に x=0,y=0 を渡すとマウス位置起点になるため明示指定が必要
         -- (ISModalDialog.lua:192-207 参照)
         local DLG_W, DLG_H = 380, 180
@@ -363,8 +439,9 @@ local function runStartScene(player, skipCinematic)
     -- テレポート: B42 バニラ確認済み (DebugContextMenu.lua:1175)
     player:teleportTo(START_X, START_Y, START_Z)
 
-    -- 初期状態のセットアップ
+    -- 初期状態のセットアップ（装着全解除 → 病院着のみ再装着、設計書 3.3）
     NE.InitialEvent.setupInitialState(player)
+    applyPrologueThroatInjury(player)
 
     -- 演出の実行
     if skipCinematic then
@@ -413,6 +490,7 @@ end
 -- --------------------------------------------------------------------------
 -- イベント登録
 -- --------------------------------------------------------------------------
+Events.OnCreatePlayer.Remove(OnCreatePlayer)
 Events.OnCreatePlayer.Add(OnCreatePlayer)
 
 if Z_TRACER and Z_TRACER.EmitTrace then

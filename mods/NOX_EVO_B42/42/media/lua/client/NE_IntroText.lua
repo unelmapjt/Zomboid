@@ -1,39 +1,59 @@
 -- --------------------------------------------------------------------------
--- NE_IntroText.lua
--- Role: 起動時のブラックスクリーン・イントロテキストを NOX: EVOLVED 専用に上書きする
+-- NE_IntroText.lua (Build 42)
+-- Role: タイトル画面（MainScreen）の背景差し替え
+-- MDD §13.x (Title Screen Override)
 -- --------------------------------------------------------------------------
 
-require "OptionScreens/ISSceneIntro"
+require "OptionScreens/MainScreen"
 
-local original_ISSceneIntro_createChildren = ISSceneIntro.createChildren
+-- 背景テクスチャと状態管理
+local NEMainScreen = {}
 
-function ISSceneIntro:createChildren()
-    -- オリジナルの処理を先に走らせる（UI要素の生成など）
-    original_ISSceneIntro_createChildren(self)
-
-    -- 現在のゲームモードまたはチャレンジ名を確認
-    -- Core.getGameMode() が "Challenge" かどうかで判定
-    local isNoxEvolved = false
-    
-    -- チャレンジ名を特定（MainScreen.instance.desc.name 等で判定可能）
-    -- B42 では Challenge 選択時に MainScreen.instance.desc がセットされる
-    if MainScreen.instance and MainScreen.instance.desc and MainScreen.instance.desc.name == "NOX: EVOLVED" then
-        isNoxEvolved = true
-    end
-
-    -- デバッグ時や強制適用フラグがある場合はここで判定可能
-    if isNoxEvolved then
-        -- テキスト行を NOX: EVOLVED 専用の 5 行に差し替える
-        -- バニラは通常 3 行だが、ISSceneIntro は self.lines の要素数分フェードを繰り返す
-        self.lines = {
-            getText("UI_NE_Intro_1"),
-            getText("UI_NE_Intro_2"),
-            getText("UI_NE_Intro_3"),
-            getText("UI_NE_Intro_4"),
-            getText("UI_NE_Intro_5")
-        }
-        
-        -- フェード速度や待機時間を調整したい場合は以下のプロパティを操作可能
-        -- self.displayTime = 200 -- 1行の表示時間
+local function initTextures(self)
+    if not self.noxTitleTextureBG then
+        self.noxTitleTextureBG = getTexture("media/ui/pztitle_colour.png")
+        self.noxAlphaBG = 0
     end
 end
+
+-- MainScreen:initialise を拡張してテクスチャをロード
+local original_MainScreen_initialise = MainScreen.initialise
+function MainScreen:initialise()
+    original_MainScreen_initialise(self)
+    initTextures(self)
+end
+
+-- MainScreen.prerender をフックして背景を描画
+local original_MainScreen_prerender = MainScreen.prerender
+function MainScreen:prerender()
+    -- 必ず先にバニラ prerender を実行する（先に return するとメニューがクリック不能になる）
+    original_MainScreen_prerender(self)
+
+    -- NOX 差し替え背景のみスキップ（プレイ中／ゲーム由来のメニュー）。getWorld はメニュー中も真になり得るため使わない
+    if getPlayer() ~= nil or self.inGame == true then
+        self.noxAlphaBG = 0
+        return
+    end
+
+    -- 初期化の二重保証
+    initTextures(self)
+
+    if self.noxTitleTextureBG then
+        -- alphaの更新
+        if not self.noxAlphaBG then self.noxAlphaBG = 0 end
+        
+        -- ローテーションなどの演出中（Indie Stoneロゴなど）は 0 に固定される可能性があるため、
+        -- 常に僅かずつ加算する
+        self.noxAlphaBG = math.min(1.0, self.noxAlphaBG + 0.005)
+        
+        -- ロゴの背後に隠れないよう、バニラの描画の後に上書き
+        UIManager.DrawTexture(self.noxTitleTextureBG, 0, 0, self.width, self.height, self.noxAlphaBG)
+    end
+end
+
+-- メインメニューに入った際（戻った際）のフェードリセット用
+Events.OnMainMenuEnter.Add(function()
+    if MainScreen.instance then
+        MainScreen.instance.noxAlphaBG = 0
+    end
+end)

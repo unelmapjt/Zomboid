@@ -49,7 +49,36 @@ Events.EveryTenMinutes.Add(checkPhaseShift)
 -- --------------------------------------------------------------------------
 local monologueCooldown = 0
 
+-- B42: stats.health / stats.panic（小文字フィールド）優先。ゲッターはフォールバック。
+local function readHealthAndPanicFromStats(stats)
+    local health, panic = 1, 0
+    if not stats then return health, panic end
+
+    if type(stats.health) == "number" then
+        health = stats.health
+    elseif stats.getHealth then
+        local h = stats:getHealth()
+        if type(h) == "number" then health = h end
+    elseif type(stats.Health) == "number" then
+        health = stats.Health
+    end
+
+    if type(stats.panic) == "number" then
+        panic = stats.panic
+    elseif stats.getPanic then
+        local p = stats:getPanic()
+        if type(p) == "number" then panic = p end
+    elseif type(stats.Panic) == "number" then
+        panic = stats.Panic
+    end
+
+    return health, panic
+end
+
 local function checkMonologue()
+    if not SandboxVars then return end
+    local noxVars = SandboxVars.NOX_EVO_B42 or SandboxVars.NOX_EVOLVED or SandboxVars.NOX_EVO
+
     local player = getPlayer()
     if not player or player:isDead() or player:isAsleep() then return end
     
@@ -64,7 +93,7 @@ local function checkMonologue()
         return
     end
 
-    if SandboxVars.NOX_EVO_B42.InstinctVoice == false then return end
+    if noxVars and noxVars.InstinctVoice == false then return end
 
     -- 判定開始
     local category = "Mutation"
@@ -121,8 +150,8 @@ local function checkMonologue()
     -- 3. 内省・変異判定 (場所・天候がない場合、あるいはランダムで優先)
     if category == "Mutation" or ZombRand(100) > 30 then
         local dice = ZombRand(100)
-        local health = player:getStats():getHealth()
-        local panic = player:getStats():getPanic()
+        local stats = player.getStats and player:getStats() or nil
+        local health, panic = readHealthAndPanicFromStats(stats)
         
         -- A. 特殊判定：ささやかな喜び (パニックがなく、室内などで稀に発生)
         if panic < 10 and ZombRand(100) < 8 then
