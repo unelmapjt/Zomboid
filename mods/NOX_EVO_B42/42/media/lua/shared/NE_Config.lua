@@ -1,8 +1,17 @@
 --- NOX: EVOLVED Global Configuration
 --- Role: Centralized constants and Sandbox synchronization (SSoT)
+--- NE_Core.lua 削除後の統合先: NE.Switches / InitPlayerData / GetCurrentDay / GetPhaseMult
 --- --------------------------------------------------------------------------
 
 NE = NE or {}
+-- NE.Switches: 他スクリプトで一部だけ設定されていてもデフォルトを維持（NE_Core 相当）
+NE.Switches = NE.Switches or {}
+if NE.Switches.DebugLog == nil then
+    NE.Switches.DebugLog = true
+end
+if NE.Switches.EnableMutation == nil then
+    NE.Switches.EnableMutation = true
+end
 NE.Config = NE.Config or {}
 
 -- 1. 基本定数 (Design §4.1, §4.13)
@@ -18,6 +27,14 @@ NE.Config.LocMult = {
     Sealed  = 0.3    -- 密閉施設（研究所・地下・車両）
 }
 
+-- 室内の NE_CurrentInternalLocMult が TargetLocMult に近づく目安時間（ゲーム内・分）
+-- Open 目標: 約 5 分で外部相当 / Partial・Sealed 目標: 約 30 分で到達（1 分あたり (target-current)/M）
+NE.Config.LocMultConvergenceMinutes = {
+    Open    = 5,
+    Partial = 30,
+    Sealed  = 30,
+}
+
 -- 3. ガスマスク倍率 (Design §4.10)
 NE.Config.MaskMult = {
     GoodMask   = 0.1,   -- 良好 (B41初期値0.0だがB42では0.1に調整)
@@ -27,6 +44,9 @@ NE.Config.MaskMult = {
 
 -- 4. 環境・世界設定
 NE.Config.ExpansionRate = 80.0    -- 汚染半径の拡大速度 (設計 §4.6)
+
+-- ゾーン倍率: Danger→Safe 改善時のヒステリシス（設計書 §4.10、ゲーム内・分）
+NE.Config.ZoneHysteresisMinutes = 30
 
 --------------------------------------------------------------------------
 -- Sandbox Sync Logic (SSoT)
@@ -53,3 +73,77 @@ end
 
 -- グローバル初期化時に一度実行
 NE.refreshSandboxSwitches()
+
+--------------------------------------------------------------------------
+-- NE_Core.lua 相当: ワールド modData 参照（NE_Mutation / NE_PlayerManager 等）
+--------------------------------------------------------------------------
+
+--- 生存日数（NE_WorldManager が getGameTime():getModData().NE_SurvivalDays に同期）
+---@return number
+function NE.GetCurrentDay()
+    local gt = getGameTime()
+    if not gt then
+        return 1
+    end
+    local modData = gt:getModData()
+    if not modData then
+        return 1
+    end
+    local d = modData.NE_SurvivalDays
+    if d == nil or type(d) ~= "number" then
+        return 1
+    end
+    return d
+end
+
+--- 汚染フェーズ倍率（NE_WorldManager が getGameTime():getModData().NE_Phase を設定）
+--- Phase1=1.0 / Phase2=1.5 / Phase3=2.5（Phase4 以降は Phase3 と同倍率）
+---@return number
+function NE.GetPhaseMult()
+    local gt = getGameTime()
+    if not gt then
+        return 1.0
+    end
+    local modData = gt:getModData()
+    if not modData then
+        return 1.0
+    end
+    local phase = modData.NE_Phase
+    if phase == nil or type(phase) ~= "number" then
+        return 1.0
+    end
+    if phase <= 1 then
+        return 1.0
+    end
+    if phase == 2 then
+        return 1.5
+    end
+    return 2.5
+end
+
+--- プレイヤーの初期 ModData をセットアップし、Phase 4.3 の基点を初期化する
+---@param player IsoPlayer
+function NE.InitPlayerData(player)
+    if not player then
+        return
+    end
+    local modData = player:getModData()
+    if not modData then
+        return
+    end
+    -- 1. 変異基本データ初期化
+    modData.NE_MutationLevel = 0.0
+    modData.NE_SetupFinished = true
+
+    -- 2. Phase 4.3 動的汚染計算用: 初期倍率とタイムスタンプの設定（開始点 1.0）
+    modData.NE_CurrentInternalLocMult = 1.0
+    local gt = getGameTime()
+    modData.NE_LastMutationUpdateTimestamp = gt and (gt:getWorldAgeHours() * 60) or 0
+
+    -- 3. シナリオ・リマインド管理用
+    modData.NE_HiroReminderCount = 0
+    modData.NE_HiroRemindersSilenced = false
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        Z_TRACER.EmitTrace("NE_INIT", "PlayerData", "Initialized:OK", "INFO")
+    end
+end

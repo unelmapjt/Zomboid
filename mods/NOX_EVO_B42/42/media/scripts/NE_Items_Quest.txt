@@ -24,9 +24,6 @@ module NOX_EVO_B42
         DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Alpha,
         Icon = Vial,
         Weight = 0.5,
-        ColorRed = 1.0,
-        ColorGreen = 0.2,
-        ColorBlue = 0.2,
         Tags = Quest;Sample;Dangerous,
         Tooltip = Tooltip_NE_Nucleus,
     }
@@ -38,9 +35,6 @@ module NOX_EVO_B42
         DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Beta,
         Icon = Vial,
         Weight = 0.5,
-        ColorRed = 0.2,
-        ColorGreen = 0.2,
-        ColorBlue = 1.0,
         Tags = Quest;Sample;Dangerous,
         Tooltip = Tooltip_NE_Nucleus,
     }
@@ -52,9 +46,6 @@ module NOX_EVO_B42
         DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Gamma,
         Icon = Vial,
         Weight = 0.5,
-        ColorRed = 0.2,
-        ColorGreen = 1.0,
-        ColorBlue = 0.2,
         Tags = Quest;Sample;Dangerous,
         Tooltip = Tooltip_NE_Nucleus,
     }
@@ -66,9 +57,6 @@ module NOX_EVO_B42
         DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Delta,
         Icon = Vial,
         Weight = 0.5,
-        ColorRed = 1.0,
-        ColorGreen = 1.0,
-        ColorBlue = 0.2,
         Tags = Quest;Sample;Dangerous,
         Tooltip = Tooltip_NE_Nucleus,
     }

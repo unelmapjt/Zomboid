@@ -6,4 +6,4 @@ modversion=2
 version=42.1
 supported=42
 author=UnelmaPJT
-require=B42ModOptions,errorMagnifier,ChuckleberryFinnAlertSystem,HelicopterEventExpansionFramework
+require=B42ModOptions,HelicopterEventExpansionFramework,Bandits2
