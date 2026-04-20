@@ -6,8 +6,7 @@ module NOX_EVO_B42
     item B17_AccessKey
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NOX_EVO_B42_B17_AccessKey,
-        Icon = KeyID,
+        Icon = Key_Blank,
         Weight = 0.05,
         
         /* 重要なアイテム設定 */
@@ -21,44 +20,40 @@ module NOX_EVO_B42
     item NE_Nucleus_Alpha
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Alpha,
         Icon = Vial,
         Weight = 0.5,
         Tags = Quest;Sample;Dangerous,
-        Tooltip = Tooltip_NE_Nucleus,
+        Tooltip = NOX_EVO_B42_NE_Nucleus_Tooltip,
     }
 
     /* Beta - 青 (Riverside) */
     item NE_Nucleus_Beta
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Beta,
         Icon = Vial,
         Weight = 0.5,
         Tags = Quest;Sample;Dangerous,
-        Tooltip = Tooltip_NE_Nucleus,
+        Tooltip = NOX_EVO_B42_NE_Nucleus_Tooltip,
     }
 
     /* Gamma - 緑 (Brandenburg) */
     item NE_Nucleus_Gamma
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Gamma,
         Icon = Vial,
         Weight = 0.5,
         Tags = Quest;Sample;Dangerous,
-        Tooltip = Tooltip_NE_Nucleus,
+        Tooltip = NOX_EVO_B42_NE_Nucleus_Tooltip,
     }
 
     /* Delta - 黄 (Rosewood) */
     item NE_Nucleus_Delta
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NOX_EVO_B42_NE_Nucleus_Delta,
         Icon = Vial,
         Weight = 0.5,
         Tags = Quest;Sample;Dangerous,
-        Tooltip = Tooltip_NE_Nucleus,
+        Tooltip = NOX_EVO_B42_NE_Nucleus_Tooltip,
     }
 
     /* ------------------------------------------- */
@@ -67,7 +62,6 @@ module NOX_EVO_B42
     item NE_ConfidentialBriefcase
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NOX_EVO_B42_NE_ConfidentialBriefcase,
         Icon = Suitcase,
         Weight = 2.0,
         
@@ -81,7 +75,6 @@ module NOX_EVO_B42
     item NE_SecretReport
     {
         ItemType = base:literature,
-        DisplayName = DisplayName_NOX_EVO_B42_NE_SecretReport,
         Icon = SheetMusic,
         Weight = 0.1,
         

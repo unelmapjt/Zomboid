@@ -6,7 +6,6 @@ module NOX_EVO_B42
     item NE_GasMask
     {
         ItemType = base:clothing,
-        DisplayName = DisplayName_NE_GasMask,
         Icon = GasMask,
         ClothingItem = GasMask,
         BodyLocation = Mask,
@@ -19,13 +18,12 @@ module NOX_EVO_B42
         
         /* タグ */
         Tags = Clothing;Armor;Mask;Protective,
-        Tooltip = Tooltip_NE_GasMask,
+        Tooltip = NOX_EVO_B42_NE_GasMask_Tooltip,
     }
 
     item NE_HazmatSuit
     {
         ItemType = base:clothing,
-        DisplayName = DisplayName_NE_HazmatSuit,
         Icon = HazmatSuit,
         ClothingItem = HazmatSuit,
         BodyLocation = FullBody,
@@ -37,17 +35,16 @@ module NOX_EVO_B42
         NeckProtection = TRUE,
         
         Tags = Clothing;Armor;Suit;Protective,
-        Tooltip = Tooltip_NE_HazmatSuit,
+        Tooltip = NOX_EVO_B42_NE_HazmatSuit_Tooltip,
     }
 
     item NE_FilterReload
     {
         ItemType = base:normal,
-        DisplayName = DisplayName_NE_FilterReload,
         Icon = Battery, // リカラーして使用
         Weight = 0.3,
         Tags = Tool;Filter;Reload,
-        Tooltip = Tooltip_NE_FilterReload,
+        Tooltip = NOX_EVO_B42_NE_FilterReload_Tooltip,
     }
 
     /* ------------------------------------------- */
@@ -57,7 +54,6 @@ module NOX_EVO_B42
     item NE_DeconSpray
     {
         ItemType = base:weapon,
-        DisplayName = DisplayName_NE_DeconSpray,
         Icon = FireExtinguisher,
         Weight = 4.0,
         
@@ -66,32 +62,30 @@ module NOX_EVO_B42
         
         StaticModel = Extinguisher,
         Tags = Tool;Decon;Heavy,
-        Tooltip = Tooltip_NE_DeconSpray,
+        Tooltip = NOX_EVO_B42_NE_DeconSpray_Tooltip,
     }
 
     /* 除菌手榴弾 - 発煙弾ベース */
     item NE_DeconGrenade
     {
         ItemType = base:weapon,
-        DisplayName = DisplayName_NE_DeconGrenade,
         Icon = SmokeBomb,
         Weight = 0.5,
         
         Explosive = TRUE,
         Tags = Weapon;Explosive;Decon,
-        Tooltip = Tooltip_NE_DeconGrenade,
+        Tooltip = NOX_EVO_B42_NE_DeconGrenade_Tooltip,
     }
 
     /* 自家製除菌液 - 漂白剤ベース */
     item NE_HomemadeSanitizer
     {
         ItemType = base:drainable,
-        DisplayName = DisplayName_NE_HomemadeSanitizer,
         Icon = Bleach,
         Weight = 1.0,
         UseDelta = 0.1,
         
         Tags = Medical;Purify,
-        Tooltip = Tooltip_NE_HomemadeSanitizer,
+        Tooltip = NOX_EVO_B42_NE_HomemadeSanitizer_Tooltip,
     }
 }

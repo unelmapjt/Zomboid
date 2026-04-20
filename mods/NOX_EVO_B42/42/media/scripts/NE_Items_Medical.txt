@@ -6,7 +6,6 @@ module NOX_EVO_B42
     item NE_AntiMutantDrug
     {
         ItemType = base:food,
-        DisplayName = DisplayName_NE_AntiMutantDrug,
         Icon = Vitamins,
         Weight = 0.1,
         
@@ -16,7 +15,7 @@ module NOX_EVO_B42
         
         /* タグ定義 (Build 42) */
         Tags = Medical;Pill;SicknessMedicine,
-        Tooltip = Tooltip_NE_AntiMutantDrug,
+        Tooltip = NOX_EVO_B42_NE_AntiMutantDrug_Tooltip,
     }
 
     /* ------------------------------------------- */
@@ -25,7 +24,6 @@ module NOX_EVO_B42
     item NE_Retardant
     {
         ItemType = base:food,
-        DisplayName = DisplayName_NE_Retardant,
         Icon = BetaBlockers,
         Weight = 0.1,
         
@@ -35,7 +33,7 @@ module NOX_EVO_B42
         
         /* タグ定義 (Build 42) */
         Tags = Medical;Pill;EnergyMedicine,
-        Tooltip = Tooltip_NE_Retardant,
+        Tooltip = NOX_EVO_B42_NE_Retardant_Tooltip,
     }
 
     /* ------------------------------------------- */
@@ -44,7 +42,6 @@ module NOX_EVO_B42
     item NE_Serum
     {
         ItemType = base:food,
-        DisplayName = DisplayName_NE_Serum,
         Icon = Inhaler,
         Weight = 0.2,
         
