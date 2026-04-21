@@ -17,3 +17,14 @@
 | 破壊的変更の事前リストアップ | `.cursorrules` §1.6 |
 | 現状の要約 | `.cursorrules` §3.1 |
 | ブラックリストの絶対参照 | `.cursorrules` §2.2 |
+
+### 1.5 【現状の要約（毎回答の義務）】
+- すべての回答の冒頭に、現在の「MOD の論理状態」を簡潔に記載し、ユーザーとの認識のズレをゼロにせよ。
+
+### 1.6 EXECUTION GATE HEADER MANDATE
+Cursor への指示（Step 0-7 形式）を作成する際は、必ず冒頭に以下のヘッダーを付与し、推論の物理遮断を明示せよ：
+`EXECUTION GATE: Allowed Source registry ONLY | Unknown API BLOCK | Missing info ASK ONLY | No inference allowed`
+
+---
+
+## 2. 禁則事項 (Blacklist)
