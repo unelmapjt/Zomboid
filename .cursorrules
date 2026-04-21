@@ -120,6 +120,11 @@ B42 の仕様に迷った際は、必ずバニラの `media/` 以下のファイ
 ### 1.6 DESTRUCTIVE CHANGE DISCLOSURE
 ファイルの削除・関数の集約・API の差し替えを行う際は、影響を受ける関数・変数名をすべてリストアップし、ユーザーに破壊の規模を明示してから着手せよ。
 
+### 1.7 EXECUTION GATE HEADER MANDATE
+Cursor への指示（Step 0-7 形式）を作成する際は、必ず冒頭に以下のヘッダーを付与し、推論の物理遮断を明示せよ：
+`EXECUTION GATE: Allowed Source registry ONLY | Unknown API BLOCK | Missing info ASK ONLY | No inference allowed`
+このヘッダーがない指示は、本プロジェクトにおいて「実行権限なし」と見なす。
+
 ---
 
 ## 2. KNOWLEDGE & DATA REGISTRY
