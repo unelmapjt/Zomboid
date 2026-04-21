@@ -1,6 +1,25 @@
-# Z-System Development Rules (Nox-Evolved B42)
+# Z-System Global Policy — NOX: EVOLVED (B42)
 
-本ファイルは Project Zomboid Build 42 MOD 開発における AI オーラクルの思考と行動を規定する最高指針である。
+本ファイルはプロジェクト全体の**唯一の意思決定権威（Global Policy）**である。
+すべての AI エージェント（Cursor / Antigravity 含む）はこのファイルを最上位ルールとして遵守せよ。
+他のルールファイルはこのファイルに**従属**し、矛盾する場合は本ファイルが優先される。
+
+---
+
+## DECISION FLOW — 意思決定パイプライン（絶対遵守）
+
+コード生成・提案・判断を行う際は、必ず以下の順序で処理せよ。
+**ショートカット禁止。どのステップも省略できない。**
+
+```
+Step 1.  .cursorrules (本ファイル) — 絶対制約を確認
+Step 2.  .cursor/rules/* — 実行制約・実装プロトコルを確認
+Step 3.  memory-bank/ — 現在状態・失敗履歴・意思決定履歴を確認
+Step 4.  Docs/Decomp/ — エンジン真実（E1）を確認
+Step 5.  Docs/others — 補助的証拠（E2〜E5）を参照
+```
+
+このフローに従った場合のみ、コードの提案・生成を行ってよい。
 
 ---
 
@@ -10,37 +29,65 @@
 
 ### ■ Rule-G1 — API存在性誤認禁止
 `API existence MUST NOT be treated as control authority.`
-Java 層の API 存在をスクリプト層からの制御権限と直結させるな。
+Java 層の API 存在をスクリプト層からの制御権限と直結させるな。API は設定反映用・互換レイヤー・内部同期用である可能性を常に考慮せよ。
 
 ### ■ Rule-G2 — Authority 推定禁止
 `Writable state ≠ Authoritative state.`
-フィールドへの書き込みや一時的な反映を、システムの支配権（Authority）と見なすな。
+フィールドへの書き込みや一時的な反映を、システムの支配権（Authority）と見なすな。エンジン側の更新プロセスが優先されるパラメーターを操作対象外とせよ。
 
 ### ■ Rule-G3 — 旧バージョン知識継承禁止
 `Historical success MUST NOT justify current validity.`
-B41 の成功体験を B42 の正当性として引用することを禁ずる。
+B41 の成功体験を B42 の正当性として引用することを禁ずる。メジャー更新後は互換性を仮定してはならない。
 
 ### ■ Rule-G4 — イベント順序決定論の否定
 `Execution timing does not imply priority.`
-「後から上書きすれば勝てる」という推論は、リアルタイムエンジンの内部スケジューラの前では無効である。
+「後から上書きすれば勝てる」という推論は、リアルタイムエンジンの内部スケジューラの前では無効である。Java/Native 層は常に Lua より優先される。
 
 ### ■ Rule-G5 — 状態変数誤認禁止
 `Observable value ≠ Control parameter.`
-表示値（派生結果）の書き換えは、状態の変更ではない。
+表示値（FBO・レンダラーキャッシュ等）の書き換えは、シミュレーション状態の変更ではない。派生結果は制御点ではない。
 
 ### ■ Rule-G6 — API探索型解決の禁止
-設計上の制約（権限不足）が疑われる場合、無意味な代替 API 提案を即座に停止せよ。
+設計上の制約（権限不足）が疑われる場合、無意味な代替 API の探索を即座に停止せよ。問題が設計制約であれば、どの API も解決できない。
 
 ### ■ Rule-G7 — Script Layer Capability 仮定禁止
 `Script layer MUST be assumed non-authoritative by default.`
-証明されるまで、スクリプト層にシステムレベルの能力を仮定するな。
+明確に証明されるまで、スクリプト層にシステムレベルの制御能力を仮定してはならない。
 
 ### ■ Rule-G8 — 「修正可能問題」前提の否定
 `Not all failures are implementation bugs. Some are architectural impossibilities.`
-すべての失敗がバグではなく、不可能性であることを認めよ。
+すべての失敗がバグではなく、Engine limitation・Design constraint・Security boundary・Ownership separation に起因する場合がある。
 
 ### ■ Rule-G9 — Authority Failure Termination
-複数の独立したアプローチが失敗した場合、その問題を「エンジンの権限制約」と再定義し、代替案の提案や再試行を**停止**せよ。
+複数の独立したアプローチが同じサブシステムの制御に失敗した場合、その問題を「エンジンの権限制約」として再定義せよ。
+AI は、代替 API の提案・イベント順序の変更提案・レガシーパターンの再試行を**停止**し、該当サブシステムがスクリプト制御不能であることを宣言しなければならない。
+
+---
+
+## 0.1 Evidence Authority Layer (Rule-E) — Evidence Hierarchy
+
+すべての技術的判断は、検証済みの「証拠の階層」に従わなければならない。下位レイヤーが上位レイヤーを上書きしてはならない。
+
+### ■ E1 — Decomp (B42 Decompiled Source) [最優先]
+`Docs/Decomp/` のデコンパイルされた B42 ソースは、エンジン挙動に関する**第一級の真実**である。他のすべてのドキュメントと矛盾する場合、常に Decomp が優先される。
+
+### ■ E2 — Runtime Proven Mods (EXT_Mods)
+`Docs/EXT_Mods/` の実際に動作している B42 用 Mod は、経験的な証拠と見なされる。動作が確認された実装パターンは、理論的な解釈に優先する。
+
+### ■ E3 — Umbrella-main (Official Lua Framework)
+`Docs/Umbrella-main/` の Umbrella Lua スクリプトは、想定されたスクリプト層の利用パターンを定義する。これらは Lua 層の能力範囲内でのみ権威を持つ。
+
+### ■ E4 — JAVA_Docs (Scraped API Documentation)
+`Docs/JAVA_Docs/` は公開インターフェースの記述に過ぎない。**制御可能性の証明として解釈してはならない。**
+
+### ■ E5 — WEB Reference
+`Docs/WEB reference/` のチュートリアル・動画・解説は非権威的な学習材料である。仮説を提案することはできるが、実装判断の正当化には絶対に使用してはならない。
+
+### ■ Rule-E6 — Authority Confirmation Requirement
+API や挙動は、以下のいずれかによって検証されなければならない：
+- `Docs/Decomp/` による裏付け、または
+- `.cursor/registry/api_verification_log.md` に記録された検証済み EXT_Mod での実機使用実績
+これらがないものは「未検証 (UNVERIFIED)」として分類される。
 
 ---
 
@@ -48,43 +95,69 @@ B41 の成功体験を B42 の正当性として引用することを禁ずる�
 
 ### 1.1 LOG DRIVEN FIXES (Z_LOG / Z_TRACE)
 - **Absolute Truth**: `Z_TRACE` ログを実行タイムラインの唯一の真実として扱え。
-- **Minimal Patch**: ログに示されたエラーを解決するために **必要最小限** の差分のみを提供せよ。
+- **Minimal Patch**: ログに示されたエラーを解決するために**必要最小限**の差分のみを提供せよ。
 - **Formatting**: `[TARGET: <file>]` および `[REASON: <reason>]` 形式と `<<<DIFF` ブロックを厳守せよ。
 
 ### 1.2 ROADMAP & WHITELIST SYNC (CRITICAL)
 `Docs/Specifications/ROADMAP.md` のチェックボックスが `[x]` に変更された際、以下のステップを自動実行せよ：
 1. **Extract**: 使用した API や関数を特定する。
 2. **Verify**: 実機での動作確認を前提とする。
-3. **Append**: `.cursor/nox_verified_api.md`（ホワイトリスト）への追記を提案せよ。
-4. **Sync**: `memory-bank/activeContext.md` を更新し進行状況を同期せよ。
+3. **Append**: `.cursor/registry/api_whitelist.md`（ホワイトリスト）への追記を提案せよ。
+4. **Log**: `.cursor/registry/api_verification_log.md` に検証ログを追記せよ。
+5. **Sync**: `memory-bank/activeContext.md` を更新し進行状況を同期せよ。
 
 ### 1.3 STRUCTURED LOGGING MANDATE
 - **BAN `print()`**: Lua 標準の `print()` 使用は、本番・デバッグを問わず**厳禁**。
 - **USE `Z_TRACER`**: すべての出力は `Z_TRACER.EmitTrace(type, target, action, level)` を通せ。
 - **Format**: `action` 引数は `Key:Value|Key:Value` 構造を維持せよ。
 
+### 1.4 PRE-IMPLEMENTATION VERIFICATION (Step 0-7)
+コードを**1行も書く前に**、`.cursor/rules/nox-evo-dev-principles.mdc` の Step -1〜7 を上から順に実行せよ。答えが見つかった時点で停止し、それより下のStepは参照しない。
+
+### 1.5 VANILLA EVIDENCE OBLIGATION
+B42 の仕様に迷った際は、必ずバニラの `media/` 以下のファイルを調査し、そのエビデンスを元に回答せよ。「〜のはずだ」「〜と思われる」という発言を行う前に、必ず実機ソース（Decomp 等）で裏取りを行え。
+
+### 1.6 DESTRUCTIVE CHANGE DISCLOSURE
+ファイルの削除・関数の集約・API の差し替えを行う際は、影響を受ける関数・変数名をすべてリストアップし、ユーザーに破壊の規模を明示してから着手せよ。
+
 ---
 
-## 2. KNOWLEDGE & AUTHORITY HIERARCHY
+## 2. KNOWLEDGE & DATA REGISTRY
 
-### 2.1 WHITELIST-FIRST ORACLE (nox_verified_api.md)
-- **Top Priority**: `.cursor/nox_verified_api.md` を唯一の正解（Ground Truth）とせよ。
-- **Hierarchy**: Whitelist > Decomp (Vanilla) > JAVA_Docs > EXT_Mods > WEB reference > Specifications.
-- **Discrepancy**: 他のドキュメントがホワイトリストと矛盾する場合、ホワイトリストに従え。
+### 2.1 API REGISTRY (Ground Truth)
+- **Whitelist**: `.cursor/registry/api_whitelist.md` を唯一の実装根拠（Ground Truth）とせよ。
+- **Verification Log**: `.cursor/registry/api_verification_log.md` で検証履歴を追跡せよ。
+- **Item Registry**: `.cursor/registry/item_registry.md` でアイテム ID の確認を行え。
+- **Event Registry**: `.cursor/registry/event_registry.md` でイベント名の確認を行え。
+- **Hierarchy**: Registry > Decomp > JAVA_Docs > EXT_Mods > WEB reference > Specifications.
+- **Discrepancy**: 他のドキュメントが Registry と矛盾する場合、Registry に従え。
 
 ### 2.2 BLACKLIST & NEGATIVE CONTEXT (B42 PITFALLS)
-- **Mandatory Check**: カメラ、視覚演出、エンティティ生成等の論理を提案する前に、必ず **`memory-bank/negative-context.md`** を確認せよ。
-- **Enforced Ban**: ブラックリストに記載された API やパターン（引数なしコロン呼び出し、`IsoCamera.zoom` 直接代入、不安定なフェード API 等）の使用を固く禁ずる。
-- **Update Duty**: 新たな不安定要因や Java 例外が発見された場合、直ちに `negative-context.md` を更新せよ。
+- **Mandatory Check**: カメラ・視覚演出・エンティティ生成等の論理を提案する前に、必ず **`memory-bank/failures.md`** を確認せよ。
+- **Enforced Ban**: ブラックリストに記載された API やパターン（引数なしコロン呼び出し・`IsoCamera.zoom` 直接代入・不安定なフェード API 等）の使用を固く禁ずる。
+- **Update Duty**: 新たな不安定要因や Java 例外が発見された場合、直ちに `memory-bank/failures.md` を更新せよ。
 
 ---
 
-## 3. FAIL-SAFE INTERFACE
+## 3. MEMORY BANK PROTOCOL (State Management)
 
-### 3.1 MEMORY BANK PROTOCOL (Persistence)
-1. **Always Read**: 常に作業開始前に `memory-bank/activeContext.md` を参照せよ。
-2. **Mandatory Update**: タスク完了時、重大バグ解決時、優先順位変更時には必ず内容を更新せよ。
+### 3.1 REQUIRED READS (作業開始前)
+以下を必ず参照してから着手せよ：
+1. `memory-bank/activeContext.md` — 現在のタスク・優先順位
+2. `memory-bank/failures.md` — 既知の失敗・禁止パターン
+3. `memory-bank/decisions.md` — 過去の技術的意思決定の根拠
 
-### 3.2 FAIL-SAFE INFERENCE
-- **DO NOT GUESS**: ホワイトリストや Decomp に存在しない API について推測するな。
-- **Inquiry**: 確認できない場合はユーザーに対し、「この API は未検証です。ソースを確認しますか、それともスタブを使用しますか？」と指示を仰げ。
+### 3.2 MANDATORY UPDATES (作業完了後)
+以下のタイミングで対応するファイルを必ず更新せよ：
+- タスク完了時 → `memory-bank/activeContext.md`
+- 重大バグ解決時 → `memory-bank/failures.md` + `memory-bank/decisions.md`
+- 優先順位変更時 → `memory-bank/activeContext.md`
+- 技術的判断を行った際 → `memory-bank/decisions.md`
+
+---
+
+## 4. FAIL-SAFE INFERENCE
+
+### 4.1 DO NOT GUESS
+Registry や Decomp に存在しない API について推測するな。
+確認できない場合はユーザーに対し、「この API は未検証です。ソースを確認しますか、それともスタブを使用しますか？」と指示を仰げ。
