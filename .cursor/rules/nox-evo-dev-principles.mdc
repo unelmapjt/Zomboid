@@ -10,7 +10,7 @@
 コードを**1行も書く前に**、以下のStepを上から順番に実行すること。答えが見つかった時点で停止し、それより下のStepは参照しない。
 
 ### Step -1 🚫 ブラックリスト (Blacklist)
-**`memory-bank/negative-context.md`** を確認する。
+**`memory-bank/failures.md`** を確認する。
 
 - 使おうとしているAPI・関数・パターンが記載されているか？
 - **→ ある**: **絶対に使用しない。** 代替手段を検討するか、仕様を見直す。
@@ -19,7 +19,7 @@
 ---
 
 ### Step 0 ✅ ホワイトリスト（最優先）
-**`.cursor/nox_verified_api.md`** を確認する。
+**`.cursor/registry/api_whitelist.md`** を確認する。
 
 - 使おうとしているAPI・関数・定数が記載されているか？
 - **→ ある**: そのまま使う。それ以降のStepは不要。
@@ -213,6 +213,10 @@ end
 
 ## ■ 実装後のホワイトリスト更新
 
-実装がテストで**動作確認**されたら、使用したAPI・定数・パターンを `.cursor/nox_verified_api.md` に追記する。
+実装がテストで**動作確認**されたら、以下のファイルをそれぞれ更新する：
+- **API定義**: `.cursor/registry/api_whitelist.md` に追記する
+- **検証根拠**: `.cursor/registry/api_verification_log.md` に検証ログを追記する
+- **アイテムID**: `.cursor/registry/item_registry.md` に追記する（アイテム関連の場合）
+- **イベント名**: `.cursor/registry/event_registry.md` に追記する（イベント関連の場合）
 
 > 「このコードを本番に使うか？」ではなく「**実際に動いたか？**」を確認してから登録する。
