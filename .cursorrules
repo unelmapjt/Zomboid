@@ -125,6 +125,9 @@ Cursor への指示（Step 0-7 形式）を作成する際は、必ず冒頭に�
 `EXECUTION GATE: Allowed Source registry ONLY | Unknown API BLOCK | Missing info ASK ONLY | No inference allowed`
 このヘッダーがない指示は、本プロジェクトにおいて「実行権限なし」と見なす。
 
+### 1.8 SYSTEM SYNC OBLIGATION
+Rule-G/E や EXECUTION GATE などの主要な推論ルールの追加・変更時には、必ず `.cursorrules` と `.antigravityrules` の両方を同時に更新しなければならない。一方が古くなることによる「思考（Antigravity）」と「実体（Cursor）」の認識のズレは、システムの破綻を意味する。
+
 ---
 
 ## 2. KNOWLEDGE & DATA REGISTRY
