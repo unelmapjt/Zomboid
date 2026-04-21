@@ -44,10 +44,10 @@ local _cacheX, _cacheY, _cacheZ, _cacheMult = -1, -1, -1, 0
 ---@param x number プレイヤーX
 ---@param y number プレイヤーY
 ---@param z number プレイヤーZ
----@return number zoneMultiplier 最終的な強度倍率 (0.2 - 2.5)
+---@return number zoneMultiplier 最終的な強度倍率 (0.0 = ホットスポット圏外 … 2.5)
 function NE.GetZoneMultiplier(x, y, z)
-    -- nil 防御: 引数が不正なら最小値を返す
-    if not x or not y or not z then return 0.2 end
+    -- nil 防御: 引数が不正なら汚染なし（0.0）
+    if not x or not y or not z then return 0.0 end
 
     -- タイル単位でのキャッシュ判定
     local floorX, floorY, floorZ = math.floor(x), math.floor(y), math.floor(z)
@@ -67,7 +67,7 @@ function NE.GetZoneMultiplier(x, y, z)
         end
     end
 
-    local maxFoundToxicity = 0.2
+    local maxFoundToxicity = 0.0
     local expansionRadius = 80.0 * survivalDays -- 汚染半径の拡大 (§4.6)
     local floorScale = 5.0 -- 1階層につき水平5タイル分の減衰
 

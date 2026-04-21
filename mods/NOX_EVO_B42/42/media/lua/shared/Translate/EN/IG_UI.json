@@ -17,5 +17,10 @@
   "IGUI_NE_Ending_2_Confirm": "...Do you choose to accept everything and live together?",
   "IGUI_NE_Ending_3_Confirm": "...Do you choose to end this despair along with your own death?",
   "IGUI_NE_Confirm_Yes": "YES",
-  "IGUI_NE_Confirm_No": "NO"
+  "IGUI_NE_Confirm_No": "NO",
+  "UI_NE_Status_Clean": "Clean",
+  "UI_NE_Status_UnStable": "UnStable",
+  "UI_NE_Status_Danger": "Danger",
+  "UI_NE_Status_Critical": "Critical",
+  "UI_NE_Status_EVOLVED": "EVOLVED"
 }

@@ -100,13 +100,36 @@ function NE.UpdateMutation(player, forceRecalc)
     if not player or player:isDead() then return end
     if NE.Switches and NE.Switches.EnableMutation == false then return end
 
-    local square = player:getCurrentSquare()
-    if not square then return end
-
     local modData = player:getModData()
     if not modData then
         return
     end
+
+    -- Bootstrap: NE_MutationLevel の現在値に依存しない（level==0 等の分岐は置かない）
+    if not modData.NE_MutationBootstrapDone then
+        modData.NE_MutationLevel = 20.0
+        modData.NE_MutationBootstrapDone = true
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace(
+                "NE_MUTATION",
+                "Bootstrap",
+                "Fired|context=UpdateMutation|level=20.0",
+                "INFO"
+            )
+        end
+    end
+
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        Z_TRACER.EmitTrace(
+            "NE_MUTATION",
+            "UpdateMutation",
+            "Run|level=" .. tostring(modData.NE_MutationLevel),
+            "INFO"
+        )
+    end
+
+    local square = player:getCurrentSquare()
+    if not square then return end
 
     -- 1. ZoneMultiplier: 毎分 raw を算出し、§4.10 ヒステリシスで適用倍率を決定
     local nowZone = NE_GetWorldMinutes()
@@ -234,12 +257,13 @@ function NE.UpdateMutation(player, forceRecalc)
     end
 
     -- 6. DeltaMutation の算出 (設計書 4.11)
+    -- zoneMult はヒステリシス適用後の値。<= 0 のときは汚染進行を行わず RecoveryRate のみ（通常は負値＝浄化）
     local delta
     if zoneMult > 0 then
-        -- 汚染圏内: 変異進行
+        -- 汚染圏内: 変異進行（delta > 0 になり得る）
         delta = NE.Config.BaseRate * locMult * maskMult * phaseMult * fogMult * zoneMult
     else
-        -- 安全圏内: 自然回復 (設計書 4.3 / 12.2 NaturalRecovery=false がデフォルト)
+        -- 安全圏内: 自然回復（RecoveryRate は NE_Config で負の浄化率）
         delta = NE.Config.RecoveryRate
         if player:isAsleep() then
             delta = delta * NE.Config.SleepMult
@@ -247,7 +271,7 @@ function NE.UpdateMutation(player, forceRecalc)
     end
 
     -- 7. NE_MutationLevel への適用 (設計書 4.13)
-    local newLevel = (modData.NE_MutationLevel or 0) + delta
+    local newLevel = (modData.NE_MutationLevel or 20.0) + delta
     modData.NE_MutationLevel = math.max(0, math.min(newLevel, NE.Config.MaxMutation))
 
     -- 8. デバッグトレース (DEBUG)

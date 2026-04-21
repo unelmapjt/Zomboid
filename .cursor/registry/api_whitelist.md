@@ -136,6 +136,34 @@ imports { Base }
 
 ---
 
+## [Java API] UIElement / ISUIElement
+> 参照: `Docs/Decomp/zombie/ui/UIElement.java`
+> 参照: `Docs/Umbrella-main/library/lua/client/ISUI/ISUIElement.lua`
+
+| メソッド | シグネチャ | 備考 |
+|----------|-----------|------|
+| `drawRect` | `drawRect(x, y, w, h, a, r, g, b)` | 背景・バーの描画。色は0.0-1.0 |
+| `drawText` | `drawText(str, x, y, r, g, b, a, font)` | テキスト描画。fontはUIFont定数 |
+| `drawTextureScaled` | `drawTextureScaled(tex, x, y, w, h, a, r, g, b)` | アイコン等の描画 |
+| `setX` / `setY` | `setX(x)`, `setY(y)` | 座標の更新（ドラッグ等に使用） |
+| `getMouseX` / `getMouseY` | `getMouseX()`, `getMouseY()` | 要素内マウス座標の取得 |
+| `MeasureStringX` | `getTextManager():MeasureStringX(UIFont, String)` | 文字列のピクセル幅を取得 |
+
+## [Global API] Screen / Core
+| メソッド | シグネチャ | 備考 |
+|----------|-----------|------|
+| `getPlayerScreenWidth` | `getPlayerScreenWidth(player)` | 解像度（幅）取得 |
+| `getPlayerScreenHeight` | `getPlayerScreenHeight(player)` | 解像度（高さ）取得 |
+| `getScreenHeight` | `getCore():getScreenHeight()` | 画面の物理的な高さ（ピクセル）を取得 |
+
+```lua
+-- ✅ 確認済み: 画面左下の座標計算
+local x = 10
+local y = getPlayerScreenHeight(player) - 100
+```
+
+---
+
 ## ✏️ 更新ルール
 
 - 実装が動作確認されたら、使用したAPI・パターンをこのファイルに追記する

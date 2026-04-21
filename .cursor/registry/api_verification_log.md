@@ -44,8 +44,26 @@
 - 結果: 成功
 - 備考: 座標を持つZombieを先に生成し、変換する方式が正しい。`new(getCell())` は NPE クラッシュ。
 
-### [2026-04-20] IsoCamera.setZoom / cameras[0].zoom 直接代入
-- 検証方法: 実機テスト（複数アプローチ）
-- 証拠ソース: B42 実機エラーログ
-- 結果: 失敗（Rule-G9 適用）
-- 備考: `memory-bank/failures.md` に記録。B42 はカメラを Continuous Solver として扱うため、スクリプト層からの直接制御は不可能と判定。
+### [2026-04-21] UI Rendering & Input (drawRect / drawText / onMouseDown)
+- 検証方法: Decomp (E1) + Umbrella-main (E3) + EXT_Mods (E2)
+- 証拠ソース: 
+    - `Docs/Decomp/zombie/ui/UIElement.java`
+    - `Docs/Umbrella-main/library/lua/client/ISUI/ISUIElement.lua`
+    - `Docs/EXT_Mods/3403180543/.../BWOChatWindow.lua`
+- 結果: 成功
+- 備考: B42 においても `ISUIElement` の主要ドロー・イベントメソッドは維持されている。解像度取得は `getPlayerScreenWidth(player)` が確実。
+
+### [2026-04-21] UI Dynamic Scaling (getScreenHeight / MeasureStringX)
+- 検証方法: EXT_Mods (E2) + Vanilla
+- 証拠ソース: `BanditSettingsMain.lua` 等で動的な座標・幅計算に使用されている。
+- 結果: 成功
+- 備考: 4K などの高解像度対応には、1080p を基準とした `scale = screenHeight / 1080` を係数として適用するのがバニラ MOD の標準パターンである。
+
+### [2026-04-21] NE_ViralStressHUD.lua（変異度 HUD）
+- 検証方法: コード実装のみ（本リポジトリ環境では Project Zomboid 実機起動による表示確認は未実施）
+- 証拠ソース: `api_whitelist.md` [UIElement / ISUIElement] の `drawRect` / `drawText` / `drawTextureScaled` / `setX` / `setY` / `getMouseX` / `getMouseY`、`getPlayerScreenHeight(player)`；クラス構造は `Docs/Umbrella-main/.../ISPanel.lua` メタ定義
+- 結果: 実装済み（実機での HUD 表示・ドラッグ挙動は未検証）
+- 備考:
+  - 初期座標: `x=20`, `y=getPlayerScreenHeight(0)-60`。登録は `Events.OnGameStart`（リポジトリ内に `Events.OnCreateUI` の参照が無かったため「適切なタイミング」として採用）。
+  - アイコンは `getTexture`（ホワイトリスト外。同一モッド `NE_IntroText.lua` と同様のグローバル利用）で `ICON_TEXTURE_PATH` を解決し、失敗時は `Missing Icon` テキスト。
+  - `ISPanel` / `require "ISUI/ISPanel"` / `addToUIManager` / `UIFont.Small` はレジストリ未掲載のため、Umbrella メタ・タスク指定に従う。実機確認後にホワイトリストへ追記を推奨。

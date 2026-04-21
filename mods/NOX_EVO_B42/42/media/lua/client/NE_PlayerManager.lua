@@ -12,6 +12,41 @@ if Z_TRACER and Z_TRACER.EmitTrace then
 end
 
 -- --------------------------------------------------------------------------
+-- 変異度: OnGameStart のみでシード（OnCreatePlayer はバニラ側リスクのため使わない）
+-- --------------------------------------------------------------------------
+---@param player IsoPlayer|nil
+---@param sourceTag string
+local function NE_EnsureMutationLevelImmediate(player, sourceTag)
+    if not player or player:isDead() then
+        return
+    end
+    local md = player:getModData()
+    if not md then
+        return
+    end
+    if not md.NE_MutationBootstrapDone then
+        md.NE_MutationLevel = 20.0
+        md.NE_MutationBootstrapDone = true
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace(
+                "NE_MUTATION",
+                "Bootstrap",
+                "Fired|context=" .. tostring(sourceTag) .. "|level=20.0",
+                "INFO"
+            )
+        end
+    end
+end
+
+local function NE_OnGameStartMutationSeed()
+    for i = 0, getNumActivePlayers() - 1 do
+        NE_EnsureMutationLevelImmediate(getSpecificPlayer(i), "OnGameStart")
+    end
+end
+
+Events.OnGameStart.Add(NE_OnGameStartMutationSeed)
+
+-- --------------------------------------------------------------------------
 -- Dr.Hiro 導線: 離脱リマインド（最大5回）→ 鍵なしなら起床リマインド
 -- Dr.Hiro 遺体座標に合わせた基点（NE_StartScene HIRO_X/Y と同期）
 -- --------------------------------------------------------------------------
@@ -88,10 +123,10 @@ end
 
 --- 定期的な生存判定（1分ごと）
 local function OnEveryOneMinute()
-    -- HEARTBEAT ログ (DEBUGレベル: 毎分のイベント発火を確認)
-    if Z_TRACER and Z_TRACER.EmitTrace then
-        Z_TRACER.EmitTrace("NE_HEARTBEAT", "PlayerManager", "EveryOneMinute", "DEBUG")
-    end
+    -- HEARTBEAT ログ (DEBUGレベル: 必要に応じてコメントアウトを解除)
+    -- if Z_TRACER and Z_TRACER.EmitTrace then
+    --     Z_TRACER.EmitTrace("NE_HEARTBEAT", "PlayerManager", "EveryOneMinute", "DEBUG")
+    -- end
 
     -- 稼働している全プレイヤー（画面分割含む）に対してループ
     for i = 0, getNumActivePlayers() - 1 do

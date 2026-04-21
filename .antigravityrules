@@ -93,7 +93,7 @@ API や挙動は、以下のいずれかによって検証されなければな�
 
 ### 1.6 EXECUTION GATE HEADER MANDATE
 Cursor への指示（Step 0-7 形式）を作成する際は、必ず冒頭に以下のヘッダーを付与し、推論の物理遮断を明示せよ：
-`EXECUTION GATE: Allowed Source registry ONLY | Unknown API BLOCK | Missing info ASK ONLY | No inference allowed`
+`[AG TASK | B42 STRICT | REGISTRY AWARE]`
 
 ### 1.7 SYSTEM SYNC OBLIGATION
 Rule-G/E や EXECUTION GATE などの主要な推論ルールの追加・変更時には、必ず `.cursorrules` と `.antigravityrules` の両方を同時に更新しなければならない。一方が古くなることによる「思考（Antigravity）」と「実体（Cursor）」の認識のズレは、システムの破綻を意味する。
