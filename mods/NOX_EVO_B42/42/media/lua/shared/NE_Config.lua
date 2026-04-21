@@ -133,7 +133,7 @@ function NE.InitPlayerData(player)
     end
     -- 1. 変異基本データ初期化
     modData.NE_MutationLevel = 0.0
-    modData.NE_SetupFinished = true
+    -- NE_SetupFinished は NE_StartScene.setupInitialState が専用管理（ここで触らない）
 
     -- 2. Phase 4.3 動的汚染計算用: 初期倍率とタイムスタンプの設定（開始点 1.0）
     modData.NE_CurrentInternalLocMult = 1.0

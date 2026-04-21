@@ -55,16 +55,20 @@ local REMINDER_DIST_SQ = 100
 
 local hiroReminderTick = 0
 
---- B17 鍵を所持しているか（リマインド停止の共通判定）
+--- マスターキー + 軍用身分証の両方を所持しているか（リマインド永久停止の判定）
 ---@param player IsoPlayer
-local function NE_PlayerHasB17AccessKey(player)
+local function NE_PlayerHasB17RequiredItems(player)
     local inv = player and player:getInventory()
-    return inv ~= nil and inv:containsTypeRecurse("NOX_EVO_B42.B17_AccessKey") == true
+    if not inv then
+        return false
+    end
+    return inv:containsTypeRecurse("NOX_EVO_B42.NE_AccessKey") == true
+        and inv:containsTypeRecurse("NOX_EVO_B42.NE_DrHiro_ID") == true
 end
 
 ---@param player IsoPlayer
 local function NE_SilenceHiroRemindersIfHasKey(player, modData)
-    if NE_PlayerHasB17AccessKey(player) then
+    if NE_PlayerHasB17RequiredItems(player) then
         modData.NE_HiroRemindersSilenced = true
         return true
     end
@@ -100,7 +104,7 @@ local function checkHiroReminder()
         if player and not player:isDead() then
             local modData = player:getModData()
             if NE_SilenceHiroRemindersIfHasKey(player, modData) then
-                -- 鍵入手済み or 永久停止
+                -- 鍵+身分証入手済み or 永久停止
             else
                 local count = modData.NE_HiroReminderCount or 0
                 if count < 5 then

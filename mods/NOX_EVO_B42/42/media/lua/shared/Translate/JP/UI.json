@@ -1,7 +1,7 @@
 {
   "UI_Intro1": "あの日、核によってすべては終わるはずだった。 しかし、何者かの正義が浄化を拒み、世界は…",
   "UI_Intro2": "それから 5 年。地下の闇で牙を研ぎ続けた『進化』が、今、地上へ溢れ出す。",
-  "UI_Intro3": "これは、あなたの死を望む物語ではない。 終末か、絶望か、救済か。あなたの選択が、未来を決める物語だ。",
+  "UI_Intro3": "これは、あなたがいかに死ぬかの物語ではない。 終末か、絶望か、救済か。あなたの選択が、未来を決める物語だ。",
   "UI_NE_Prologue_Title": "Knox Evolved: プロローグ",
   "UI_NE_Start_1": "……永い、暗い夢を見ていたようだ。……身体が、燃えるように熱くておかしい。",
   "UI_NE_Start_2": "……この遺体は見覚えがある。Dr.Hiroか？ ……だが、なぜこれほどまでに朽ち果てている……？",
@@ -120,5 +120,10 @@
   "UI_NE_Speech_Reflection_1": "……ヒロ博士。あなたは私を、進化だと言った。……でも、これはただの『崩壊』だよ。",
   "UI_NE_Speech_Reflection_2": "……神様。もし見ているなら、これ以上私を弄ばないで。……ただ、静かに眠らせて。",
   "UI_NE_Speech_Reflection_3": "正義なんて、言葉遊びに過ぎなかったんだ。……あの日、私がしたことは、ただの傲慢だった。",
-  "UI_NE_Speech_Reflection_4": "世界は終わった。……残っているのは、私たちの死骸だけだ。"
+  "UI_NE_Speech_Reflection_4": "世界は終わった。……残っているのは、私たちの死骸だけだ。",
+  "UI_NE_Status_Clean": "Clean",
+  "UI_NE_Status_UnStable": "UnStable",
+  "UI_NE_Status_Danger": "Danger",
+  "UI_NE_Status_Critical": "Critical",
+  "UI_NE_Status_EVOLVED": "EVOLVED"
 }

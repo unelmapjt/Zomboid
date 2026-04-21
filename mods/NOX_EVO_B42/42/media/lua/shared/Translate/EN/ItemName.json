@@ -1,8 +1,8 @@
 {
   "NOX_EVO_B42.NE_AntiMutantDrug": "Anti-Mutant Drug",
-  "NOX_EVO_B42_NE_AntiMutantDrug_Tooltip": "A powerful drug that reduces internal mutation by 40-60%. Causes severe damage and dizziness upon consumption.",
+  "NOX_EVO_B42_NE_M_AntiMutantDrug_Tooltip": "A powerful drug that reduces internal mutation by 40-60%. Causes severe damage and dizziness upon consumption.",
   "NOX_EVO_B42.NE_Retardant": "Viral Retardant",
-  "NOX_EVO_B42_NE_Retardant_Tooltip": "Completely stops mutation accumulation from environmental contamination for a set period.",
+  "NOX_EVO_B42_NE_M_Retardant_Tooltip": "Completely stops mutation accumulation from environmental contamination for a set period.",
   "NOX_EVO_B42.NE_DeconSpray": "Decontamination Sprayer",
   "NOX_EVO_B42_NE_DeconSpray_Tooltip": "Sprays bleach in a cone to purify floors and clothing. Essential for base maintenance.",
   "NOX_EVO_B42.NE_DeconGrenade": "Decontamination Grenade",
@@ -16,12 +16,13 @@
   "NOX_EVO_B42.Hospital_Gown": "Hospital Gown",
   "NOX_EVO_B42.NE_FilterReload": "Replacement Filter",
   "NOX_EVO_B42_NE_FilterReload_Tooltip": "Restores gas mask filter life to 100% (Reload).",
-  "NOX_EVO_B42.B17_AccessKey": "Military Research Access Key",
+  "NOX_EVO_B42.NE_QuestReport": "Confidential Document: 'NOX:EVOLVED Report'",
+  "NOX_EVO_B42.NE_DrHiro_ID": "Dr. Hiro's Military ID",
+  "NOX_EVO_B42.NE_AccessKey": "Military Research Access Key",
   "NOX_EVO_B42.NE_Nucleus_Alpha": "Knox Mutation Nucleus (Alpha)",
   "NOX_EVO_B42.NE_Nucleus_Beta": "Knox Mutation Nucleus (Beta)",
   "NOX_EVO_B42.NE_Nucleus_Gamma": "Knox Mutation Nucleus (Gamma)",
   "NOX_EVO_B42.NE_Nucleus_Delta": "Knox Mutation Nucleus (Delta)",
   "NOX_EVO_B42_NE_Nucleus_Tooltip": "A core of mutation that emits intense viral contamination. It acts as an epicenter itself. Recovered from the lab by Dr. Hiro and sealed in a containment vial.",
-  "NOX_EVO_B42.NE_ConfidentialBriefcase": "Confidential Briefcase",
-  "NOX_EVO_B42.NE_SecretReport": "Confidential Document: 'NOX:EVOLVED Report'"
+  "NOX_EVO_B42.NE_ConfidentialBriefcase": "Confidential Briefcase"
 }

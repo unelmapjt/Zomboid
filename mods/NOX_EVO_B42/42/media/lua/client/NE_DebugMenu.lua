@@ -148,7 +148,7 @@ function NE.Debug.SetSurvivalDays(player, value)
     player:Say("[NE] SurvivalDay=" .. tostring(value))
 end
 
---- B17_AccessKey を自分のインベントリに直接付与するデバッグ関数
+--- NE_AccessKey を自分のインベントリに直接付与するデバッグ関数
 --- アイテム定義が正しく機能しているかを確認するために使用
 --- JAVA_Docs 確認: IsoGameCharacter.Say(String) が正規シグネチャ
 ---@param player IsoPlayer
@@ -164,7 +164,14 @@ function NE.Debug.GiveCardKey(player)
         player:Say("[NE] ERR: inv.AddItem not found|type=" .. type(inv.AddItem))
         return
     end
-    local item = inv:AddItem("NOX_EVO_B42.B17_AccessKey")
+    local id = "NOX_EVO_B42.NE_AccessKey"
+    local sm = getScriptManager and getScriptManager() or nil
+    if not sm or not sm.getItem or not sm:getItem(id) then
+        player:Say("[NE] ERR: item script not loaded|" .. id)
+        Z_TRACER.EmitTrace("NE_DEBUG", "GiveCardKey", "FAILED:noScript|" .. id, "ERROR")
+        return
+    end
+    local item = inv:AddItem(id)
     if item then
         Z_TRACER.EmitTrace("NE_DEBUG", "GiveCardKey", "OK|type=" .. tostring(item:getType()), "INFO")
         player:Say("B17 Access Key を入手した。")
@@ -199,6 +206,8 @@ end
 function NE.Debug.ForceStartScene(player)
     local modData = player:getModData()
     modData.NE_StartSceneFinished = nil  -- ガードフラグをリセット
+    modData.NE_StartSceneInProgress = nil
+    modData.NE_SetupFinished = nil       -- 初期装備・Dr.Hiro セットアップを再実行する場合に必要
     if NE.StartScene and NE.StartScene.ForceRun then
         NE.StartScene.ForceRun(player)
     else

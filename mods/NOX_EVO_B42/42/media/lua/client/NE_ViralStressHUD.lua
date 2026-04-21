@@ -34,7 +34,7 @@ local BAR_TRACK_ALPHA = 0.35
 local BAR_FILL_ALPHA = 0.92
 local CHIP_BG_ALPHA = 0.3
 
-local ICON_TEXTURE_PATH = "media/ui/Heart_OnFull.png"
+local ICON_TEXTURE_PATH = "media/ui/NE_MutationIcon.png"
 
 local COL_A = { 0.4, 0.9, 1.0 }
 local COL_B = { 0.1, 0.3, 0.9 }
@@ -172,7 +172,7 @@ function NE_ViralStressHUD:prerender()
     end
     pct = math.max(0, math.min(100, pct))
     local pctDisp = math.floor(pct + 0.5)
-    local status = getMutationStatusText(pct)
+    local status = getMutationStatusText(pctDisp)
     local pctStr = tostring(pctDisp) .. "%"
 
     local tm = getTextManager()
@@ -229,7 +229,7 @@ function NE_ViralStressHUD:prerender()
         if player and player.inventoryHotbar and player.inventoryHotbar.y then
             yPos = player.inventoryHotbar.y - self.height - 10
         end
-        yPos = yPos - 20
+        yPos = yPos - 30
         self:setX((pw - self.width) / 2)
         self:setY(yPos)
     end
@@ -238,7 +238,8 @@ function NE_ViralStressHUD:prerender()
 
     -- 左→右: アイコン → バー → ％。ステータスは「チップ drawRect のみ」→ その後 drawText
     if self.iconTexture then
-        self:drawTextureScaled(self.iconTexture, iconX, iconY, self.iconS, self.iconS, 1, 1, 1, 1)
+        -- アイコンも動的に色を変える (r, g, b に mr, mg, mb を指定)
+        self:drawTextureScaled(self.iconTexture, iconX, iconY, self.iconS, self.iconS, 1, mr, mg, mb)
     else
         self:drawText("Missing Icon", iconX, textY, 0.85, 0.85, 0.85, 1, font)
     end

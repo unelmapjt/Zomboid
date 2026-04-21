@@ -14,10 +14,12 @@
 --   getText 翻訳         : Translate/JP/UI.json (既存)
 --   createZombie        : Umbrella-main __global.lua:621 / Tutorial/Steps.lua:1088
 --   IsoDeadBody.new     : Javadoc IsoDeadBody(IsoGameCharacter,boolean) / Tutorial/Steps.lua:1096
+--   遺体化直後の explored / looted 再アサート: spawnDrHiroWithRetry 内 Persistence ブロック参照
 --   zombie:getInventory : Umbrella-main IsoGameCharacter.lua:1442
 --
 -- ■ トリガー設計:
---   通常プレイ    → Events.OnCreatePlayer (NE_StartSceneFinished フラグでガード)
+--   通常プレイ    → Events.OnCreatePlayer (NE_StartSceneFinished でガード)
+--   runStartScene 完了時にのみ NE_StartSceneFinished を立てる（二重 OnTick 対策）。
 --   デバッグワープ → NE.StartScene.ForceRun(player)
 -- --------------------------------------------------------------------------
 
@@ -95,12 +97,31 @@ local function setupInitialEquipment(player)
     local inventory = player:getInventory()
     if not inventory then return end
 
+    -- セーブの modData に NE_* フラグが欠けた状態で OnCreatePlayer → runStartScene が再度走ると、
+    -- clear() で所持品が全消去されバニラ初期装備だけが残る（ドラッグ操作と同フレームに見えることもある）。
+    -- プロローグ直後以外では絶対に clear しない。
+    local hours = player.getHoursSurvived and player:getHoursSurvived() or 0
+    if hours > (1 / 60) then
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "Equipment",
+                "SkipClear:NotFreshChar|hours=" .. tostring(hours), "WARN")
+        end
+        return
+    end
+
     stripAllWornItems(player)
 
     -- 既存アイテムを全削除 (ItemContainer:clear は B41/B42 共通)
     inventory:clear()
 
-    -- 病院着を着用状態で追加（耐久はぼろぼろ＝設計書どおり 5%）
+    -- B42: Base.Hat_GasMask / Base.HazmatSuit（消耗装備・インベントリ）
+    local mask = inventory:AddItem("Base.Hat_GasMask")
+    if mask then applyRaggedCondition(mask) end
+
+    local hazmat = inventory:AddItem("Base.HazmatSuit")
+    if hazmat then applyRaggedCondition(hazmat) end
+
+    -- 診察着を着用（消耗・MDD §3.3）
     local ok, err = pcall(function()
         local gown = inventory:AddItem("Base.HospitalGown")
         if gown then
@@ -112,14 +133,30 @@ local function setupInitialEquipment(player)
         Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Gown:ERR:" .. tostring(err), "WARN")
     end
 
-    -- ガスマスク（ぼろぼろ）
-    -- B42: Base.GasMask は存在しない。正しくは Base.Hat_GasMask (with filter drainable)
-    local mask = inventory:AddItem("Base.Hat_GasMask")
-    if mask then applyRaggedCondition(mask) end
-
-    -- ハザマットスーツ（ぼろぼろ）
-    local hazmat = inventory:AddItem("Base.HazmatSuit")
-    if hazmat then applyRaggedCondition(hazmat) end
+    do
+        local sm = getScriptManager and getScriptManager() or nil
+        local function addPlayerIfScripted(fullId, traceToken)
+            if sm and sm.getItem and sm:getItem(fullId) then
+                local newItem = inventory:AddItem(fullId)
+                if newItem then
+                    if Z_TRACER and Z_TRACER.EmitTrace then
+                        Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Item:" .. traceToken .. ":SUCCESS", "INFO")
+                    end
+                else
+                    if Z_TRACER and Z_TRACER.EmitTrace then
+                        Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Item:" .. traceToken .. ":FAILED|INST_NULL", "ERROR")
+                    end
+                end
+            else
+                if Z_TRACER and Z_TRACER.EmitTrace then
+                    Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Item:" .. traceToken .. ":NOT_FOUND", "WARN")
+                end
+            end
+        end
+        addPlayerIfScripted("NOX_EVO_B42.NE_AntiMutantDrug", "NE_AntiMutantDrug")
+        addPlayerIfScripted("NOX_EVO_B42.NE_Retardant", "NE_Retardant")
+        addPlayerIfScripted("NOX_EVO_B42.NE_QuestReport", "NE_QuestReport")
+    end
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Setup:OK", "INFO")
@@ -129,7 +166,7 @@ end
 -- --------------------------------------------------------------------------
 -- §3.2 喉の負傷（開始時に一度適用）
 -- MDD: 即死回避のため DeepWound は使わない。Throat があれば優先、なければ Neck。
--- 「点滴破片」は存在する API のみ pcall で付与（無ければ痛み・擦り傷・出血のみ）
+-- 異物（ガラス片・破片）は付与せず、痛み・擦り傷・出血のみ。
 -- --------------------------------------------------------------------------
 
 ---@param player IsoPlayer
@@ -148,19 +185,9 @@ local function applyPrologueThroatInjury(player)
     if not part then return end
 
     if part.setAdditionalPain then part:setAdditionalPain(60.0) end
-    if part.AddDamage then part:AddDamage(1.5) end
+    if part.AddDamage then part:AddDamage(0.5) end
     if part.setScratched then part:setScratched(true, false) end
-    if part.setBleedingTime then part:setBleedingTime(5.0) end
-
-    pcall(function()
-        if part.setHaveGlass then
-            part:setHaveGlass(true)
-        elseif part.setSplinter then
-            part:setSplinter(true)
-        elseif part.setEmbeddedGlass then
-            part:setEmbeddedGlass(true)
-        end
-    end)
+    if part.setBleedingTime then part:setBleedingTime(3.0) end
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         Z_TRACER.EmitTrace("NE_SCENE", "Throat", "PrologueInjury:APPLIED", "INFO")
@@ -191,7 +218,8 @@ end
 ---@param player IsoPlayer
 local function spawnDrHiroWithRetry(player)
     local retries    = 0
-    local maxRetries = 30  -- 最大 30 ティック待機 (~0.5秒)
+    local maxRetries = 120 -- 最大 120 ティック待機 (~2秒) に強化
+    local safetySettle = 20 -- チャンク読み込み後の追加同期待ちフレーム数
 
     local function onTick()
         retries = retries + 1
@@ -212,6 +240,12 @@ local function spawnDrHiroWithRetry(player)
             return  -- 次ティックで再試行
         end
 
+        -- チャンク確認後にさらに追加待機 (B42 Registry 同期用)
+        if safetySettle > 0 then
+            safetySettle = safetySettle - 1
+            return
+        end
+
         -- チャンクがロード済み → 即座にリスナーを除去してからスポーン実行
         -- これにより、スポーン中にエラーが起きても OnTick は二度と呼ばれない
         Events.OnTick.Remove(onTick)
@@ -229,16 +263,26 @@ local function spawnDrHiroWithRetry(player)
             return
         end
 
-        -- [2] インベントリ完全消去 (バニラ自動生成アイテムを除去)
-        --     ItemContainer.clear() ← Javadoc zombie/inventory/ItemContainer.html line 353 (小文字)
-        --     worn items は ItemContainer とは別管理なので clear() の影響を受けない
+        -- [2] インベントリ状態の制御 (B42 Authority Protection)
+        --     遺体化後のプロシージャル・ルート生成が手動 AddItem と競合しないよう、
+        --     DoZombieInventory 完了 → clear → explored / looted を変換前に確定する。
+        --     setDressInRandomOutfit(false) ← Tutorial/Steps.lua:1693 / BandageStep パターン
+        --     DoZombieInventory ← Steps.lua:1095,1698
+        --     setExplored / setHasBeenLooted ← ISInventoryTransferAction.lua:636, ISInventoryPage 等
         local inv = zombie:getInventory()
         if not inv then
             player:Say("ヒロ博士の遺体生成に失敗しました。(inv=nil)")
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Spawn:ERR|inv=nil", "ERROR")
             return
         end
+        zombie:setDressInRandomOutfit(false)
+        zombie:DoZombieInventory()
         inv:clear()
+        inv:setExplored(true)
+        inv:setHasBeenLooted(true)
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Authority:InventorySeeded|explored+looted", "DEBUG")
+        end
 
         -- [3] 白衣 (JacketLong_Doctor) を手動装着
         --     ItemContainer.AddItem(String) ← Javadoc line 125 (大文字 A)
@@ -247,6 +291,7 @@ local function spawnDrHiroWithRetry(player)
         --     Base.JacketLong_Doctor ← generated/items/clothing.txt 確認済み
         local jacket = inv:AddItem("Base.JacketLong_Doctor")
         if jacket then
+            applyRaggedCondition(jacket)
             zombie:setWornItem(jacket:getBodyLocation(), jacket)
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Dress:JacketLong_Doctor:OK", "DEBUG")
         else
@@ -257,22 +302,53 @@ local function spawnDrHiroWithRetry(player)
         --     Base.Shoes_Slippers ← generated/items/clothing.txt 確認済み
         local slippers = inv:AddItem("Base.Shoes_Slippers")
         if slippers then
+            applyRaggedCondition(slippers)
             zombie:setWornItem(slippers:getBodyLocation(), slippers)
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Dress:Shoes_Slippers:OK", "DEBUG")
         else
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Dress:Shoes_Slippers:nil", "WARN")
         end
 
-        -- [5] インベントリ所持品: FirstAidKit + B17_AccessKey
-        --     FirstAidKit は CanBeEquipped なし → worn 不可。インベントリに格納して遺体漁り時に発見させる
-        --     Base.FirstAidKit ← generated/items/container.txt 確認済み (Medical=true, Capacity=4)
-        --     他の候補: Base.FirstAidKit_Military (軍用), Base.FirstAidKit_Camping (キャンプ用)
-        inv:AddItem("Base.FirstAidKit")
-        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:Added", "DEBUG")
-        inv:AddItem("NOX_EVO_B42.B17_AccessKey")
-        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:B17_AccessKey:Added", "DEBUG")
+        -- [5] インベントリ: 救急キット + 身分証 + マスターキー（医療品・機密文書はプレイヤー初期所持へ移管）
+        local fak = inv:AddItem("Base.FirstAidKit")
+        if fak then
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:SUCCESS", "INFO")
+        else
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:FAILED|INST_NULL", "ERROR")
+        end
+        do
+            local sm = getScriptManager and getScriptManager() or nil
+            local function addIfScripted(fullId, traceToken)
+                if sm and sm.getItem and sm:getItem(fullId) then
+                    local newItem = inv:AddItem(fullId)
+                    if newItem then
+                        if Z_TRACER and Z_TRACER.EmitTrace then
+                            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. traceToken .. ":SUCCESS", "INFO")
+                        end
+                    else
+                        if Z_TRACER and Z_TRACER.EmitTrace then
+                            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. traceToken .. ":FAILED|INST_NULL", "ERROR")
+                        end
+                    end
+                else
+                    if Z_TRACER and Z_TRACER.EmitTrace then
+                        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. traceToken .. ":NOT_FOUND", "WARN")
+                    end
+                end
+            end
 
-        -- [6] 名前を "Dr. Hiro" に固定
+            addIfScripted("NOX_EVO_B42.NE_DrHiro_ID", "NE_DrHiro_ID")
+            addIfScripted("NOX_EVO_B42.NE_AccessKey", "NE_AccessKey")
+        end
+
+        -- 手動配置完了後に再アサート（初回インベントリ UI オープン時の再ロール抑止）
+        inv:setExplored(true)
+        inv:setHasBeenLooted(true)
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Authority:ReassertAfterAdds", "DEBUG")
+        end
+
+        -- [6] 名前を "Dr. Hiro" に固定（装着・所持品の後）
         --     SurvivorDesc.setForename/setSurname ← Javadoc zombie/characters/SurvivorDesc.html line 111, 117
         --     IsoGameCharacter.getDescriptor() ← Javadoc IsoGameCharacter.html line 349
         local desc = zombie:getDescriptor()
@@ -287,6 +363,18 @@ local function spawnDrHiroWithRetry(player)
         -- [7] IsoDeadBody.new(IsoGameCharacter, boolean) でゾンビを遺体に変換
         --     Javadoc IsoDeadBody(IsoGameCharacter,boolean) / Tutorial/Steps.lua:1096 確認済
         local body = IsoDeadBody.new(zombie, false)
+
+        if body then
+            body:setExplored(true)
+            local container = body:getContainer()
+            if container then
+                container:setExplored(true)
+                container:setHasBeenLooted(true)
+                if Z_TRACER and Z_TRACER.EmitTrace then
+                    Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Persistence:FINAL_ASSERT:OK", "INFO")
+                end
+            end
+        end
 
         Z_TRACER.EmitTrace("NE_SCENE", "DrHiro",
             string.format("Spawn:OK|body=%s|(%d,%d,%d)",
@@ -433,28 +521,54 @@ end
 ---@param skipCinematic boolean
 local function runStartScene(player, skipCinematic)
     local modData = player:getModData()
-    -- 非同期ダイアログ中の OnCreatePlayer 再発火による二重生成（Dr.Hiro 等）を防ぐ
-    modData.NE_StartSceneFinished = true
-
-    -- テレポート: B42 バニラ確認済み (DebugContextMenu.lua:1175)
-    player:teleportTo(START_X, START_Y, START_Z)
-
-    -- 初期状態のセットアップ（装着全解除 → 病院着のみ再装着、設計書 3.3）
-    NE.InitialEvent.setupInitialState(player)
-    applyPrologueThroatInjury(player)
-
-    -- 演出の実行
-    if skipCinematic then
+    -- OnCreatePlayer が短時間に複数回発火すると OnTick 経由で本関数が複数積まれる。
+    -- 先頭で NE_StartSceneFinished を立てる旧実装では、2 回目も teleport/setup が走り得る。
+    if modData.NE_StartSceneFinished then
         if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace("NE_SCENE", "Intro", "Cinematic:SKIPPED(debug)", "INFO")
+            Z_TRACER.EmitTrace("NE_SCENE", "StartScene", "Run:SKIP:AlreadyFinished", "DEBUG")
+        end
+        return
+    end
+    if modData.NE_StartSceneInProgress then
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "StartScene", "Run:SKIP:InProgress", "DEBUG")
+        end
+        return
+    end
+    modData.NE_StartSceneInProgress = true
+
+    local okRun, errRun = pcall(function()
+        -- テレポート: B42 バニラ確認済み (DebugContextMenu.lua:1175)
+        player:teleportTo(START_X, START_Y, START_Z)
+
+        -- 初期状態のセットアップ（装着全解除 → 病院着のみ再装着、設計書 3.3）
+        NE.InitialEvent.setupInitialState(player)
+        applyPrologueThroatInjury(player)
+
+        -- 演出の実行
+        if skipCinematic then
+            if Z_TRACER and Z_TRACER.EmitTrace then
+                Z_TRACER.EmitTrace("NE_SCENE", "Intro", "Cinematic:SKIPPED(debug)", "INFO")
+            end
+        else
+            showIntroDialogue(player)
+        end
+    end)
+
+    modData.NE_StartSceneInProgress = false
+
+    if okRun then
+        -- OnCreatePlayer 側のガードと整合: 成功時のみ完了フラグ
+        modData.NE_StartSceneFinished = true
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "StartScene",
+                "Run:OK|Debug:" .. tostring(skipCinematic), "INFO")
         end
     else
-        showIntroDialogue(player)
-    end
-
-    if Z_TRACER and Z_TRACER.EmitTrace then
-        Z_TRACER.EmitTrace("NE_SCENE", "StartScene",
-            "Run:OK|Debug:" .. tostring(skipCinematic), "INFO")
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "StartScene",
+                "Run:FAILED|err=" .. tostring(errRun), "ERROR")
+        end
     end
 end
 
