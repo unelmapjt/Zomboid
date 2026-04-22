@@ -69,7 +69,7 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects)
         subMenu:addSubMenu(tpOption, tpSubMenu)
         Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "D:TpSubMenu:OK", "DEBUG")
 
-        tpSubMenu:addOption("Start Scene (救護所)", player, NE.Debug.Teleport, 15640, 3909,  0)
+        tpSubMenu:addOption("Start Scene (救護所)", player, NE.Debug.Teleport, 15641, 3908,  0)
         tpSubMenu:addOption("Military Base B17",     player, NE.Debug.Teleport, 5569,  12432, 0)
         tpSubMenu:addOption("Louisville Gate",       player, NE.Debug.Teleport, 13500, 2800,  0)
         tpSubMenu:addOption("Safe Area (Reset)",     player, NE.Debug.Teleport, 8250,  11750, 0)

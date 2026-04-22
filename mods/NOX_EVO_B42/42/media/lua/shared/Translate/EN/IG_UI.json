@@ -1,5 +1,5 @@
 {
-  "IGUI_NE_Report_Title": "Confidential Document: NOX:EVOLVED Report & Sample Transfer Plan",
+  "IGUI_NE_Report_Title": "A Final Letter to You: The Truth and NOX:EVOLVED",
   "IGUI_NE_Report_Intro": "Contacts in the military say the total airstrike is in about 50 days.\nExceeding initial predictions, the virus has begun to 'evolve' rapidly.\nCorpses are transforming, and the environment itself is being contaminated.\nI wanted to transfer you to the airport and save you... but we were surrounded here.\nPutting you to sleep for 5 years to adapt was not an experiment,\nbut my personal decision to let you survive this hell. Forgive me.",
   "IGUI_NE_Report_Mission": "I can no longer move.\nTo keep your 'mutation' below critical levels, head to the terminal in the deepest part of the military research facility.\nThere may be a final means to stabilize your body and a code to prevent the total airstrike.\nThe four access keys and the samples to stabilize your body have been stolen from the military\nand hidden in my underground bases at each location.",
   "IGUI_NE_Report_Loc1": "- March Ridge Bunker Infirmary (MAP: 9965, 12623, -4)",
@@ -7,7 +7,7 @@
   "IGUI_NE_Report_Loc3": "- Brandenburg Ruined Hideout (MAP: 2232, 6403, -2)",
   "IGUI_NE_Report_Loc4": "- Rosewood Prison Underground Office (MAP: 7647, 11859, -1)",
   "IGUI_NE_Report_Note": "*A military cleanup squad (SWAT) has been deployed. They leave no witnesses. Be careful.",
-  "IGUI_NE_Report_ContextExamine": "Examine classified document",
+  "IGUI_NE_Report_ContextExamine": "Examine",
   "IGUI_NE_Ending_1_Label": "1. Purification (Execute Airstrike / Stop Contamination)",
   "IGUI_NE_Ending_2_Label": "2. Symbiosis (Self-Repair / Continue Contamination)",
   "IGUI_NE_Ending_3_Label": "3. Ruin (Regional Ruin / Self-Destruct)",

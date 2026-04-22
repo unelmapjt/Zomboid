@@ -177,7 +177,7 @@
     - [ ] 重要コンテナおよび SWAT からの稀少ドロップ設定。
     - [ ] 検証: 使用時にスキル経験値が加算され、既存のレベル進捗と矛盾しないこと。
   - [ ] **追加作業**: B17 アクセスキーと 4 つの変異核 (Alpha~Delta) の完全実装と紛失防止ガード。
-    - [ ] `CantBeDropped = TRUE` および `ISInventoryTransferAction` フックによる移動規制。
+    - [ ] 紛失緩和（**`CantBeDropped` は不採用**。ワールド配置・破壊耐性等で担保）。
     - [ ] 各サンプル（バイアル）が March Ridge, Riverside, Brandenburg, Rosewood の拠点にあることを保証。
 
 - [ ] **6.2 Contamination Retardant**

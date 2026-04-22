@@ -40,7 +40,7 @@
 
 
 > [!IMPORTANT]
-> **最終更新**: 2026-04-19
+> **最終更新**: 2026-04-22
 > **対象バージョン**: Project Zomboid Build 42 (42.16.x +)
 > **非公式Wiki**: https://pzwiki.net/wiki/Unofficial_JavaDocs_(Build_42)
 > **参考資料**: C:\Users\atstm\Zomboid\Docs\EXT_Mods
@@ -160,8 +160,8 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 ## 3. プロローグと初期シーケンス (NE_StartScene.lua)
 
 ### 3.1 初期ロケーション
-- [cite_start]**プレイヤー初期スポーン座標**: `15640, 3909, 0`（ルイビル臨時救護所。チャレンジ定義 `NE_HyperErosion.lua` の `challenge.x/y` と一致） [cite: 1]
-- **Dr.Hiro（遺体）の公式配置座標**: **`(15641, 3909, 0)`**。`NE_StartScene.lua` の `HIRO_X` / `HIRO_Y` および `NE_PlayerManager.lua` のリマインド基点と同一である。
+- [cite_start]**プレイヤー初期スポーン座標**: `15641, 3908, 0`（ルイビル臨時救護所。チャレンジ定義 `NE_HyperErosion.lua` の `challenge.x/y` と一致） [cite: 1]
+- **Dr.Hiro（遺体）の公式配置座標**: **`(15642, 3909, 0)`**。`NE_StartScene.lua` の `HIRO_X` / `HIRO_Y` および `NE_PlayerManager.lua` のリマインド基点と同一である。
 
 ### 3.2 初期シチュエーション（シネマティック導入）
 - [cite_start]プレイヤーがポイント割り振りウィンドウを閉じた瞬間にイベントを発火。 [cite: 1]
@@ -184,20 +184,20 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 #### 4. 階層型リマインダー（Dr.Hiro 導線）— `NE_PlayerManager.lua`
 基点は Dr.Hiro の公式座標 **`(15641, 3909)`**（タイル距離は平方距離 **≥ 100**、すなわち約 **10 タイル** 以上で離脱とみなす）。
 
-- **離脱リマインド（最大 5 回）**: Dr.Hiroの所持するマスターキー（`NOX_EVO_B42.B17_AccessKey`）および機密書類「NOX:EVOLVED Report 及び 検体移送計画」（`NOX_EVO_B42.NE_SecretReport`）未所持かつ永久停止フラグ未設定のとき、`OnTick` で **60 フレーム毎**（標準フレームレート時は約 1 秒毎）にチェックし、離脱条件を満たすたびに `player:Say(getText("UI_NE_Card_Reminder_Dist"))` を発行。`modData.NE_HiroReminderCount` で **1〜5** をカウントし、**5 回到達後は離脱系リマインドは打ち止め**。
-- **起床リマインド（悪夢・追奏）**: 離脱リマインドが **5 回完了**した後も鍵未所持のとき、`Events.OnPlayerWake` で **`player:Say(getText("UI_NE_Card_Reminder_Wake"))`** を発行する。
-- **永久停止**: `player:getInventory():containsTypeRecurse("NOX_EVO_B42.B17_AccessKey")` および `player:getInventory():containsTypeRecurse("NOX_EVO_B42.NE_SecretReport")` の両方を取得したことを検知したら `modData.NE_HiroRemindersSilenced = true` とし、離脱・起床の両リマインドを停止する。
+- **離脱リマインド（最大 5 回）**: Dr.Hiro 遺体側の導線アイテムであるマスターキー（`NOX_EVO_B42.NE_AccessKey`）および軍用身分証（`NOX_EVO_B42.NE_DrHiro_ID`）を**いずれも未所持**かつ永久停止フラグ未設定のとき、`OnTick` で **60 フレーム毎**（標準フレームレート時は約 1 秒毎）にチェックし、離脱条件を満たすたびに `player:Say(getText("UI_NE_Card_Reminder_Dist"))` を発行。`modData.NE_HiroReminderCount` で **1〜5** をカウントし、**5 回到達後は離脱系リマインドは打ち止め**。
+- **起床リマインド（悪夢・追奏）**: 離脱リマインドが **5 回完了**した後も、上記 **鍵・身分証の両方未取得**のとき、`Events.OnPlayerWake` で **`player:Say(getText("UI_NE_Card_Reminder_Wake"))`** を発行する。
+- **永久停止**: `player:getInventory():containsTypeRecurse("NOX_EVO_B42.NE_AccessKey")` **および** `player:getInventory():containsTypeRecurse("NOX_EVO_B42.NE_DrHiro_ID")` の**両方**を取得したことを検知したら `modData.NE_HiroRemindersSilenced = true` とし、離脱・起床の両リマインドを停止する。
 - **翻訳キー**: **`UI_NE_Card_Reminder_Dist`**（離脱）、**`UI_NE_Card_Reminder_Wake`**（起床）。JSON 上のエントリ名サフィックス `_Dist` / `_Wake` で管理する（従来の `UI_NE_Card_Reminder` は互換用として残し得る）。
 
 ### 3.3 初期アイテム・装備・配置NPC
 `NE.InitialEvent.setupInitialState` にて、開始時に以下の状態をセットアップする。
 
-| カテゴリ         | 対象・アイテム                                                                                                    | 詳細                                                                                               |
-| :--------------- | :---------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------- |
-| **初期装備**     | `Base.HospitalGown`                                                                                               | **プレイヤー着用状態**。他の初期装備はすべて削除。                                                 |
-| **初期所持品**   | `Base.GasMask`, `Base.HazmatSuit`                                                                                 | インベントリ内（耐久値 5% に設定）。                                                               |
-| **隣の死体**     | **Dr.Hiro (研究員)**                                                                                              | **公式座標 `(15641, 3909, 0)` を基点とし、B42の空きマス判定を介して生成。** 白衣と青スクラブ着用。 |
-| **重要アイテム** | `NOX_EVO_B42.B17_AccessKey` 及び 機密書類「NOX:EVOLVED Report 及び 検体移送計画」 (`NOX_EVO_B42.NE_SecretReport`) | **Dr.Hiroの所持品として配置**。5-Keyシステムの起点であり、残りの鍵の在処を示す誘導書類。           |
+| カテゴリ         | 対象・アイテム                                                                                                                                                                                                 | 詳細                                                                                                                                                                                                 |
+| :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **初期装備**     | `Base.HospitalGown`                                                                                                                                                                                            | **プレイヤー着用状態**（消耗・耐久は開始時ロジックで低めに設定）。他の初期装備はすべて削除。                                                                                                       |
+| **初期所持品**   | `Base.Hat_GasMask`, `Base.HazmatSuit`, `NOX_EVO_B42.NE_AntiMutantDrug`, `NOX_EVO_B42.NE_Retardant`, `NOX_EVO_B42.NE_QuestReport`                                                                                  | ガスマスク・防護服は**インベントリ内**（消耗・耐久低）。抗変異薬・汚染遅延剤・機密文書（君への遺書）は**スクリプト登録確認後に付与**。                                                         |
+| **隣の死体**     | **Dr.Hiro (研究員)**                                                                                                                                                                                           | **公式座標 `(15642, 3909, 0)`**。B42バグ対策として **`setIsFemale(false)` を含む厳格な男性化**を実施。白衣（`Base.JacketLong_Doctor`）およびスリッパ（`Base.Shoes_Slippers`）を着用。 |
+| **遺体インベントリ** | `Base.FirstAidKit`, `NOX_EVO_B42.NE_DrHiro_ID`, `NOX_EVO_B42.NE_AccessKey`                                                                                                                                     | **救急キット**・**軍用身分証**・**マスターキー**を配置。エンジン自動生成の `Base.IDCard` は重複回避のためスクリプトで除去。                                                                       |
 
 **【視認性・到達性保証の設計ルール】**
 - **遮蔽回避**: 生成対象のスクエア（Square）が `isBlocked()` または家具等のオブジェクトで埋まっている場合、プレイヤーから「直接視線が通る（CanSee）」かつ「最も近い」空きタイルを選択するロジックを実装すること。
@@ -512,7 +512,7 @@ B42のポストプロセスシステムおよび、パーティクルエミッ�
 - **クエスト誘導**:
   - Origin核取得時に手に入る「機密書類」を専用UIで読むことで、Dr.Hiroの遺志と残り4つの変異核の在処が示唆される。
 - **アイテム保護ロジック**:
-  - 変異核は高度な科学用バイアル（Vial）に封印された状態で、床に置かれた `Base.Briefcase`（アタッシュケース）等の中に生成される。これらは `CantBeDropped = TRUE` および破壊耐性が付与され、紛失や詰みを防止する。
+  - 変異核は高度な科学用バイアル（Vial）に封印された状態で、床に置かれた `Base.Briefcase`（アタッシュケース）等の中に生成される。破壊耐性等で紛失や詰みを緩和する。**`CantBeDropped` は死体インベントリ等で不整合の原因になり得るため付与しない。**
 | ��       | セリフ内容 (JP) | 攻略上の意味                                 |
 | :------- | :-------------- | :------------------------------------------- | :----------------------------------------- |
 | **0%**   | **減少時**      | 「空気がうまい。生き返るようだ。」           | 完全浄化の達成通知。                       |
@@ -867,7 +867,7 @@ B42のケミカルシステムを応用した製造工程。
     - `IGUI_NE_Report_Note`: "※軍の掃討部隊（SWAT）が投入された。彼らは目撃者を残さない。気をつけろ。"
 - **アイテム配置とロケーション保護ロジック**:
   - **バニラアイテムの3D強制生成**: 専用の3Dモデルやアイテムを新規に自作する開発コストを削減するため、バニラアイテム `Base.Briefcase`（アタッシュケース）を利用する。指定された4つのローカル座標に対し、対象タイルの初期化時にこのブリーフケースを「床置き（WorldItem）」として強制的にスポーンさせ、そのインベントリ内にマスターキーを格納する手法を取る。
-  - **クエストアイテム紛失防止**: すべての鍵および「機密書類」には内部で `CantBeDropped = TRUE` を設定する。さらに、`ISInventoryTransferAction:isValid()` のアクションをフックし、これらを不用意に別のコンテナ等へ移動・破壊させる動作を「事前キャンセル」する厳格なガードを実装する。
+  - **クエストアイテム紛失防止**: **`CantBeDropped` は採用しない**（死体インベントリ等で消失・リセットのリスクがあるため）。紛失緩和はワールド側の配置固定・破壊耐性・ストーリーフローで行う。移動の全面禁止や `ISInventoryTransferAction` による強制キャンセルは当面設けない。
   - **対象アイテムの保護 (Invulnerability)**: 床に置かれたこのアタッシュケース本体（WorldItemオブジェクト）には、Z-Systemにより破壊耐性やクリーンアップ免除のフラグを付与する。空爆や動的廃墟化が発生しても、該当マス内のこのアイテムだけは削除対象から「除外」され、クエストの詰みを物理的に防止する。
 
 ### 7.2 最終到達点：地下17階 司令室 (B17 Terminal)
@@ -1584,10 +1584,10 @@ JSON形式による多言語対応ファイル。
 ### 15.4 重要アイテム (Key & Narrative Items)
 
 **アクセスカード (B17 Access Key / Hiro's)**
-* **Item ID**: NOX_EVO_B42.B17_AccessKey
+* **Item ID**: NOX_EVO_B42.NE_AccessKey
 * **Type**: Normal
 * **DisplayName**: B17 Access Master Key
-* **Icon**: IDcard
+* **Icon**: Key
 * **Weight**: 0.1
 * **Tooltip**: Tooltip_B17_AccessKey
 
@@ -1598,6 +1598,14 @@ JSON形式による多言語対応ファイル。
 * **Icon**: IDcard
 * **Weight**: 0.1
 * **Tooltip**: 各鍵の在処に応じたフレーバーテキスト。
+
+**ノックス病変異核 (Nox-Nucleus Alpha〜Delta)**
+* **Item ID**: NOX_EVO_B42.NE_Nucleus_Alpha 〜 _Delta
+* **Type**: Normal
+* **DisplayName**: Nox-Nucleus (Variant)
+* **Icon**: NE_Nucleus_Icon
+* **Weight**: 0.5
+* **Tooltip**: NOX_EVO_B42_NE_Nucleus_Tooltip (強烈なウィルス汚染を放出する変異の核。)
 
 
 ---

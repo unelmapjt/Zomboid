@@ -23,8 +23,8 @@ challenge.gameMode = "Sandbox"
 challenge.worldLength = 0
 challenge.spawnRegion = "Muldraugh, KY"
 challenge.worldMap = "Muldraugh, KY"
-challenge.x = 15640
-challenge.y = 3909
+challenge.x = 15641
+challenge.y = 3908
 challenge.z = 0
 
 local challengeAddDone = false

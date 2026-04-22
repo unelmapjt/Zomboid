@@ -50,7 +50,7 @@ Events.OnGameStart.Add(NE_OnGameStartMutationSeed)
 -- Dr.Hiro 導線: 離脱リマインド（最大5回）→ 鍵なしなら起床リマインド
 -- Dr.Hiro 遺体座標に合わせた基点（NE_StartScene HIRO_X/Y と同期）
 -- --------------------------------------------------------------------------
-local HIRO_REMINDER_X, HIRO_REMINDER_Y = 15641, 3909
+local HIRO_REMINDER_X, HIRO_REMINDER_Y = 15642, 3909
 local REMINDER_DIST_SQ = 100
 
 local hiroReminderTick = 0

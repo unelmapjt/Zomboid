@@ -14,7 +14,7 @@
 --   getText 翻訳         : Translate/JP/UI.json (既存)
 --   createZombie        : Umbrella-main __global.lua:621 / Tutorial/Steps.lua:1088
 --   IsoDeadBody.new     : Javadoc IsoDeadBody(IsoGameCharacter,boolean) / Tutorial/Steps.lua:1096
---   遺体化直後の explored / looted 再アサート: spawnDrHiroWithRetry 内 Persistence ブロック参照
+--   Dr.Hiro: 男性 SurvivorDesc（createZombie 第4引数）→ ゾンビ inv を clear し所定品のみ（DoZombieInventory 不使用）→ IsoDeadBody
 --   zombie:getInventory : Umbrella-main IsoGameCharacter.lua:1442
 --
 -- ■ トリガー設計:
@@ -28,12 +28,12 @@ NE.StartScene = NE.StartScene or {}
 NE.InitialEvent = NE.InitialEvent or {}
 
 -- 初期スポーン座標 (設計書 3.1)
-local START_X = 15640
-local START_Y = 3909
+local START_X = 15641
+local START_Y = 3908
 local START_Z = 0
 
 -- Dr.Hiro の生成起点 (設計書 3.3) — 壁めり込み回避のため 15641,3909
-local HIRO_X = 15641
+local HIRO_X = 15642
 local HIRO_Y = 3909
 local HIRO_Z = 0
 
@@ -51,12 +51,14 @@ end
 -- --------------------------------------------------------------------------
 -- 装着の完全解除 (設計書 3.3 / SS 対策: インベントリ空でも装備だけ残るケース)
 -- B42: getWornItems():clear() を優先、不可なら各スロットを setWornItem(loc, nil)
+-- IsoZombie: createZombie 直後、ItemContainer:clear() は着用スロットを裸に戻さない
+--   （性別に応じた下着・靴・汎用服が装備のまま残る）→ 先に本関数、後に inv:clear
 -- --------------------------------------------------------------------------
 
----@param player IsoPlayer
-local function stripAllWornItems(player)
-    if not player then return end
-    local worn = player.getWornItems and player:getWornItems() or nil
+---@param character IsoGameCharacter|IsoPlayer|IsoZombie|nil
+local function stripAllWornItems(character)
+    if not character then return end
+    local worn = character.getWornItems and character:getWornItems() or nil
     if not worn then return end
 
     if worn.clear then
@@ -81,7 +83,8 @@ local function stripAllWornItems(player)
         end
         if #locs == 0 then break end
         for _, loc in ipairs(locs) do
-            pcall(function() player:setWornItem(loc, nil) end)
+            ---@diagnostic disable-next-line: param-type-mismatch
+            pcall(function() character:setWornItem(loc, nil) end)
         end
     end
 end
@@ -132,31 +135,7 @@ local function setupInitialEquipment(player)
     if not ok and Z_TRACER and Z_TRACER.EmitTrace then
         Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Gown:ERR:" .. tostring(err), "WARN")
     end
-
-    do
-        local sm = getScriptManager and getScriptManager() or nil
-        local function addPlayerIfScripted(fullId, traceToken)
-            if sm and sm.getItem and sm:getItem(fullId) then
-                local newItem = inventory:AddItem(fullId)
-                if newItem then
-                    if Z_TRACER and Z_TRACER.EmitTrace then
-                        Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Item:" .. traceToken .. ":SUCCESS", "INFO")
-                    end
-                else
-                    if Z_TRACER and Z_TRACER.EmitTrace then
-                        Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Item:" .. traceToken .. ":FAILED|INST_NULL", "ERROR")
-                    end
-                end
-            else
-                if Z_TRACER and Z_TRACER.EmitTrace then
-                    Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Item:" .. traceToken .. ":NOT_FOUND", "WARN")
-                end
-            end
-        end
-        addPlayerIfScripted("NOX_EVO_B42.NE_AntiMutantDrug", "NE_AntiMutantDrug")
-        addPlayerIfScripted("NOX_EVO_B42.NE_Retardant", "NE_Retardant")
-        addPlayerIfScripted("NOX_EVO_B42.NE_QuestReport", "NE_QuestReport")
-    end
+    -- 抗変異薬・遅延剤・機密文書は Dr.Hiro 遺体（ゾンビ inv 経由）にのみ付与
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         Z_TRACER.EmitTrace("NE_SCENE", "Equipment", "Setup:OK", "INFO")
@@ -215,6 +194,66 @@ end
 --   body:getInventory()     → IsoDeadBody は IsoGameCharacter 非継承 → Lua 非露出
 -- --------------------------------------------------------------------------
 
+-- Dr.Hiro 用: 男性 SurvivorDesc → createZombie 第4引数。スポーン後に記述子・Zombie 側を男性で再固定。
+-- SurvivorDesc: Javadoc setFemale(boolean) — B42 では setIsFemale があれば併用（存在時のみ pcall）
+-- ItemContainer: Javadoc RemoveAll(String) 例は短名 "Broccoli" / vanila ID カードは "IDCard"
+-- 安定パイプライン: setDressInRandomOutfit(false) → stripAllWornItems → inv:clear() → RemoveAll("IDCard") → 手動装備・所持
+---@return SurvivorDesc|nil
+local function ne_buildDrHiroSurvivorDesc()
+    local d
+    -- SurvivorDesc(boolean bNew) コンストラクタ: Javadoc 参照
+    pcall(function()
+        if SurvivorDesc and SurvivorDesc.new then
+            d = SurvivorDesc.new(true)
+        end
+    end)
+    if not d then
+        pcall(function()
+            if SurvivorDesc and SurvivorDesc.new then
+                d = SurvivorDesc.new()
+            end
+        end)
+    end
+    if d then
+        pcall(function()
+            if d.setFemale then
+                d:setFemale(false)
+            end
+            ---@diagnostic disable-next-line: undefined-field
+            if d.setIsFemale then
+                ---@diagnostic disable-next-line: undefined-field
+                d:setIsFemale(false)
+            end
+        end)
+        pcall(function()
+            if d.setForename then d:setForename("Dr.") end
+            if d.setSurname then d:setSurname("Hiro") end
+        end)
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Desc:OK|Male", "INFO")
+        end
+    elseif Z_TRACER and Z_TRACER.EmitTrace then
+        -- ここが出ると第4引数 nil → ランダム性別ゾンビ（Female 等）になり outfit 不整合のリスク
+        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Desc:nil|useRandomZombie", "ERROR")
+    end
+    return d
+end
+
+---@param z IsoZombie|nil
+---@param when string
+local function ne_traceInventorySex(z, when)
+    if not (Z_TRACER and Z_TRACER.EmitTrace) or not z or not z.isFemale then
+        return
+    end
+    local fem = true
+    pcall(function() fem = z:isFemale() == true end)
+    if fem then
+        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "inventoryfemale|" .. when, "WARN")
+    else
+        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "inventorymale|" .. when, "INFO")
+    end
+end
+
 ---@param player IsoPlayer
 local function spawnDrHiroWithRetry(player)
     local retries    = 0
@@ -255,20 +294,40 @@ local function spawnDrHiroWithRetry(player)
         -- Tutorial/Steps.lua:1088-1096 のパターン確認済み
         -- fail-fast: pcall なし。Java 例外はスタックトレースごと surface させる
 
-        -- [1] createZombie
-        --     第 6 引数: IsoDirections.S を必ず渡す (nil → NPE in ordinal())
-        local zombie = createZombie(HIRO_X, HIRO_Y, HIRO_Z, nil, 0, IsoDirections.S)
+        -- [1] createZombie(…, hiroDesc, …) — 第 4 直後に男性で再固定（B42: inventoryfemale 対策）
+        --     第 4 引数: 男性 Dr.Hiro 用 SurvivorDesc / 第 6 引数: IsoDirections 必須
+        local hiroDesc = ne_buildDrHiroSurvivorDesc()
+        ---@diagnostic disable-next-line: param-type-mismatch
+        local zombie = createZombie(HIRO_X, HIRO_Y, HIRO_Z, hiroDesc, 0, IsoDirections.S)
         if not zombie then
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Spawn:FAILED|zombie=nil", "ERROR")
             return
         end
+        pcall(function()
+            local zd = zombie.getDescriptor and zombie:getDescriptor() or nil
+            if zd then
+                if zd.setFemale then
+                    zd:setFemale(false)
+                end
+                ---@diagnostic disable-next-line: undefined-field
+                if zd.setIsFemale then
+                    ---@diagnostic disable-next-line: undefined-field
+                    zd:setIsFemale(false)
+                end
+            end
+            if zombie.setFemale then
+                zombie:setFemale(false)
+            end
+            ---@diagnostic disable-next-line: undefined-field
+            if zombie.setIsFemale then
+                ---@diagnostic disable-next-line: undefined-field
+                zombie:setIsFemale(false)
+            end
+        end)
+        ne_traceInventorySex(zombie, "postCreateZombie")
 
-        -- [2] インベントリ状態の制御 (B42 Authority Protection)
-        --     遺体化後のプロシージャル・ルート生成が手動 AddItem と競合しないよう、
-        --     DoZombieInventory 完了 → clear → explored / looted を変換前に確定する。
-        --     setDressInRandomOutfit(false) ← Tutorial/Steps.lua:1693 / BandageStep パターン
-        --     DoZombieInventory ← Steps.lua:1095,1698
-        --     setExplored / setHasBeenLooted ← ISInventoryTransferAction.lua:636, ISInventoryPage 等
+        -- [2] 全装備を外してから inv clear（着用＝性別専用下着・服は clear の対象外のため先に外す）
+        --     DoZombieInventory は呼ばない（バッグ内に性別物・ゴミを足す）
         local inv = zombie:getInventory()
         if not inv then
             player:Say("ヒロ博士の遺体生成に失敗しました。(inv=nil)")
@@ -276,13 +335,21 @@ local function spawnDrHiroWithRetry(player)
             return
         end
         zombie:setDressInRandomOutfit(false)
-        zombie:DoZombieInventory()
-        inv:clear()
-        inv:setExplored(true)
-        inv:setHasBeenLooted(true)
+        stripAllWornItems(zombie)
+        pcall(function() inv:clear() end)
         if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Authority:InventorySeeded|explored+looted", "DEBUG")
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Inv:Cleared:DrHiroOnly", "INFO")
         end
+        -- 名前付き生存者用にエンジンが投入した Base.IDCard を除去（Javadoc ItemContainer:RemoveAll/Remove("IDCard") 系）
+        pcall(function() inv:RemoveAll("IDCard") end)
+        pcall(function() if inv.Remove then inv:Remove("IDCard") end end)
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            if inv.RemoveItem then
+                ---@diagnostic disable-next-line: undefined-field
+                inv:RemoveItem("Base.IDCard")
+            end
+        end)
 
         -- [3] 白衣 (JacketLong_Doctor) を手動装着
         --     ItemContainer.AddItem(String) ← Javadoc line 125 (大文字 A)
@@ -309,70 +376,75 @@ local function spawnDrHiroWithRetry(player)
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Dress:Shoes_Slippers:nil", "WARN")
         end
 
-        -- [5] インベントリ: 救急キット + 身分証 + マスターキー（医療品・機密文書はプレイヤー初期所持へ移管）
-        local fak = inv:AddItem("Base.FirstAidKit")
-        if fak then
-            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:SUCCESS", "INFO")
-        else
-            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:FAILED|INST_NULL", "ERROR")
-        end
+        -- [5] 持ち物: アクセスキー・応急・抗変異・遅延・ID・機密文書のみ（+ [3][4] の白衣・スリッパ装備用）
         do
             local sm = getScriptManager and getScriptManager() or nil
-            local function addIfScripted(fullId, traceToken)
-                if sm and sm.getItem and sm:getItem(fullId) then
-                    local newItem = inv:AddItem(fullId)
-                    if newItem then
-                        if Z_TRACER and Z_TRACER.EmitTrace then
-                            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. traceToken .. ":SUCCESS", "INFO")
-                        end
-                    else
-                        if Z_TRACER and Z_TRACER.EmitTrace then
-                            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. traceToken .. ":FAILED|INST_NULL", "ERROR")
-                        end
-                    end
-                else
+            local function addZ(fullId, token)
+                if not sm or not sm.getItem or not sm:getItem(fullId) then
                     if Z_TRACER and Z_TRACER.EmitTrace then
-                        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. traceToken .. ":NOT_FOUND", "WARN")
+                        Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. token .. ":NOT_FOUND", "WARN")
                     end
+                    return
+                end
+                inv:AddItem(fullId)
+                if Z_TRACER and Z_TRACER.EmitTrace then
+                    Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:" .. token, "INFO")
                 end
             end
-
-            addIfScripted("NOX_EVO_B42.NE_DrHiro_ID", "NE_DrHiro_ID")
-            addIfScripted("NOX_EVO_B42.NE_AccessKey", "NE_AccessKey")
+            addZ("NOX_EVO_B42.NE_AccessKey", "NE_AccessKey")
+            local fak = inv:AddItem("Base.FirstAidKit")
+            if fak then
+                Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:SUCCESS", "INFO")
+            else
+                Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Item:FirstAidKit:FAILED", "ERROR")
+            end
+            addZ("NOX_EVO_B42.NE_AntiMutantDrug", "NE_AntiMutantDrug")
+            addZ("NOX_EVO_B42.NE_Retardant", "NE_Retardant")
+            addZ("NOX_EVO_B42.NE_DrHiro_ID", "NE_DrHiro_ID")
+            addZ("NOX_EVO_B42.NE_QuestReport", "NE_QuestReport")
         end
 
-        -- 手動配置完了後に再アサート（初回インベントリ UI オープン時の再ロール抑止）
-        inv:setExplored(true)
-        inv:setHasBeenLooted(true)
-        if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Authority:ReassertAfterAdds", "DEBUG")
-        end
-
-        -- [6] 名前を "Dr. Hiro" に固定（装着・所持品の後）
-        --     SurvivorDesc.setForename/setSurname ← Javadoc zombie/characters/SurvivorDesc.html line 111, 117
-        --     IsoGameCharacter.getDescriptor() ← Javadoc IsoGameCharacter.html line 349
+        -- [6] 名前（Desc で未設定の場合の保険）
         local desc = zombie:getDescriptor()
         if desc then
-            desc:setForename("Dr.")
-            desc:setSurname("Hiro")
-            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Name:Set:DrHiro", "DEBUG")
+            pcall(function()
+                if desc.setForename then desc:setForename("Dr.") end
+                if desc.setSurname then desc:setSurname("Hiro") end
+            end)
+            Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Name:Reassert", "DEBUG")
         else
             Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Name:desc=nil:SKIP", "WARN")
         end
 
-        -- [7] IsoDeadBody.new(IsoGameCharacter, boolean) でゾンビを遺体に変換
+        -- [6b] 名前再アサート後に再度バニラ ID カードを除去、Mod 軍用ID 1 件の確認
+        pcall(function() inv:RemoveAll("IDCard") end)
+        pcall(function() if inv.Remove then inv:Remove("IDCard") end end)
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            if inv.RemoveItem then
+                ---@diagnostic disable-next-line: undefined-field
+                inv:RemoveItem("Base.IDCard")
+            end
+        end)
+        if inv.containsTypeRecurse then
+            if inv:containsTypeRecurse("NOX_EVO_B42.NE_DrHiro_ID") == true then
+                Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "NE_DrHiro_ID:present|count=ok", "INFO")
+            else
+                Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "NE_DrHiro_ID:missing", "ERROR")
+            end
+        end
+        pcall(function() if inv.setHasBeenLooted then inv:setHasBeenLooted(true) end end)
+        pcall(function() if inv.setExplored then inv:setExplored(true) end end)
+        ne_traceInventorySex(zombie, "preCorpse")
+
+        -- [7] IsoDeadBody 化。屍体 inv は以降編集しない
         --     Javadoc IsoDeadBody(IsoGameCharacter,boolean) / Tutorial/Steps.lua:1096 確認済
         local body = IsoDeadBody.new(zombie, false)
 
         if body then
-            body:setExplored(true)
-            local container = body:getContainer()
-            if container then
-                container:setExplored(true)
-                container:setHasBeenLooted(true)
-                if Z_TRACER and Z_TRACER.EmitTrace then
-                    Z_TRACER.EmitTrace("NE_SCENE", "DrHiro", "Persistence:FINAL_ASSERT:OK", "INFO")
-                end
+            local bmd = body:getModData()
+            if bmd then
+                bmd.NE_isDrHiro = true
             end
         end
 
