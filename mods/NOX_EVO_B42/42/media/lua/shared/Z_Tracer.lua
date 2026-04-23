@@ -1,7 +1,6 @@
 Z_TRACER = {}
-local unpackFn = rawget(table, "unpack") or unpack
 Z_TRACER.Config = {
-    TRACE_ENABLED = true,
+    TRACE_ENABLED = false,
     TRACE_LEVEL = "DEBUG"
 }
 
@@ -47,47 +46,48 @@ function Z_TRACER.EmitTrace(traceType, name, action, optionalLevel)
     emitTrace(traceType, name, action, optionalLevel)
 end
 
--- 1. イベント・ライフサイクル監視
-local function WrapCallback(eventName, originalFunc)
-    return function(...)
-        emitTrace("EVENT", eventName, "START")
-        local result = {pcall(originalFunc, ...)}
-        if not result[1] then
-            emitTrace("FATAL", eventName, "CRASH: " .. tostring(result[2]))
-            error(result[2])
-        else
-            emitTrace("EVENT", eventName, "END")
-        end
-        return unpackFn(result, 2)
-    end
-end
-
-local excluded_events = { OnTick = true, OnPlayerUpdate = true, OnRenderTick = true }
-for eventName, eventObj in pairs(Events) do
-    if type(eventObj) == "table" and eventObj.Add and not excluded_events[eventName] and not eventObj.__z_wrapped then
-        local originalAdd = eventObj.Add
-        eventObj.Add = function(self, func)
-            originalAdd(self, WrapCallback(eventName, func))
-        end
-        eventObj.__z_wrapped = true
-    end
-end
-
--- 2. ネットワーク境界監視
-if isClient() and not _G.__z_sendClientCommand_wrapped then
-    _G.__z_orig_sendClientCommand = _G.__z_orig_sendClientCommand or sendClientCommand
-    sendClientCommand = function(module, command, args)
-        emitTrace("NET_SEND", module .. ":" .. command, "C2S")
-        _G.__z_orig_sendClientCommand(module, command, args)
-    end
-    _G.__z_sendClientCommand_wrapped = true
-end
-
-if isServer() and not _G.__z_sendServerCommand_wrapped then
-    _G.__z_orig_sendServerCommand = _G.__z_orig_sendServerCommand or sendServerCommand
-    sendServerCommand = function(module, command, args)
-        emitTrace("NET_SEND", module .. ":" .. command, "S2C")
-        _G.__z_orig_sendServerCommand(module, command, args)
-    end
-    _G.__z_sendServerCommand_wrapped = true
-end
+-- [STABILIZE] 以下は起動時の Events 全走査・Add 差し替えが重く B42 非互換リスクがあるため恒久無効。
+-- 参照用にコードのみ残す（実行しない）。
+--
+-- local function WrapCallback(eventName, originalFunc)
+--     return function(...)
+--         emitTrace("EVENT", eventName, "START")
+--         local result = {pcall(originalFunc, ...)}
+--         if not result[1] then
+--             emitTrace("FATAL", eventName, "CRASH: " .. tostring(result[2]))
+--             error(result[2])
+--         else
+--             emitTrace("EVENT", eventName, "END")
+--         end
+--         return unpackFn(result, 2)
+--     end
+-- end
+--
+-- local excluded_events = { OnTick = true, OnPlayerUpdate = true, OnRenderTick = true }
+-- for eventName, eventObj in pairs(Events) do
+--     if type(eventObj) == "table" and eventObj.Add and not excluded_events[eventName] and not eventObj.__z_wrapped then
+--         local originalAdd = eventObj.Add
+--         eventObj.Add = function(self, func)
+--             originalAdd(self, WrapCallback(eventName, func))
+--         end
+--         eventObj.__z_wrapped = true
+--     end
+-- end
+--
+-- if isClient() and not _G.__z_sendClientCommand_wrapped then
+--     _G.__z_orig_sendClientCommand = _G.__z_orig_sendClientCommand or sendClientCommand
+--     sendClientCommand = function(module, command, args)
+--         emitTrace("NET_SEND", module .. ":" .. command, "C2S")
+--         _G.__z_orig_sendClientCommand(module, command, args)
+--     end
+--     _G.__z_sendClientCommand_wrapped = true
+-- end
+--
+-- if isServer() and not _G.__z_sendServerCommand_wrapped then
+--     _G.__z_orig_sendServerCommand = _G.__z_orig_sendServerCommand or sendServerCommand
+--     sendServerCommand = function(module, command, args)
+--         emitTrace("NET_SEND", module .. ":" .. command, "S2C")
+--         _G.__z_orig_sendServerCommand(module, command, args)
+--     end
+--     _G.__z_sendServerCommand_wrapped = true
+-- end

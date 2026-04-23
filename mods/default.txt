@@ -2,12 +2,12 @@ VERSION = 1,
 
 mods
 {
-    mod = NOX_EVO_B42,
     mod = B42ModOptions,
     mod = HelicopterEventExpansionFramework,
     mod = Bandits2,
     mod = errorMagnifier,
     mod = ChuckleberryFinnAlertSystem,
+    mod = NOX_EVO_B42,
 }
 
 maps

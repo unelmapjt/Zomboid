@@ -480,6 +480,27 @@ end
 -- ページ終了時またはエラー時はそのままインゲームを開始。
 -- --------------------------------------------------------------------------
 
+--- イントロ終了後に操作権をプレイヤー側へ戻す（B42: モーダル解除後も入力ロックが残る対策）
+---@param modalTarget ISModalDialog|ISPanel|nil
+local function NE_ReleaseIntroInputLock(modalTarget)
+    pcall(function()
+        if UIManager and type(UIManager.setShowPausedMessage) == "function" then
+            UIManager.setShowPausedMessage(false)
+        end
+    end)
+    pcall(function()
+        local core = getCore()
+        if core and type(core.setBlockAllInput) == "function" then
+            core:setBlockAllInput(false)
+        end
+    end)
+    pcall(function()
+        if modalTarget and type(modalTarget.destroy) == "function" then
+            modalTarget:destroy()
+        end
+    end)
+end
+
 ---@param player IsoPlayer
 local function showIntroDialogue(player)
     -- 翻訳キーは Translate/JP/UI.json に定義済み
@@ -557,6 +578,7 @@ local function showIntroDialogue(player)
                         if Z_TRACER and Z_TRACER.EmitTrace then
                             Z_TRACER.EmitTrace("NE_SCENE", "Intro", "Cinematic:DONE", "INFO")
                         end
+                        NE_ReleaseIntroInputLock(target)
                     end
                 end
             )
@@ -661,6 +683,7 @@ local function OnCreatePlayer(playerIndex, player)
 
     local function runOnNextTick()
         Events.OnTick.Remove(runOnNextTick)
+        -- [DEBUG RECOVERY 手順3] 5 枚イントロ（ISModalDialog）を有効化して入力ロックを確認
         runStartScene(player, false)
     end
     Events.OnTick.Add(runOnNextTick)

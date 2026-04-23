@@ -128,6 +128,14 @@ Cursor への指示（Step 0-7 形式）を作成する際は、必ず冒頭に�
 ### 1.8 SYSTEM SYNC OBLIGATION
 Rule-G/E や EXECUTION GATE などの主要な推論ルールの追加・変更時には、必ず `.cursorrules` と `.antigravityrules` の両方を同時に更新しなければならない。一方が古くなることによる「思考（Antigravity）」と「実体（Cursor）」の認識のズレは、システムの破綻を意味する。
 
+### 1.9 KAHLUA — `rawget` と Java Userdata（必須遵守）
+Project Zomboid の Lua（Kahlua VM）において、`rawget(table, key)` は**純粋な Lua テーブル**に対してのみ定義どおり安全に使える。
+`SurvivorDesc` / `ItemContainer` / `IsoZombie` / `IsoPlayer` など、**Java 側で生成されたオブジェクト（Userdata）**に `rawget` を適用してはならない。誤用は `ClassCastException` 等により**即クラッシュ**する。
+
+- **禁止**: `rawget(javaObject, "methodName")` や Java オブジェクトを第1引数にした `rawget`。
+- **許可**: `rawget(table, "unpack")` のように、**Lua 標準のテーブル**のみを第1引数に取る用途。
+- **正**: Java メソッドの有無は `if obj.methodName then obj:methodName(...) end` のように**直接**ガードする。
+
 ---
 
 ## 2. KNOWLEDGE & DATA REGISTRY
@@ -143,6 +151,7 @@ Rule-G/E や EXECUTION GATE などの主要な推論ルールの追加・変更�
 ### 2.2 BLACKLIST & NEGATIVE CONTEXT (B42 PITFALLS)
 - **Mandatory Check**: カメラ・視覚演出・エンティティ生成等の論理を提案する前に、必ず **`memory-bank/failures.md`** を確認せよ。
 - **Enforced Ban**: ブラックリストに記載された API やパターン（引数なしコロン呼び出し・`IsoCamera.zoom` 直接代入・不安定なフェード API 等）の使用を固く禁ずる。
+- **Java Userdata に対する `rawget` 禁止**: 詳細は **§1.9**。Mod Lua での「メソッド探索」に `rawget` を使うことは禁止。
 - **Update Duty**: 新たな不安定要因や Java 例外が発見された場合、直ちに `memory-bank/failures.md` を更新せよ。
 
 ---

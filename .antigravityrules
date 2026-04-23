@@ -98,6 +98,16 @@ Cursor への指示（Step 0-7 形式）を作成する際は、必ず冒頭に�
 ### 1.7 SYSTEM SYNC OBLIGATION
 Rule-G/E や EXECUTION GATE などの主要な推論ルールの追加・変更時には、必ず `.cursorrules` と `.antigravityrules` の両方を同時に更新しなければならない。一方が古くなることによる「思考（Antigravity）」と「実体（Cursor）」の認識のズレは、システムの破綻を意味する。
 
+### 1.9 KAHLUA — `rawget` と Java Userdata（必須遵守）
+Project Zomboid の Lua（Kahlua VM）では、`rawget(table, key)` は**純粋な Lua テーブル**に対してのみ安全に使える。
+`SurvivorDesc` / `ItemContainer` / `IsoZombie` / `IsoPlayer` 等の **Java Userdata** に `rawget` を使うな。`ClassCastException` によりゲームがクラッシュする。
+
+- **禁止**: Java オブジェクトを第1引数にした `rawget`。
+- **許可**: `rawget(table, "unpack")` のように **Lua テーブル限定**。
+- **正**: `if obj.methodName then obj:methodName(...) end` で直接ガード。
+
+Antigravity が Cursor へ Lua 差分を指示する際も、上記を**絶対に違反させてはならない**。
+
 ---
 
 ## 2. 禁則事項 (Blacklist)
@@ -105,3 +115,4 @@ Rule-G/E や EXECUTION GATE などの主要な推論ルールの追加・変更�
 ### 2.1 【ブラックリストの絶対参照】
 - **`memory-bank/failures.md`** に記載された「負の知見（使用不可 API・パターン）」を決して提案・実装・推奨しない。
 - ユーザーからの要望がブラックリストに含まれる API を必要とする場合、直ちにそのリスクを報告し、安全な代替案を提示せよ。
+- **Java Userdata に対する `rawget` はブラック**（§1.9）。Mod 生成 Lua に `rawget(d, …)` のような行を書かせるな。

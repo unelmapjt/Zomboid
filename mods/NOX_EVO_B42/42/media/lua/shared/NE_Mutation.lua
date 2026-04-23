@@ -105,10 +105,8 @@ function NE.UpdateMutation(player, forceRecalc)
         return
     end
 
-    -- Bootstrap: NE_MutationLevel の現在値に依存しない（level==0 等の分岐は置かない）
-    if not modData.NE_MutationBootstrapDone then
+    if modData.NE_MutationLevel == nil then
         modData.NE_MutationLevel = 20.0
-        modData.NE_MutationBootstrapDone = true
         if Z_TRACER and Z_TRACER.EmitTrace then
             Z_TRACER.EmitTrace(
                 "NE_MUTATION",

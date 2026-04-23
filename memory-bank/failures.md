@@ -35,6 +35,9 @@ B42 のカメラは「Object（静的な状態）」ではなく「Process（連
     - **例**: `getCore():getMaxZoom()`
     - **問題**: `expected 0 arguments, got 1` エラー。`:` 呼び出しは暗黙的に `self` を渡すため、引数 0 本の Java 関数にとっては余分な引数になる。
     - **対策**: `getCore().getMaxZoom()` のようにドット形式で呼び出す。
+- **`rawget(javaUserdata, "key")`（Java オブジェクトへの `rawget`）**:
+    - **問題**: Kahlua VM では `rawget` は**純粋な Lua テーブル**向け。`SurvivorDesc` / `ItemContainer` / `IsoZombie` 等に使うと `ClassCastException` 等で**クラッシュ**。
+    - **対策**: `if obj.methodName then obj:methodName(...) end`。方針は `.cursorrules` §1.9。
 
 ---
 
@@ -48,6 +51,8 @@ B42 のカメラは「Object（静的な状態）」ではなく「Process（連
 - **`isoDeadBody:getInventory()`**:
     - **問題**: Lua 側から直接アクセスできない。
     - **対策**: 遺体に変換する前の `zombie` オブジェクトから `getInventory()` を呼び出して操作する。
+- **死体（コープス）インベントリのアイテムに `CantBeDropped = TRUE` を付与する**:
+    - **問題**: アイテム消失・Pruning・インベントリ不整合の原因になり得る（初期配布・遺体漁りの検証で再発防止）。
 
 ---
 
@@ -55,3 +60,11 @@ B42 のカメラは「Object（静的な状態）」ではなく「Process（連
 
 - **インゲーム中の `MainScreen:prerender` 改変**:
     - **リスク**: タイトル画面の背景描画をインゲーム中も実行しようとすると、世界がタイトル背景で塗りつぶされる（Blackout現象）。ガーディングが必須。
+
+---
+
+## 6. イベント駆動 (Events)
+
+- **`Events.OnPlayerWake`**:
+    - **問題**: `attempted index: Add of non-table: null`。B42 エンジンに存在しないイベント。
+    - **対策**: `OnTick` または `OnPlayerUpdate` で `IsoPlayer:isAsleep()` の状態遷移（前回 Asleep で今回 Not Asleep）を監視して代用する。

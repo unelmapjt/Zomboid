@@ -8,7 +8,14 @@ NE.Debug = NE.Debug or {}
 function NE.Debug.SetMutation(player, value)
     local modData = player:getModData()
     modData.NE_MutationLevel = value
-    player:Say("[NE] Mutation=" .. tostring(value) .. "%")
+end
+
+--- ゲーム内時刻を設定する（デバッグ用）
+---@param player IsoPlayer
+---@param hour number setTimeOfDay 用の時刻
+function NE.Debug.SetTime(player, hour)
+    getGameTime():setTimeOfDay(hour)
+    player:Say("[NE] TimeOfDay=" .. tostring(hour))
 end
 
 --- コンテキストメニューの構築
@@ -43,11 +50,37 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects)
         subMenu:addSubMenu(mutOption, mutSubMenu)
         Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "B:MutSubMenu:OK", "DEBUG")
 
-        mutSubMenu:addOption("0% (Clean)",     player, NE.Debug.SetMutation, 0)
-        mutSubMenu:addOption("25% (Mild)",     player, NE.Debug.SetMutation, 25)
-        mutSubMenu:addOption("50% (Danger)",   player, NE.Debug.SetMutation, 50)
-        mutSubMenu:addOption("75% (Critical)", player, NE.Debug.SetMutation, 75)
-        mutSubMenu:addOption("100% (Max)",     player, NE.Debug.SetMutation, 100)
+        for pct = 0, 100, 5 do
+            local label
+            if pct == 0 then
+                label = "0% (Clean)"
+            elseif pct == 25 then
+                label = "25% (Unstable 閾値)"
+            elseif pct == 50 then
+                label = "50% (Danger 閾値)"
+            elseif pct == 75 then
+                label = "75% (Critical 閾値)"
+            elseif pct == 100 then
+                label = "100% (EVOLVED)"
+            else
+                label = string.format("%d%%", pct)
+            end
+            mutSubMenu:addOption(label, player, NE.Debug.SetMutation, pct)
+        end
+        mutSubMenu:addOption("Mutation +5", player, function(p)
+            local md = p:getModData()
+            if not md then
+                return
+            end
+            md.NE_MutationLevel = math.min(100, (md.NE_MutationLevel or 0) + 5)
+        end)
+        mutSubMenu:addOption("Mutation -5", player, function(p)
+            local md = p:getModData()
+            if not md then
+                return
+            end
+            md.NE_MutationLevel = math.max(0, (md.NE_MutationLevel or 0) - 5)
+        end)
         Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "B:MutItems:OK", "DEBUG")
 
         -- [C] 生存日数操作
@@ -90,7 +123,9 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects)
 
         sysSubMenu:addOption("Add 10 Evolution Points", player, NE.Debug.AddEP, 10)
         sysSubMenu:addOption("Reset Reminder Flags", player, function(p)
-            p:getModData().NE_HiroReminderDone = nil
+            local md = p:getModData()
+            md.NE_HiroReminderDone = nil
+            md.NE_HiroItemSafetyRespawned = nil
             p:Say("[NE] Reminder flags reset")
         end)
         Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "F:SysAPI:OK", "DEBUG")
@@ -99,6 +134,24 @@ local function OnFillWorldObjectContextMenu(playerNum, context, worldobjects)
         subMenu:addOption("Force Start Scene",   player, NE.Debug.ForceStartScene)
         subMenu:addOption("Break Equipped Mask", player, NE.Debug.BreakMask)
         subMenu:addOption("Give B17 Card Key",   player, NE.Debug.GiveCardKey)
+
+        -- [G] Time & Sleep（起床リマインド検証用）
+        local timeOption = subMenu:addOption("Time & Sleep Control...", worldobjects, nil)
+        local timeSub = ISContextMenu:getNew(subMenu)
+        subMenu:addSubMenu(timeOption, timeSub)
+        timeSub:addOption("Add 1 Hour", player, function(p)
+            getGameTime():setTimeOfDay(getGameTime():getTimeOfDay() + 1.0)
+        end)
+        timeSub:addOption("Set Time: Morning (08:00)", player, NE.Debug.SetTime, 8.0)
+        timeSub:addOption("Set Time: Night (22:00)", player, NE.Debug.SetTime, 22.0)
+        timeSub:addOption("Force Sleep (Asleep=True)", player, function(p)
+            p:setAsleep(true)
+        end)
+        timeSub:addOption("Force Wake Up (Asleep=False)", player, function(p)
+            p:setAsleep(false)
+        end)
+        Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "G:TimeSleep:OK", "DEBUG")
+
         Z_TRACER.EmitTrace("NE_DEBUG", "ContextMenu", "E:DONE", "DEBUG")
     end)
 

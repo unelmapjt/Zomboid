@@ -97,99 +97,77 @@ local function checkMonologue()
 
     -- 判定開始
     local category = "Mutation"
-    local subType  = "Low"
-    local maxIndex = 5
+    local subType  = nil
+    local maxIndex = 0
     local sayColor = {r=1, g=1, b=1} -- デフォルト：白
+
+    -- 頻度とクールダウンの動的計算 (変異度が高いほど、意識が混濁しおしゃべりになる)
+    -- ベース 10% 成功率、最大 70%
+    local triggerChance = 10 + (mutation / 100) * 60
+    if ZombRand(100) > triggerChance then return end
 
     -- A. 正気への復帰判定 (変異度が 5% 以上低下した瞬間)
     if lastMutation > mutation + 5 then
-        if ZombRand(100) < 40 then -- 40% の確率で我に返る
+        if ZombRand(100) < 50 then -- 確率を少し上昇
             category, subType, maxIndex = "Recovery", "1", 4
         end
     end
 
-    -- B. 暴走判定 (汚染域 or 変異 75% 以上)
+    -- B. 暴走判定 (汚染域)
     local isDangerZone = false
     if modData.NE_LastZoneMult and modData.NE_LastZoneMult > 1.0 then isDangerZone = true end
     
-    if category == "Mutation" then
-        if isDangerZone or mutation >= 75 then
-            -- 暴走・あるいは極限の進化状態
-            if isDangerZone then
-                category, subType, maxIndex = "Berserk", "1", 4
-                sayColor = {r=0.8, g=0.1, b=0.1} -- 深紅
-            else
-                subType, maxIndex = "Extreme", 7
-                sayColor = {r=0.4, g=0.8, b=0.4} -- 淡緑
-            end
-        end
+    if not subType and isDangerZone then
+        category, subType, maxIndex = "Berserk", "1", 5
+        sayColor = {r=0.8, g=0.1, b=0.1} -- 深紅
     end
 
-    -- 通常のランダムトリガー (特筆すべき状態変化がない場合 20%)
-    if category == "Mutation" and subType == "Low" and ZombRand(100) > 20 then
-        return 
-    end
+    -- C. カテゴリ判定 (場所、天候、内省、または変異レベル)
+    if not subType then
+        local dice = ZombRand(100)
+        local stats = player.getStats and player:getStats() or nil
+        local health, panic = readHealthAndPanicFromStats(stats)
 
-    -- 1. 場所判定 (場所が特定の一覧にあるなら優先)
-    if category == "Mutation" and subType == "Low" then
+        -- 1. 場所判定 (15% 優先)
         local square = player:getCurrentSquare()
-        if square then
+        if dice < 15 and square then
             local room = square:getRoom()
             if room then
                 local roomDef = room:getRoomDef()
                 local rName = string.lower(roomDef:getName() or "")
                 if string.find(rName, "research") or string.find(rName, "laboratory") or string.find(rName, "hospital") then
-                    category, subType, maxIndex = "Loc", "Hospital", 2
+                    category, subType, maxIndex = "Loc", "Lab", 2
                 elseif string.find(rName, "house") or string.find(rName, "kitchen") or string.find(rName, "bedroom") then
-                    category, subType, maxIndex = "Loc", "Home", 2
+                    category, subType, maxIndex = "Loc", "Home", 1
                 end
             end
         end
-    end
 
-    -- 3. 内省・変異判定 (場所・天候がない場合、あるいはランダムで優先)
-    if category == "Mutation" or ZombRand(100) > 30 then
-        local dice = ZombRand(100)
-        local stats = player.getStats and player:getStats() or nil
-        local health, panic = readHealthAndPanicFromStats(stats)
-        
-        -- A. 特殊判定：ささやかな喜び (パニックがなく、室内などで稀に発生)
-        if panic < 10 and ZombRand(100) < 8 then
-            category, subType, maxIndex = "Happy", "1", 10
-        
-        -- B. 身体的・精神的苦痛による「絶望」
-        elseif health < 0.5 or (mutation > 30 and mutation < 60 and ZombRand(100) < 40) then
-            category, subType, maxIndex = "Despair", "1", 10
-        
-        -- C. 内面的な声
-        elseif dice < 20 then
-            category, subType, maxIndex = "Memory", "1", 5
-        elseif dice < 40 then
-            category, subType, maxIndex = "Sensory", "1", 3
-        elseif dice < 70 then
-            category, subType, maxIndex = "Reflection", "1", 4
-        else
-            -- 変異度に応じた基本独白 (徐々に人ではなくなっていく恐怖)
-            category = "Mutation"
-            if mutation >= 75 then
-                subType, maxIndex = "Extreme", 10
-                sayColor = {r=0.4, g=0.8, b=0.4} -- 淡緑 (人外への変質)
-            elseif mutation >= 50 then
-                subType, maxIndex = "High", 10
-            elseif mutation >= 25 then
-                subType, maxIndex = "Mid", 10
-            else
-                subType, maxIndex = "Low", 10
+        -- 2. 特殊状態判定
+        if not subType then
+            if panic < 10 and ZombRand(100) < 10 then
+                category, subType, maxIndex = "Happy", "1", 10
+            elseif health < 0.5 or (mutation > 30 and mutation < 60 and ZombRand(100) < 30) then
+                category, subType, maxIndex = "Despair", "1", 10
+            elseif dice < 25 then
+                category, subType, maxIndex = "Memory", "1", 5
+            elseif dice < 35 then
+                category, subType, maxIndex = "Sensory", "1", 3
+            elseif dice < 45 then
+                category, subType, maxIndex = "Reflection", "1", 4
             end
+            -- 変異段階のセリフ（Clean / Unstable / Danger / Critical / EVOLVED）は
+            -- NE_PlayerManager.ApplySymptoms（境界＋クールダウン付き周期）に集約
         end
     end
 
     -- キーの組み立て
+    if not subType then return end
+
     local index = ZombRand(maxIndex) + 1
     local textKey = ""
     
-    -- UI.json の命名規則に合わせる
-    if category == "Mutation" or category == "Loc" or category == "Weather" or category == "State" then
+    if category == "Mutation" or category == "Loc" or category == "Weather" then
         textKey = string.format("UI_NE_Speech_%s_%s_%d", category, subType, index)
     else
         -- Happy, Memory, Reflection, Sensory, Recovery, Berserk, Despair は直接連番
@@ -199,12 +177,13 @@ local function checkMonologue()
     local text = getText(textKey)
 
     if text ~= textKey then
-        -- カスタムカラーでの Say
         player:Say(text, sayColor.r, sayColor.g, sayColor.b, UIFont.Intermediate, 10, "white")
-        monologueCooldown = 3 -- 30分間は次の独白を行わない
+        
+        -- クールダウンも変異度に応じて短縮 (100%付近ではクールダウンなし)
+        monologueCooldown = math.max(0, 4 - math.floor(mutation / 20))
         
         if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace("NE_LORE", "Monologue", "Show: " .. textKey .. " Color: " .. tostring(sayColor.r), "INFO")
+            Z_TRACER.EmitTrace("NE_LORE", "Monologue", "Show: " .. textKey, "INFO")
         end
     end
 end
