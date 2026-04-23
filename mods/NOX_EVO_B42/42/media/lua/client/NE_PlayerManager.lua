@@ -6,9 +6,11 @@ print(">>> [NE] PLAYER MANAGER IS ALIVE")
 -- --------------------------------------------------------------------------
 
 NE = NE or {}
-
---- 高変異・EVOLVED 相当の処理（移動ロック・台詞境界・HP 最大段など）のしきい値（%）
-local NE_MUTATION_EVOLVED_THRESHOLD = 99.5
+--- HUD / 健康パネル / 台詞の EVOLVED 境界（%）。単一の参照元（NE_PlayerManager が既定を設定）。
+if type(NE.MUTATION_EVOLVED_THRESHOLD) ~= "number" then
+    NE.MUTATION_EVOLVED_THRESHOLD = 99.5
+end
+local NE_MUTATION_EVOLVED_THRESHOLD = NE.MUTATION_EVOLVED_THRESHOLD
 
 --- B42: IsoPlayer 基準移動速度（setMoveSpeed 用）
 local NE_MOVE_SPEED_BASE = 0.06
@@ -63,7 +65,7 @@ local function NE_ApplyRunSprintAuthority(player, allowRun, allowSprint)
     end
 end
 
---- OnTick 権威: setVariable 文字列 + setMoveSpeed + setMoveDelta + PAIN（75%+ で PAIN=100・裸足 0.85 等の再計算と競合）
+--- 速度権威: WalkSpeed / MoveDelta（文字列）+ setMoveSpeed + setMoveDelta + setSpeedMod + setAnimationSpeedModifier（あれば）+ Torso 感染 + stats:set(PAIN)。OnTick と OnPlayerUpdate の両方から呼ばれうる
 ---@param player IsoPlayer|IsoGameCharacter|nil
 ---@param mutationPct number 変異度 0–100
 local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
@@ -74,44 +76,87 @@ local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
     local mut = tonumber(mutationPct) or 0
     local m = NE_ComputeMutationSpeedMultiplier(mut)
 
-    pcall(function()
-        if type(player.setVariable) == "function" then
-            local targetVal = tostring(NE_MOVE_SPEED_BASE * m)
+    if type(player.setVariable) == "function" then
+        pcall(function()
             ---@diagnostic disable-next-line: undefined-field
-            player:setVariable("WalkSpeed", targetVal)
+            player:setVariable("WalkSpeed", tostring(0.06 * m))
+        end)
+        pcall(function()
             ---@diagnostic disable-next-line: undefined-field
             player:setVariable("MoveDelta", tostring(m))
-        end
-    end)
-
+        end)
+    end
     if type(player.setMoveSpeed) == "function" then
         pcall(function()
             ---@diagnostic disable-next-line: undefined-field
             player:setMoveSpeed(NE_MOVE_SPEED_BASE * m)
         end)
     end
-
     if type(player.setMoveDelta) == "function" then
         pcall(function()
             ---@diagnostic disable-next-line: undefined-field
             player:setMoveDelta(m)
         end)
     end
-
-    local stats = nil
-    if type(player.getStats) == "function" then
-        local okStats, st = pcall(function()
+    if type(player.setAnimationSpeedModifier) == "function" then
+        pcall(function()
             ---@diagnostic disable-next-line: undefined-field
-            return player:getStats()
+            player:setAnimationSpeedModifier(m)
         end)
-        if okStats then
-            stats = st
+    end
+    if type(player.setSpeedMod) == "function" then
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setSpeedMod(m)
+        end)
+    end
+
+    local bd = nil
+    if type(player.getBodyDamage) == "function" then
+        local okBd, v = pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            return player:getBodyDamage()
+        end)
+        if okBd then
+            bd = v
+        end
+    end
+    if bd then
+        local BPT = rawget(_G, "BodyPartType")
+        if BPT and BPT.Torso_Upper and type(bd.getBodyPart) == "function" then
+            local part = nil
+            local okP, p = pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                return bd:getBodyPart(BPT.Torso_Upper)
+            end)
+            if okP then
+                part = p
+            end
+            if part then
+                pcall(function()
+                    ---@diagnostic disable-next-line: undefined-field
+                    part:setInfectedWound(mut >= 25)
+                    ---@diagnostic disable-next-line: undefined-field
+                    part:setWoundInfectionLevel(mut)
+                end)
+            end
         end
     end
 
+    local stats = nil
+    if type(player.getStats) == "function" then
+        local okSt, s = pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            return player:getStats()
+        end)
+        if okSt then
+            stats = s
+        end
+    end
     local CS = rawget(_G, "CharacterStat")
     if stats and CS and CS.PAIN and type(stats.set) == "function" then
-        local painValue = (mut >= 75) and 100 or 0
+        local t = (mut - 75) / 25
+        local painValue = math.max(0, math.min(100, t * 100))
         pcall(function()
             ---@diagnostic disable-next-line: undefined-field
             stats:set(CS.PAIN, painValue)
@@ -347,6 +392,15 @@ function NE.GetGenderedPainSoundName(player)
     return "Base.MalePain"
 end
 
+--- 変異度（%）→ GetMutationSpeechTier と同じ Clean〜EVOLVED の UI_NE_Status_* 表記（健康パネル・NE_ViralStressHUD チップと同一文字列）
+---@param mutationPct number
+---@return string
+function NE.GetMutationSeverityText(mutationPct)
+    local mut = tonumber(mutationPct) or 0
+    local tier = NE.GetMutationSpeechTier(mut)
+    return getText("UI_NE_Status_" .. tier)
+end
+
 --- 変異度: 台詞（境界＋頻度・クールダウン）と肉体症状（仕様 4.2: 25%〜 Unstable から段階的）
 ---@param player IsoPlayer
 ---@param modData table
@@ -533,7 +587,7 @@ function NE.ApplySymptoms(player, modData)
         end
     end
 
-    -- 移動: OnTick（NE_MutationEvolvedMovementLock）で setVariable 文字列 + setMoveSpeed + setMoveDelta + PAIN(75%+100) 権威
+    -- 移動: OnTick（NE_MutationEvolvedMovementLock）で変数+速度+SpeedMod+PAIN（NE_ApplyMutationSpeedAuthority）
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         local rgPanic, rgDizzy, rgFood = nil, nil, nil
@@ -549,14 +603,17 @@ function NE.ApplySymptoms(player, modData)
                 return player:getMoveDelta()
             end)
             if okMd and vMd ~= nil then
-                rgMoveDelta = string.format("%.3f", tonumber(vMd) or 0)
+                local nMd = tonumber(vMd)
+                if nMd then
+                    rgMoveDelta = string.format("%.3f", nMd)
+                end
             end
         end
         Z_TRACER.EmitTrace(
             "NE_SYMPTOMS",
             "ApplySymptoms",
             string.format(
-                "mutation=%.2f|setPanic=%.2f|setIntox=%.2f|setFood=%d|hpLoss=%.2f|getPanic=%s|getIntox=%s|getFood=%s|getMoveDelta=%s|worldMin=%.1f|moveAuthority=OnTick:varStr+speed+delta+PAIN100|limp=off",
+                "mutation=%.2f|setPanic=%.2f|setIntox=%.2f|setFood=%d|hpLoss=%.2f|getPanic=%s|getIntox=%s|getFood=%s|getMoveDelta=%s|worldMin=%.1f|moveAuthority=OnTick:var+speed+delta+speedMod+PAIN|healthInf=OnTick:setInfectedWound+setWoundInfectionLevel|limp=off",
                 mutation,
                 neTracePanic,
                 neTraceDizzy,
@@ -571,9 +628,14 @@ function NE.ApplySymptoms(player, modData)
             "DEBUG"
         )
     end
+
+    -- コンティニュー直後など: 次の EveryOneMinute 周回を待たず OnTick 購読を同期（NE_MutationEvolvedMovementLock）
+    pcall(function()
+        NE.SyncEvolvedMovementLockGlobally()
+    end)
 end
 
---- 毎ティック: setVariable 文字列 + setMoveSpeed + setMoveDelta + PAIN + setAllowRun / setAllowSprint（99.5%+ で走行・スプリント禁止）
+--- 毎ティック: NE_ApplyMutationSpeedAuthority（速度+PAIN）+ setAllowRun / setAllowSprint（99.5%+ で走行・スプリント禁止）
 local function NE_MutationEvolvedMovementLock()
     if NE.Switches and NE.Switches.EnableMutation == false then
         return
@@ -601,7 +663,7 @@ local function NE_MutationEvolvedMovementLock()
     end
 end
 
---- 変異度 75% 以上が誰もいなければ OnTick から外し、移動デバフを完全解除
+--- 変異度 25% 未満が全員なら OnTick から外し、Torso 感染表示・速度権威の毎ティック更新を停止（75%+ 走破禁止は NE_MutationEvolvedMovementLock 内）
 local NE_EvolvedMovementLockSubscribed = false
 
 function NE.SyncEvolvedMovementLockGlobally()
@@ -611,7 +673,7 @@ function NE.SyncEvolvedMovementLockGlobally()
             local p = getSpecificPlayer(i)
             if NE_IsValidPlayer(p) and not p:isDead() then
                 local md = p:getModData()
-                if md and (md.NE_MutationLevel or 0) >= 75 then
+                if md and (tonumber(md.NE_MutationLevel) or 0) >= 25 then
                     need = true
                     break
                 end
@@ -639,6 +701,48 @@ function NE.SyncEvolvedMovementLockGlobally()
     end
 end
 
+--- OnPlayerUpdate: エンジン直後に速度系のみ即再適用（OnTick と二重。装備・素足の上書き対策）
+local NE_MutationSpeedOnPlayerUpdateHooked = false
+
+local function NE_MutationSpeedAuthorityOnPlayerUpdate(player)
+    if NE.Switches and NE.Switches.EnableMutation == false then
+        return
+    end
+    if not NE_IsValidPlayer(player) or player:isDead() then
+        return
+    end
+    local md = nil
+    if type(player.getModData) == "function" then
+        local ok, v = pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            return player:getModData()
+        end)
+        if ok then
+            md = v
+        end
+    end
+    local mut = (md and tonumber(md.NE_MutationLevel)) or 0
+    if mut < 25 then
+        return
+    end
+    NE_ApplyMutationSpeedAuthority(player, mut)
+end
+
+local function NE_RegisterMutationSpeedOnPlayerUpdateOnce()
+    if NE_MutationSpeedOnPlayerUpdateHooked then
+        return
+    end
+    if Events and type(Events.OnPlayerUpdate) == "table" and type(Events.OnPlayerUpdate.Add) == "function" then
+        Events.OnPlayerUpdate.Add(NE_MutationSpeedAuthorityOnPlayerUpdate)
+        NE_MutationSpeedOnPlayerUpdateHooked = true
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("NE_INIT", "PlayerManager", "OnPlayerUpdate:SpeedAuthority:ADDED", "INFO")
+        end
+    end
+end
+
+NE_RegisterMutationSpeedOnPlayerUpdateOnce()
+
 --- 定期的な生存判定（1分ごと）
 local function OnEveryOneMinute()
     -- [NUCLEAR CLEANUP] 入力ブロック・ポーズ表示の保険解除（一時）
@@ -664,41 +768,46 @@ local function OnEveryOneMinute()
         local player = getSpecificPlayer(i)
         if NE_IsValidPlayer(player) and not player:isDead() then
             local modData = player:getModData()
-
-            local x = player:getX()
-            local y = player:getY()
-
-            -- 前回の計算地点からの距離を確認 (10タイルの閾値)
-            local lastX = modData.NE_LastUpdateX or -9999
-            local lastY = modData.NE_LastUpdateY or -9999
-            local dx = x - lastX
-            local dy = y - lastY
-            local distSq = (dx * dx) + (dy * dy)
-
-            -- 日付が変わったかどうかもチェック
-            local currentDay = NE.GetCurrentDay and NE.GetCurrentDay() or -1
-            local lastDay = modData.NE_LastUpdateDay or -1
-
-            -- 10タイル以上の移動があったか、または日付が変わった場合のみ再計算する
-            local forceRecalc = (distSq >= 100) or (currentDay ~= lastDay)
-
-            if forceRecalc then
-                modData.NE_LastUpdateX = x
-                modData.NE_LastUpdateY = y
-                modData.NE_LastUpdateDay = currentDay
-            end
-
-            -- 変異度更新処理の実行 (ガード節とエラーログ)
-            if NE.UpdateMutation then
-                NE.UpdateMutation(player, forceRecalc)
-            else
-                if Z_TRACER and Z_TRACER.EmitTrace then
-                    Z_TRACER.EmitTrace("NE_ERROR", "PlayerManager", "UpdateMutation:MISSING", "ERROR")
-                end
-            end
-            if NE.ApplySymptoms then
+            -- 症状・Torso 感染は先頭で必ず適用（後続の距離計算 / UpdateMutation で例外が出ても一度は走る）
+            if modData and NE.ApplySymptoms then
                 NE.ApplySymptoms(player, modData)
             end
+            pcall(function()
+                if not modData then
+                    return
+                end
+                local x = player:getX()
+                local y = player:getY()
+
+                -- 前回の計算地点からの距離を確認 (10タイルの閾値)
+                local lastX = modData.NE_LastUpdateX or -9999
+                local lastY = modData.NE_LastUpdateY or -9999
+                local dx = x - lastX
+                local dy = y - lastY
+                local distSq = (dx * dx) + (dy * dy)
+
+                -- 日付が変わったかどうかもチェック
+                local currentDay = NE.GetCurrentDay and NE.GetCurrentDay() or -1
+                local lastDay = modData.NE_LastUpdateDay or -1
+
+                -- 10タイル以上の移動があったか、または日付が変わった場合のみ再計算する
+                local forceRecalc = (distSq >= 100) or (currentDay ~= lastDay)
+
+                if forceRecalc then
+                    modData.NE_LastUpdateX = x
+                    modData.NE_LastUpdateY = y
+                    modData.NE_LastUpdateDay = currentDay
+                end
+
+                -- 変異度更新処理の実行 (ガード節とエラーログ)
+                if NE.UpdateMutation then
+                    NE.UpdateMutation(player, forceRecalc)
+                else
+                    if Z_TRACER and Z_TRACER.EmitTrace then
+                        Z_TRACER.EmitTrace("NE_ERROR", "PlayerManager", "UpdateMutation:MISSING", "ERROR")
+                    end
+                end
+            end)
         end
     end
     NE.SyncEvolvedMovementLockGlobally()
@@ -707,8 +816,143 @@ end
 -- イベント登録
 Events.EveryOneMinute.Add(OnEveryOneMinute)
 
+-- --------------------------------------------------------------------------
+-- B42 健康パネル: ISHealthPanel.render（x=10,y=12、Small、黒影 1.0、前景 alpha=0.9）
+-- --------------------------------------------------------------------------
+local NE_HEALTH_MUTATION_TEXT_X = 10
+local NE_HEALTH_MUTATION_TEXT_Y = 12
+local NE_HEALTH_MUTATION_TEXT_ALPHA = 0.9
+
+--- パーツ B の色。NE.GetMutationSpeechTier の tier 名のみで分岐（数値閾値の二重定義を避ける）。
+---@param mut number
+---@return number, number, number
+local function NE_HealthPanelMutationTextRgb(mut)
+    if not NE.GetMutationSpeechTier then
+        return 1, 1, 1
+    end
+    local tier = NE.GetMutationSpeechTier(tonumber(mut) or 0)
+    if tier == "EVOLVED" then
+        return 1, 0, 0
+    end
+    if tier == "Critical" then
+        return 0.75, 1, 0.35
+    end
+    if tier == "Danger" then
+        return 0.45, 0.88, 1
+    end
+    if tier == "Unstable" then
+        return 1, 1, 1
+    end
+    return 1, 1, 1
+end
+
+local function NE_InstallHealthPanelMutationRender()
+    local ISHealthPanel = rawget(_G, "ISHealthPanel")
+    if not ISHealthPanel then
+        return false
+    end
+    if ISHealthPanel.NE_Original_render then
+        return true
+    end
+    if type(ISHealthPanel.render) ~= "function" then
+        return false
+    end
+
+    ISHealthPanel.NE_Original_render = ISHealthPanel.render
+    ISHealthPanel.render = function(self)
+        local orig = ISHealthPanel.NE_Original_render
+        if type(orig) == "function" then
+            pcall(function()
+                orig(self)
+            end)
+        end
+        pcall(function()
+            if NE.Switches and NE.Switches.EnableMutation == false then
+                return
+            end
+            if self == nil or self.character == nil then
+                return
+            end
+            local pl = self.character
+            if type(pl.getModData) ~= "function" then
+                return
+            end
+            local md = nil
+            local okMd, v = pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                return pl:getModData()
+            end)
+            if not okMd then
+                return
+            end
+            md = v
+            local mut = (md and tonumber(md.NE_MutationLevel)) or 0
+
+            local UIFont = rawget(_G, "UIFont")
+            local fontSmall = UIFont and UIFont.Small
+            if type(self.drawText) ~= "function" or not fontSmall then
+                return
+            end
+
+            local partA = getText("UI_NE_Health_Mutation_Title") .. " : "
+            local partB = ""
+            if NE.GetMutationSeverityText then
+                partB = NE.GetMutationSeverityText(mut) or ""
+            end
+            local partC = " ]"
+
+            local tm = getTextManager and getTextManager() or nil
+            local function neMeasureX(str)
+                if not tm or type(tm.MeasureStringX) ~= "function" or str == nil or str == "" then
+                    return 0
+                end
+                local okM, w = pcall(function()
+                    ---@diagnostic disable-next-line: undefined-field
+                    return tm:MeasureStringX(fontSmall, str)
+                end)
+                if okM and type(w) == "number" then
+                    return w
+                end
+                return 0
+            end
+
+            local function neDrawTextWithShadow(str, x, y, r, g, b, a)
+                if str == nil or str == "" then
+                    return
+                end
+                self:drawText(str, x + 1, y + 1, 0, 0, 0, 1, fontSmall)
+                self:drawText(str, x, y, r, g, b, a, fontSmall)
+            end
+
+            local x0 = NE_HEALTH_MUTATION_TEXT_X
+            local y0 = NE_HEALTH_MUTATION_TEXT_Y
+            local aText = NE_HEALTH_MUTATION_TEXT_ALPHA
+
+            neDrawTextWithShadow(partA, x0, y0, 1, 1, 1, aText)
+            local wA = neMeasureX(partA)
+            local xB = x0 + wA
+            local rr, gg, bb = NE_HealthPanelMutationTextRgb(mut)
+            neDrawTextWithShadow(partB, xB, y0, rr, gg, bb, aText)
+            local wB = neMeasureX(partB)
+            local xC = x0 + wA + wB
+            neDrawTextWithShadow(partC, xC, y0, 1, 1, 1, aText)
+        end)
+    end
+
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        Z_TRACER.EmitTrace("NE_INIT", "PlayerManager", "ISHealthPanel.render:MUTATION_TEXT:HOOKED", "INFO")
+    end
+    return true
+end
+
+pcall(NE_InstallHealthPanelMutationRender)
+Events.OnGameBoot.Add(function()
+    pcall(NE_InstallHealthPanelMutationRender)
+end)
 Events.OnGameStart.Add(function()
     NE.SyncEvolvedMovementLockGlobally()
+    NE_RegisterMutationSpeedOnPlayerUpdateOnce()
+    pcall(NE_InstallHealthPanelMutationRender)
 end)
 
 -- 2. 完了ログ (INFO)

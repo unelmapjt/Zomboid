@@ -131,5 +131,12 @@
   "UI_NE_Speech_Reflection_2": "...God. If you're watching, please don't toy with me anymore. ...Just let me sleep in peace.",
   "UI_NE_Speech_Reflection_3": "Justice was just a word game. ...What I did that day was nothing but arrogance.",
   "UI_NE_Speech_Reflection_4": "The world is over. ...All that's left is our corpses.",
-  "UI_NE_Symptom_Cough": "*Cough*"
+  "UI_NE_Status_Clean": "Clean",
+  "UI_NE_Status_Unstable": "Unstable",
+  "UI_NE_Status_Danger": "Danger",
+  "UI_NE_Status_Critical": "Critical",
+  "UI_NE_Status_EVOLVED": "EVOLVED",
+  "UI_NE_Symptom_Cough": "*Cough*",
+  "UI_NE_Health_Mutation": "Mutation",
+  "UI_NE_Health_Mutation_Title": "[ Mutation"
 }

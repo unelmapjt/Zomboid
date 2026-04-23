@@ -18,5 +18,7 @@
   "IGUI_NE_Ending_2_Confirm": "……すべてを受け入れ、共に生きる道を選びますか？",
   "IGUI_NE_Ending_3_Confirm": "……この絶望を、自らの死と共に終わらせますか？",
   "IGUI_NE_Confirm_Yes": "YES",
-  "IGUI_NE_Confirm_No": "NO"
+  "IGUI_NE_Confirm_No": "NO",
+  "IGUI_Health_Infected": "変異",
+  "IGUI_Health_Infected_Wound": "変異した部位"
 }

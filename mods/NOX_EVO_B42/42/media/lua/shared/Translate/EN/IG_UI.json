@@ -23,5 +23,7 @@
   "UI_NE_Status_UnStable": "UnStable",
   "UI_NE_Status_Danger": "Danger",
   "UI_NE_Status_Critical": "Critical",
-  "UI_NE_Status_EVOLVED": "EVOLVED"
+  "UI_NE_Status_EVOLVED": "EVOLVED",
+  "IGUI_Health_Infected": "Mutation",
+  "IGUI_Health_Infected_Wound": "Mutated body part"
 }

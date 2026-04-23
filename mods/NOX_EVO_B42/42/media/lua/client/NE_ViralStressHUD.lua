@@ -4,7 +4,7 @@
 -- 描画・スケール・計測: .cursor/registry/api_whitelist.md 準拠
 -- --------------------------------------------------------------------------
 --
--- 配色: getColorForMutation — 0% 水色 → 33% 青 → 99.9% 濃い緑、100% 到達時のみ赤（EVOLVED）
+-- 配色: getColorForMutation — 0% 水色 → 33% 青 → EVOLVED 手前まで濃い緑、NE.MUTATION_EVOLVED_THRESHOLD（既定 99.5）以上で赤
 --   COL_CLEAN / COL_UNSTABLE / COL_DANGER / COL_EVOLVED
 -- バー塗り・ステータスチップは同一 (mr,mg,mb)。チップのみアルファを下げる。
 -- 変異に伴う視覚演出（彩度・ImprovedFog・赤霧）: NE_MutationClimateVisual.lua。
@@ -40,7 +40,17 @@ local HUD_BOTTOM_OFFSET_PX = 150
 local COL_CLEAN    = { 0.4, 0.9, 1.0 } -- 0%: 水色
 local COL_UNSTABLE = { 0.1, 0.4, 0.9 } -- 33%: 鮮やかな青
 local COL_DANGER   = { 0.0, 0.4, 0.1 } -- 99.9%: 濃い緑
-local COL_EVOLVED  = { 0.9, 0.1, 0.2 } -- 100%: 赤
+local COL_EVOLVED  = { 0.9, 0.1, 0.2 } -- EVOLVED 帯: 赤
+
+--- NE_PlayerManager が設定する EVOLVED 境界（%）。未ロード時のみ 99.5。
+---@return number
+local function getNE_MutationEvolvedThreshold()
+    local t = NE and NE.MUTATION_EVOLVED_THRESHOLD
+    if type(t) == "number" and t == t then
+        return t
+    end
+    return 99.5
+end
 
 ---@param a number[]
 ---@param b number[]
@@ -55,7 +65,7 @@ end
 ---@return number, number, number
 local function getColorForMutation(pct)
     pct = tonumber(pct) or 0
-    if pct >= 100 then
+    if pct >= getNE_MutationEvolvedThreshold() then
         return COL_EVOLVED[1], COL_EVOLVED[2], COL_EVOLVED[3]
     end
     pct = math.max(0, pct)
@@ -74,27 +84,26 @@ local function getColorForMutation(pct)
     return r, g, b
 end
 
---- チップに表示する状態名（閾値）。配色は getColorForMutation(pct) が pct 連続値で担当。
+--- チップ右の状態名。NE.GetMutationSpeechTier → NE.GetMutationSeverityText と健康パネルを同一経路にする。
 ---@param pct number
 ---@return string
 local function getMutationStatusText(pct)
     pct = tonumber(pct) or 0
     pct = math.max(0, math.min(100, pct))
-    local key
-    if pct >= 100 then
-        key = "UI_NE_Status_EVOLVED"
-    elseif pct >= 75 then
-        key = "UI_NE_Status_Critical"
-    elseif pct >= 50 then
-        key = "UI_NE_Status_Danger"
-    elseif pct >= 25 then
-        key = "UI_NE_Status_Unstable"
-    else
-        key = "UI_NE_Status_Clean"
+    if NE and NE.GetMutationSeverityText then
+        local s = NE.GetMutationSeverityText(pct)
+        if type(s) == "string" then
+            return s
+        end
     end
-    local s = getText(key)
-    if type(s) == "string" then
-        return s
+    if NE and NE.GetMutationSpeechTier then
+        local tier = NE.GetMutationSpeechTier(pct)
+        if type(tier) == "string" then
+            local s2 = getText("UI_NE_Status_" .. tier)
+            if type(s2) == "string" then
+                return s2
+            end
+        end
     end
     return ""
 end

@@ -136,5 +136,7 @@
   "UI_NE_Status_Danger": "Danger",
   "UI_NE_Status_Critical": "Critical",
   "UI_NE_Status_EVOLVED": "EVOLVED",
-  "UI_NE_Symptom_Cough": "*ゴホッ*"
+  "UI_NE_Symptom_Cough": "*ゴホッ*",
+  "UI_NE_Health_Mutation": "変異",
+  "UI_NE_Health_Mutation_Title": "[ 変異度"
 }
