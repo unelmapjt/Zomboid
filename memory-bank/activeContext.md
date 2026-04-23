@@ -1,10 +1,14 @@
 # Active Context: NOX_EVO_B42
 
-最終更新: 2026-04-15（FBORenderCell 修正）
+最終更新: 2026-04-23（症状デバフ・メモリバンク）
 
 ---
 
 ## 1. 現在の実装状況
+
+### 完了: 跛行の廃止と速度デバフの段階化 ✅
+- **NE_PlayerManager.lua**: `setLimped` / `setLimping` を削除。ムードルは **`stats:set(CharacterStat.*, 0–100)`**（`PANIC` / `INTOXICATION` めまい代用 / `FOOD_SICKNESS` 発熱代用）。移動は **IsoPlayer 基準 0.06f** に整合: 未デバフ `0.06`、75–99.4% `0.045`、99.5%+ `0.03` + スプリント抑止・`setIgnoreRun(true)`。速度は **`NE_MutationEvolvedMovementLock`（OnPlayerUpdate）で毎フレーム**適用。`SyncEvolvedMovementLockGlobally` は **変異度 75% 以上が誰かいれば購読**、解除時に全員 `0.06` へリセット。EVOLVED 相当の閾値は **99.5%**。
+- **検証ログ**: `ApplySymptoms` 完了時に `NE_SYMPTOMS` **DEBUG**（意図 set 値 + `stats:get(CharacterStat.*)` の読み取り、`moveAuthority=OnPlayerUpdate`、`limp=off`）。
 
 ### 完了済み (実装のみ・検証未完)
 - **Z-System**: `Z_Core.lua` / `Z_Tracer.lua` デプロイ完了。`TRACE_LEVEL=DEBUG` で稼働中。

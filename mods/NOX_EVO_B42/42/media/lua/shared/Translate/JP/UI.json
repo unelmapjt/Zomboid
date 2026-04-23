@@ -135,5 +135,6 @@
   "UI_NE_Status_Unstable": "Unstable",
   "UI_NE_Status_Danger": "Danger",
   "UI_NE_Status_Critical": "Critical",
-  "UI_NE_Status_EVOLVED": "EVOLVED"
+  "UI_NE_Status_EVOLVED": "EVOLVED",
+  "UI_NE_Symptom_Cough": "*ゴホッ*"
 }

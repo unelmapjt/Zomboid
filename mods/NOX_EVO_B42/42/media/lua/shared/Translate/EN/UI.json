@@ -22,7 +22,6 @@
   "UI_Sandbox_InstinctVoice_tooltip": "Allows the character's internal thoughts to be displayed on screen.",
   "UI_Next": "Next",
   "UI_Finish": "Depart",
-
   "UI_NE_Speech_Mutation_Clean_1": "Today my body feels a little lighter. ...If only this could stay 'normal.'",
   "UI_NE_Speech_Mutation_Clean_2": "I take a deep breath. ...The air doesn't choke me yet.",
   "UI_NE_Speech_Mutation_Clean_3": "I picture Dr. Hiro's face. ...Was he really trying to save me?",
@@ -33,7 +32,6 @@
   "UI_NE_Speech_Mutation_Clean_8": "I want to see someone. ...If I did, what would I even say?",
   "UI_NE_Speech_Mutation_Clean_9": "Yesterday's me and today's me. ...I still feel like they're connected.",
   "UI_NE_Speech_Mutation_Clean_10": "...I'll keep walking. Even just for one day, straight ahead.",
-
   "UI_NE_Speech_Mutation_Unstable_1": "Something is squirming under my skin. ...I'm scared. This is still my body, right?",
   "UI_NE_Speech_Mutation_Unstable_2": "I'm afraid to look in the mirror. I feel like my eye color is changing, bit by bit.",
   "UI_NE_Speech_Mutation_Unstable_3": "My fingertips are trembling. ...It's like someone else's hand is trying to move on its own.",
@@ -44,7 +42,6 @@
   "UI_NE_Speech_Mutation_Unstable_8": "My body feels heavy. ...I can't shake this hideous urge to shed my own skin.",
   "UI_NE_Speech_Mutation_Unstable_9": "The hair on my arms is standing up in unnatural directions. ...Why? There's no wind.",
   "UI_NE_Speech_Mutation_Unstable_10": "...Mom. Help me. I think something's wrong with me.",
-
   "UI_NE_Speech_Mutation_Danger_1": "I hear my bones creaking. ...It hurts. Am I being reshaped? Into what? Why me...?",
   "UI_NE_Speech_Mutation_Danger_2": "The world feels wrong. Everything looks sharper, but that only makes it more terrifying.",
   "UI_NE_Speech_Mutation_Danger_3": "My heart feels heavy. Thump, thump... Is this even a human heartbeat?",
@@ -55,7 +52,6 @@
   "UI_NE_Speech_Mutation_Danger_8": "I can't remember words properly. ...Simple terms vanish just as I'm about to say them.",
   "UI_NE_Speech_Mutation_Danger_9": "My hair falls out in clumps when I touch it. ...Something harder is growing underneath.",
   "UI_NE_Speech_Mutation_Danger_10": "...I'm still human, right? ...Please, someone tell me I am.",
-
   "UI_NE_Speech_Mutation_Critical_1": "The air hurts. ...How can I feel more comfortable in this pollution? I'm losing my mind.",
   "UI_NE_Speech_Mutation_Critical_2": "The texture of my skin has changed. ...It's rough, cold. Will I ever be human again?",
   "UI_NE_Speech_Mutation_Critical_3": "The blood in my veins isn't red anymore. ...It's dark... some kind of unknown fluid.",
@@ -66,7 +62,6 @@
   "UI_NE_Speech_Mutation_Critical_8": "...My consciousness is fading. ...I feel like someone is knocking on my brain from the inside.",
   "UI_NE_Speech_Mutation_Critical_9": "...Where am I going? ...Am I going to die? Or will I be turned into something even worse?",
   "UI_NE_Speech_Mutation_Critical_10": "Dr. Hiro... I can hear your voice... ...Shut up! Leave me alone!!",
-
   "UI_NE_Speech_Mutation_EVOLVED_1": "...I'm not afraid anymore. I've come this far.",
   "UI_NE_Speech_Mutation_EVOLVED_2": "My heartbeat matches the world's rhythm. ...Is this what 'next' feels like?",
   "UI_NE_Speech_Mutation_EVOLVED_3": "Dr. Hiro. ...Is this the 'evolution' you wanted?",
@@ -77,7 +72,6 @@
   "UI_NE_Speech_Mutation_EVOLVED_8": "...The fog feels like it's kneeling to me. Or is that just how I see it?",
   "UI_NE_Speech_Mutation_EVOLVED_9": "It's not the end. ...It's the beginning. I want to believe that.",
   "UI_NE_Speech_Mutation_EVOLVED_10": "...Goodbye, weak me. From here on, I walk my own path.",
-
   "UI_NE_Speech_Weather_Rain_1": "The sound of rain. ...Strange. My body feels this cold water as 'pain' now.",
   "UI_NE_Speech_Weather_Rain_2": "I wish the rain could wash everything away. This abnormality growing inside me too.",
   "UI_NE_Speech_Weather_Rain_3": "Drops of purification. ...But to me now, even this rain feels like poison.",
@@ -85,7 +79,6 @@
   "UI_NE_Speech_Weather_Fog_2": "A white-out world. ...The same color as that cold gas I saw on B17 that day.",
   "UI_NE_Speech_Weather_Storm_1": "Thunder. ...The world is angry. Angry at this fate that created a freak like me.",
   "UI_NE_Speech_Weather_Snow_1": "Snow. ...Cold and quiet. ...I can see my hot body temperature staining the snow.",
-
   "UI_NE_Speech_Loc_Lab_1": "The smell of chemicals. ...Coming back here brings back the nausea of those five years of darkness.",
   "UI_NE_Speech_Loc_Lab_2": "Dr. Hiro... What did you think of me? Was I just a piece of experimental material to you?",
   "UI_NE_Speech_Loc_City_1": "An empty city. ...Sometimes I look back, thinking I heard someone laughing. But there's no one.",
@@ -93,7 +86,6 @@
   "UI_NE_Speech_Loc_Home_1": "Someone's house. ...There was a 'daily life' here once, wasn't there? ...It's too bright for me now.",
   "UI_NE_Speech_Loc_Road_1": "A long, long road. ...Where am I going? Am I just running away?",
   "UI_NE_Speech_Loc_Forest_1": "The forest. ...I feel like the trees are rejecting me. I've become an enemy of nature.",
-
   "UI_NE_Speech_Despair_1": "...I should have burned with the base that day. Before I knew this kind of loneliness.",
   "UI_NE_Speech_Despair_2": "Is the world like this because I stopped the nuke? ...Did everyone die because of me?",
   "UI_NE_Speech_Despair_3": "Help me. Anyone, please answer. ...Am I really the only one left in this wide world?",
@@ -104,18 +96,15 @@
   "UI_NE_Speech_Despair_8": "...Would it be easier if I just died? ...But I'm too much of a coward to even do that.",
   "UI_NE_Speech_Despair_9": "...God. If you're watching, please stop toy with me. ...Just let me sleep in peace.",
   "UI_NE_Speech_Despair_10": "...I'm tired now. ...I want to end it all.",
-
   "UI_NE_Speech_Combat_Berserk_1": "Stop! My body is moving on its own! ...No, I don't want to do this!!",
   "UI_NE_Speech_Combat_Berserk_2": "...Aaargh!! My mind is going blank! I'm tearing myself apart from the inside!",
   "UI_NE_Speech_Combat_Berserk_3": "Someone help me...! I'm trying to kill myself! I can't stop it!!",
   "UI_NE_Speech_Combat_Berserk_4": "...The blood. ...It's warm. ...No, I don't want to think it tastes good...!!",
   "UI_NE_Speech_Combat_Berserk_5": "Destroy! ...No, don't! I'm... I'm still human!!",
-
   "UI_NE_Speech_Recovery_1": "...Hah. ...What was I... Thank goodness, I'm still 'me'...",
   "UI_NE_Speech_Recovery_2": "My vision cleared a bit. ...I'm scared. It's like there's an unknown monster living inside me.",
   "UI_NE_Speech_Recovery_3": "...I'm still human. ...Right? I can still be human, right?",
   "UI_NE_Speech_Recovery_4": "Breathing is easier now. ...It feels like I've escaped from that sweet, terrifying temptation, for now.",
-
   "UI_NE_Speech_Happy_1": "...Oh. This can of food is still good. ...I'm so happy. ...I'm glad I'm alive, just for a moment.",
   "UI_NE_Speech_Happy_2": "I found a beautiful piece of cloth. ...It feels like forever since I've seen a human-like color.",
   "UI_NE_Speech_Happy_3": "...The rain stopped. ...The sun is a little warm. ...Thank you.",
@@ -126,24 +115,21 @@
   "UI_NE_Speech_Happy_8": "...A sweater someone knitted. ...It's warm. It's like human warmth is still here.",
   "UI_NE_Speech_Happy_9": "...An old record. ...The music mixed with static calms my heart, just a little.",
   "UI_NE_Speech_Happy_10": "...I'm still alive. ...I should be thankful for just that, shouldn't I?",
-
   "UI_NE_Speech_Memory_1": "...My mother's voice. ...What did it sound like? ...I want to remember, but the noise gets in the way.",
   "UI_NE_Speech_Memory_2": "Five years. ...Give me back the five years of my life. Why did it have to be me...",
   "UI_NE_Speech_Memory_3": "My old friends. ...Where did you all go? Leaving me behind, where?",
   "UI_NE_Speech_Memory_4": "A birthday cake. ...I'll probably never smell that sweet scent again for the rest of my life.",
   "UI_NE_Speech_Memory_5": "\"You will be a hero\"... Dr. Hiro said. ...Doctor, is this your answer?",
-
   "UI_NE_Speech_Internal_1": "Who's there...? Is someone in my head? Who's watching me from the inside?",
   "UI_NE_Speech_Internal_2": "I have to kick them out. ...But if I do, I feel like half of me will be gone.",
   "UI_NE_Speech_Internal_3": "My brain is shaking. ...It's being rewritten. ...My will isn't reaching my fingertips anymore.",
   "UI_NE_Speech_Internal_4": "...Oh, it's so comfortable. ...It would be so much easier if I just gave up. ...No! I can't give up!",
-
   "UI_NE_Speech_Sensory_1": "...I can hear it. The sound of something crawling miles away. ...No, I don't want to hear it.",
   "UI_NE_Speech_Sensory_2": "In the wind, it's mixed in. ...The scent of blood, decay, and something even more hideous.",
   "UI_NE_Speech_Sensory_3": "I feel like the ground is pulsing. ...It's as if the whole world has become one giant stomach.",
-
   "UI_NE_Speech_Reflection_1": "...Dr. Hiro. You called me an evolution. ...But this is just 'collapse'.",
   "UI_NE_Speech_Reflection_2": "...God. If you're watching, please don't toy with me anymore. ...Just let me sleep in peace.",
   "UI_NE_Speech_Reflection_3": "Justice was just a word game. ...What I did that day was nothing but arrogance.",
-  "UI_NE_Speech_Reflection_4": "The world is over. ...All that's left is our corpses."
+  "UI_NE_Speech_Reflection_4": "The world is over. ...All that's left is our corpses.",
+  "UI_NE_Symptom_Cough": "*Cough*"
 }

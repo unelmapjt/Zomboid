@@ -7,6 +7,150 @@ print(">>> [NE] PLAYER MANAGER IS ALIVE")
 
 NE = NE or {}
 
+--- 高変異・EVOLVED 相当の処理（移動ロック・台詞境界・HP 最大段など）のしきい値（%）
+local NE_MUTATION_EVOLVED_THRESHOLD = 99.5
+
+--- B42: IsoPlayer 基準移動速度（setMoveSpeed 用）
+local NE_MOVE_SPEED_BASE = 0.06
+
+--- 移動倍率: 75% 未満 1.0。75–100% 線形（0.06*0.75=0.045 → 0.06*0.5=0.030）。t=(mutation_0_1-0.75)/0.25、m=1-(0.25+t*0.25)
+---@param mutationPct number
+---@return number
+local function NE_ComputeMutationSpeedMultiplier(mutationPct)
+    local m = tonumber(mutationPct) or 0
+    if m < 75 then
+        return 1.0
+    end
+    local mutation_0_1 = math.min(1.0, math.max(0, m / 100))
+    local t = (mutation_0_1 - 0.75) / 0.25
+    return 1.0 - (0.25 + t * 0.25)
+end
+
+--- B42: getSpecificPlayer / ティック間で非 IsoPlayer が混ざるため、メソッド触り前に必須
+---@param player any
+---@return boolean
+local function NE_IsValidPlayer(player)
+    if not player then
+        return false
+    end
+    if type(player) ~= "userdata" then
+        return false
+    end
+    if type(instanceof) ~= "function" then
+        return false
+    end
+    return instanceof(player, "IsoPlayer") == true
+end
+
+---@param player IsoPlayer|IsoGameCharacter|nil
+---@param allowRun boolean
+---@param allowSprint boolean
+local function NE_ApplyRunSprintAuthority(player, allowRun, allowSprint)
+    if not NE_IsValidPlayer(player) then
+        return
+    end
+    if type(player.setAllowRun) == "function" then
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setAllowRun(allowRun)
+        end)
+    end
+    if type(player.setAllowSprint) == "function" then
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setAllowSprint(allowSprint)
+        end)
+    end
+end
+
+--- OnTick 権威: setVariable 文字列 + setMoveSpeed + setMoveDelta + PAIN（75%+ で PAIN=100・裸足 0.85 等の再計算と競合）
+---@param player IsoPlayer|IsoGameCharacter|nil
+---@param mutationPct number 変異度 0–100
+local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
+    if not NE_IsValidPlayer(player) then
+        return
+    end
+
+    local mut = tonumber(mutationPct) or 0
+    local m = NE_ComputeMutationSpeedMultiplier(mut)
+
+    pcall(function()
+        if type(player.setVariable) == "function" then
+            local targetVal = tostring(NE_MOVE_SPEED_BASE * m)
+            ---@diagnostic disable-next-line: undefined-field
+            player:setVariable("WalkSpeed", targetVal)
+            ---@diagnostic disable-next-line: undefined-field
+            player:setVariable("MoveDelta", tostring(m))
+        end
+    end)
+
+    if type(player.setMoveSpeed) == "function" then
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setMoveSpeed(NE_MOVE_SPEED_BASE * m)
+        end)
+    end
+
+    if type(player.setMoveDelta) == "function" then
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setMoveDelta(m)
+        end)
+    end
+
+    local stats = nil
+    if type(player.getStats) == "function" then
+        local okStats, st = pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            return player:getStats()
+        end)
+        if okStats then
+            stats = st
+        end
+    end
+
+    local CS = rawget(_G, "CharacterStat")
+    if stats and CS and CS.PAIN and type(stats.set) == "function" then
+        local painValue = (mut >= 75) and 100 or 0
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            stats:set(CS.PAIN, painValue)
+        end)
+    end
+end
+
+---@param stats userdata|nil
+---@param statEnum any
+---@param value number
+---@return boolean
+local function NE_TryStatsSet(stats, statEnum, value)
+    if not stats or statEnum == nil or type(stats.set) ~= "function" then
+        return false
+    end
+    local ok = pcall(function()
+        ---@diagnostic disable-next-line: undefined-field
+        stats:set(statEnum, value)
+    end)
+    return ok
+end
+
+---@param stats userdata|nil
+---@param statEnum any
+---@return number|nil
+local function NE_TryStatsGet(stats, statEnum)
+    if not stats or statEnum == nil or type(stats.get) ~= "function" then
+        return nil
+    end
+    local ok, v = pcall(function()
+        ---@diagnostic disable-next-line: undefined-field
+        return stats:get(statEnum)
+    end)
+    if ok then
+        return v
+    end
+    return nil
+end
+
 -- 1. 初期化ログ (INFO)
 if Z_TRACER and Z_TRACER.EmitTrace then
     Z_TRACER.EmitTrace("NE_INIT", "PlayerManager", "Load:START", "INFO")
@@ -18,7 +162,7 @@ end
 ---@param player IsoPlayer|nil
 ---@param sourceTag string
 local function NE_EnsureMutationLevelImmediate(player, sourceTag)
-    if not player or player:isDead() then
+    if not NE_IsValidPlayer(player) or player:isDead() then
         return
     end
     local md = player:getModData()
@@ -58,7 +202,10 @@ local hiroReminderTick = 0
 --- マスターキー + クエスト報告書の両方を所持しているか（リマインド永久停止の判定）
 ---@param player IsoPlayer
 local function NE_PlayerHasB17RequiredItems(player)
-    local inv = player and player:getInventory()
+    if not NE_IsValidPlayer(player) then
+        return false
+    end
+    local inv = player:getInventory()
     if not inv then
         return false
     end
@@ -84,7 +231,9 @@ end
 --- 離脱リマインド5回後も導線アイテム未達の場合、起床のたびに追奏（isAsleep 遷移で検知）
 ---@param player IsoPlayer
 local function onPlayerWakeHiroReminder(player)
-    if not player or player:isDead() then return end
+    if not NE_IsValidPlayer(player) or player:isDead() then
+        return
+    end
     local modData = player:getModData()
     if not modData then return end
     if modData.NE_HiroRemindersSilenced == true then
@@ -108,7 +257,7 @@ local function checkHiroReminder()
 
     for i = 0, getNumActivePlayers() - 1 do
         local player = getSpecificPlayer(i)
-        if player and not player:isDead() then
+        if NE_IsValidPlayer(player) and not player:isDead() then
             local modData = player:getModData()
             local isCurrentlyAsleep = player:isAsleep()
 
@@ -160,11 +309,11 @@ local function checkHiroReminder()
     hiroReminderTick = hiroReminderTick + 1
 end
 
---- HUD / 台詞共通: Clean(0–24) / Unstable / Danger / Critical / EVOLVED(100)
+--- HUD / 台詞共通: Clean(0–24) / Unstable / Danger / Critical / EVOLVED(99.5+)
 ---@param mutation number
 ---@return string
 function NE.GetMutationSpeechTier(mutation)
-    if mutation >= 100 then
+    if mutation >= NE_MUTATION_EVOLVED_THRESHOLD then
         return "EVOLVED"
     end
     if mutation >= 75 then
@@ -188,21 +337,21 @@ function NE.GetRandomMutationSpeech(subType)
     return getText(key)
 end
 
---- 境界演出用の痛み系 SFX（プレイヤー性別に合わせる）
+--- 痛み系 SFX 名（B42: モジュール完全修飾）。境界越えでは未使用（隠密仕様）。
 ---@param player IsoPlayer|IsoGameCharacter|nil
 ---@return string
 function NE.GetGenderedPainSoundName(player)
     if player and player.isFemale and player:isFemale() then
-        return "FemalePain"
+        return "Base.FemalePain"
     end
-    return "MalePain"
+    return "Base.MalePain"
 end
 
 --- 変異度: 台詞（境界＋頻度・クールダウン）と肉体症状（仕様 4.2: 25%〜 Unstable から段階的）
 ---@param player IsoPlayer
 ---@param modData table
 function NE.ApplySymptoms(player, modData)
-    if not player or player:isDead() then
+    if not NE_IsValidPlayer(player) or player:isDead() then
         return
     end
     if NE.Switches and NE.Switches.EnableMutation == false then
@@ -231,15 +380,6 @@ function NE.ApplySymptoms(player, modData)
     local sq = player.getCurrentSquare and player:getCurrentSquare() or nil
     local bd = player.getBodyDamage and player:getBodyDamage() or nil
 
-    local function playSymptomSound(soundName)
-        local em = player.getEmitter and player:getEmitter() or nil
-        if em and type(em["playSound"]) == "function" then
-            em:playSound(soundName)
-        elseif type(player["playSound"]) == "function" then
-            player:playSound(soundName)
-        end
-    end
-
     local function crossedUp(threshold)
         return prev < threshold and mutation >= threshold
     end
@@ -252,23 +392,18 @@ function NE.ApplySymptoms(player, modData)
     if instinctOn then
         if enteredClean() then
             player:Say(NE.GetRandomMutationSpeech("Clean"))
-            playSymptomSound(NE.GetGenderedPainSoundName(player))
             boundaryFired = true
         elseif crossedUp(25) then
             player:Say(NE.GetRandomMutationSpeech("Unstable"))
-            playSymptomSound(NE.GetGenderedPainSoundName(player))
             boundaryFired = true
         elseif crossedUp(50) then
             player:Say(NE.GetRandomMutationSpeech("Danger"))
-            playSymptomSound("Vomit")
             boundaryFired = true
         elseif crossedUp(75) then
             player:Say(NE.GetRandomMutationSpeech("Critical"))
-            playSymptomSound(NE.GetGenderedPainSoundName(player))
             boundaryFired = true
-        elseif crossedUp(100) then
+        elseif crossedUp(NE_MUTATION_EVOLVED_THRESHOLD) then
             player:Say(NE.GetRandomMutationSpeech("EVOLVED"))
-            playSymptomSound(NE.GetGenderedPainSoundName(player))
             boundaryFired = true
         end
 
@@ -295,6 +430,26 @@ function NE.ApplySymptoms(player, modData)
     modData.NE_SymptomPrevMutationLevel = mutation
 
     local stats = player.getStats and player:getStats() or nil
+    --- Z_TRACER 用: 本 tick で意図した CharacterStat set 値（下の set と式を同期すること）
+    local neTracePanic, neTraceDizzy = 0, 0
+    local neTraceFood = (mutation >= 75) and 40 or 0
+    local neTraceHpLoss = 0.0
+    local CS = rawget(_G, "CharacterStat")
+    -- Panic / INTOXICATION: 0–25→0–15、25–50→15–30、50–100→30–100（ノード間線形）
+    local moodVal = 0
+    if mutation <= 0 then
+        moodVal = 0
+    elseif mutation < 25 then
+        moodVal = mutation * (15 / 25)
+    elseif mutation < 50 then
+        moodVal = 15 + (mutation - 25) * (15 / 25)
+    else
+        local m = math.min(100, mutation)
+        moodVal = 30 + (m - 50) * (70 / 50)
+        moodVal = math.min(100, moodVal)
+    end
+    neTracePanic = moodVal
+    neTraceDizzy = moodVal
 
     local function tryAddMutationWorldSound(radius)
         local wsm = getWorldSoundManager and getWorldSoundManager() or nil
@@ -304,7 +459,7 @@ function NE.ApplySymptoms(player, modData)
         local x = player:getX()
         local y = player:getY()
         local z = player:getZ()
-        local vol = 50
+        local vol = 70
         if wsm and type(wsm.AddSound) == "function" then
             pcall(function()
                 ---@diagnostic disable-next-line: undefined-field
@@ -318,56 +473,40 @@ function NE.ApplySymptoms(player, modData)
         end
     end
 
-    -- Unstable 25–49%: 軽いパニック・めまい（仕様 4.2 / HP 減少なし）
-    if mutation >= 25 and mutation < 50 then
-        if stats and type(stats["setPanic"]) == "function" then
-            pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                stats:setPanic(0.42)
-            end)
-        end
-        if stats and type(stats["setDrunkenness"]) == "function" then
-            pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                stats:setDrunkenness(0.32)
-            end)
-        end
+    -- ムードル B42: stats:set(CharacterStat.*, 0–100)。INTOXICATION = めまい代用。FOOD_SICKNESS は 75% 以上で 40（レベル2相当）
+    if stats and CS and CS.PANIC and CS.INTOXICATION and CS.FOOD_SICKNESS then
+        NE_TryStatsSet(stats, CS.PANIC, neTracePanic)
+        NE_TryStatsSet(stats, CS.INTOXICATION, neTraceDizzy)
+        NE_TryStatsSet(stats, CS.FOOD_SICKNESS, neTraceFood)
     end
 
-    -- Danger 50%〜: 変異性の咳・パニック・吐血・HP 減少（毎10分表記を 1分 tick で /10）
+    -- Danger 50%〜: 変異性の咳・吐血・HP 減少（パニック等は上記で累積適用）
     if mutation >= 50 then
-        if stats and type(stats["setPanic"]) == "function" then
-            pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                stats:setPanic(1.0)
-            end)
-        end
+        local wm = tonumber(worldMin) or 0
+        local lc = tonumber(modData.NE_LastCoughTime)
+        local coughCooldownOk = (lc == nil) or (wm - lc >= 5)
 
         local coughChance = math.min(92, 18 + math.floor((mutation - 50) * 1.15))
-        if ZombRand(100) < coughChance then
-            local coughSnd = (player.isFemale and player:isFemale()) and "FemaleCough" or "MaleCough"
-            playSymptomSound(coughSnd)
+        if coughCooldownOk and ZombRand(100) < coughChance then
+            player:Say(getText("UI_NE_Symptom_Cough"))
+            local coughSnd = (player.isFemale and player:isFemale()) and "Base.FemaleCough" or "Base.MaleCough"
+            if type(player.playSound) == "function" then
+                player:playSound(coughSnd)
+            end
             local rad = math.min(30, 8 + math.floor((mutation - 50) * 0.44))
             tryAddMutationWorldSound(rad)
+            modData.NE_LastCoughTime = worldMin
             local bloodChance = math.min(88, 22 + math.floor((mutation - 50) * 0.7))
             if ZombRand(100) < bloodChance and sq and type(sq.splatBlood) == "function" then
-                local intensity = mutation >= 100 and 9 or (mutation >= 75 and 7 or 5)
+                local intensity = mutation >= NE_MUTATION_EVOLVED_THRESHOLD and 9 or (mutation >= 75 and 7 or 5)
                 sq:splatBlood(intensity, intensity)
                 if mutation >= 75 then
                     sq:splatBlood(math.max(3, intensity - 2), math.max(3, intensity - 2))
                 end
-                if mutation >= 100 then
+                if mutation >= NE_MUTATION_EVOLVED_THRESHOLD then
                     sq:splatBlood(6, 6)
                 end
             end
-        end
-
-        -- Critical 75%〜: 発熱系（FoodSickness で近似）
-        if mutation >= 75 and stats and type(stats["setFoodSicknessLevel"]) == "function" then
-            pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                stats:setFoodSicknessLevel(0.14)
-            end)
         end
 
         local hpLoss = 0.0
@@ -378,61 +517,91 @@ function NE.ApplySymptoms(player, modData)
         else
             hpLoss = 0.2
         end
+        neTraceHpLoss = hpLoss
 
-        if hpLoss > 0 and bd and type(bd["getHealth"]) == "function" and type(bd["setHealth"]) == "function" then
-            local cur = bd:getHealth()
-            if cur ~= nil then
-                pcall(function()
-                    ---@diagnostic disable-next-line: undefined-field
-                    bd:setHealth(cur - hpLoss)
-                end)
+        if hpLoss > 0 and bd then
+            local BPT = rawget(_G, "BodyPartType")
+            if BPT and BPT.Torso_Upper and type(bd.getBodyPart) == "function" then
+                local part = bd:getBodyPart(BPT.Torso_Upper)
+                if part and type(part.AddDamage) == "function" then
+                    pcall(function()
+                        ---@diagnostic disable-next-line: undefined-field
+                        part:AddDamage(hpLoss)
+                    end)
+                end
             end
         end
     end
 
-    -- 100% EVOLVED: 跛行・移動 50%（仕様 4.2 / スプリント禁止は OnPlayerUpdate で補強）
-    if mutation >= 100 then
-        if type(player.setMoveSpeed) == "function" then
-            pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                player:setMoveSpeed(0.5)
-            end)
+    -- 移動: OnTick（NE_MutationEvolvedMovementLock）で setVariable 文字列 + setMoveSpeed + setMoveDelta + PAIN(75%+100) 権威
+
+    if Z_TRACER and Z_TRACER.EmitTrace then
+        local rgPanic, rgDizzy, rgFood = nil, nil, nil
+        if stats and CS and CS.PANIC and CS.INTOXICATION and CS.FOOD_SICKNESS then
+            rgPanic = NE_TryStatsGet(stats, CS.PANIC)
+            rgDizzy = NE_TryStatsGet(stats, CS.INTOXICATION)
+            rgFood = NE_TryStatsGet(stats, CS.FOOD_SICKNESS)
         end
-        modData.NE_MutationSpeedDebuffOn = true
-        modData.NE_MutationLimpApplied = true
-    else
-        if modData.NE_MutationSpeedDebuffOn then
-            if type(player.setMoveSpeed) == "function" then
-                pcall(function()
-                    ---@diagnostic disable-next-line: undefined-field
-                    player:setMoveSpeed(1.0)
-                end)
+        local rgMoveDelta = "nil"
+        if type(player.getMoveDelta) == "function" then
+            local okMd, vMd = pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                return player:getMoveDelta()
+            end)
+            if okMd and vMd ~= nil then
+                rgMoveDelta = string.format("%.3f", tonumber(vMd) or 0)
             end
-            modData.NE_MutationSpeedDebuffOn = nil
         end
-        if modData.NE_MutationLimpApplied then
-            pcall(function()
-                if type(player.setLimped) == "function" then
-                    ---@diagnostic disable-next-line: undefined-field
-                    player:setLimped(false)
-                elseif type(player.setLimping) == "function" then
-                    ---@diagnostic disable-next-line: undefined-field
-                    player:setLimping(false)
+        Z_TRACER.EmitTrace(
+            "NE_SYMPTOMS",
+            "ApplySymptoms",
+            string.format(
+                "mutation=%.2f|setPanic=%.2f|setIntox=%.2f|setFood=%d|hpLoss=%.2f|getPanic=%s|getIntox=%s|getFood=%s|getMoveDelta=%s|worldMin=%.1f|moveAuthority=OnTick:varStr+speed+delta+PAIN100|limp=off",
+                mutation,
+                neTracePanic,
+                neTraceDizzy,
+                neTraceFood,
+                neTraceHpLoss,
+                rgPanic ~= nil and string.format("%.2f", tonumber(rgPanic) or 0) or "nil",
+                rgDizzy ~= nil and string.format("%.2f", tonumber(rgDizzy) or 0) or "nil",
+                rgFood ~= nil and string.format("%.2f", tonumber(rgFood) or 0) or "nil",
+                rgMoveDelta,
+                worldMin
+            ),
+            "DEBUG"
+        )
+    end
+end
+
+--- 毎ティック: setVariable 文字列 + setMoveSpeed + setMoveDelta + PAIN + setAllowRun / setAllowSprint（99.5%+ で走行・スプリント禁止）
+local function NE_MutationEvolvedMovementLock()
+    if NE.Switches and NE.Switches.EnableMutation == false then
+        return
+    end
+    for i = 0, getNumActivePlayers() - 1 do
+        local player = getSpecificPlayer(i)
+        if NE_IsValidPlayer(player) and not player:isDead() then
+            local md = player:getModData()
+            local mut = (md and tonumber(md.NE_MutationLevel)) or 0
+            NE_ApplyMutationSpeedAuthority(player, mut)
+
+            if not md or mut < 75 then
+                NE_ApplyRunSprintAuthority(player, true, true)
+                if md then
+                    md.NE_MutationEvolvedIgnoreRun = nil
                 end
-            end)
-            modData.NE_MutationLimpApplied = nil
-        end
-        if modData.NE_MutationEvolvedIgnoreRun and type(player.setIgnoreRun) == "function" then
-            pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                player:setIgnoreRun(false)
-            end)
-            modData.NE_MutationEvolvedIgnoreRun = nil
+            elseif mut < NE_MUTATION_EVOLVED_THRESHOLD then
+                NE_ApplyRunSprintAuthority(player, true, true)
+                md.NE_MutationEvolvedIgnoreRun = nil
+            else
+                NE_ApplyRunSprintAuthority(player, false, false)
+                md.NE_MutationEvolvedIgnoreRun = true
+            end
         end
     end
 end
 
---- EVOLVED(100%) が誰もいなければ OnPlayerUpdate から外し、負荷を抑える
+--- 変異度 75% 以上が誰もいなければ OnTick から外し、移動デバフを完全解除
 local NE_EvolvedMovementLockSubscribed = false
 
 function NE.SyncEvolvedMovementLockGlobally()
@@ -440,9 +609,9 @@ function NE.SyncEvolvedMovementLockGlobally()
     if not (NE.Switches and NE.Switches.EnableMutation == false) then
         for i = 0, getNumActivePlayers() - 1 do
             local p = getSpecificPlayer(i)
-            if p and not p:isDead() then
+            if NE_IsValidPlayer(p) and not p:isDead() then
                 local md = p:getModData()
-                if md and (md.NE_MutationLevel or 0) >= 100 then
+                if md and (md.NE_MutationLevel or 0) >= 75 then
                     need = true
                     break
                 end
@@ -450,59 +619,23 @@ function NE.SyncEvolvedMovementLockGlobally()
         end
     end
     if need and not NE_EvolvedMovementLockSubscribed then
-        Events.OnPlayerUpdate.Add(NE_MutationEvolvedMovementLock)
+        Events.OnTick.Add(NE_MutationEvolvedMovementLock)
         NE_EvolvedMovementLockSubscribed = true
     elseif not need and NE_EvolvedMovementLockSubscribed then
-        Events.OnPlayerUpdate.Remove(NE_MutationEvolvedMovementLock)
+        for j = 0, getNumActivePlayers() - 1 do
+            local p2 = getSpecificPlayer(j)
+            if NE_IsValidPlayer(p2) and not p2:isDead() then
+                local md2 = p2:getModData()
+                local mut2 = (md2 and tonumber(md2.NE_MutationLevel)) or 0
+                NE_ApplyMutationSpeedAuthority(p2, mut2)
+                NE_ApplyRunSprintAuthority(p2, true, true)
+                if md2 then
+                    md2.NE_MutationEvolvedIgnoreRun = nil
+                end
+            end
+        end
+        Events.OnTick.Remove(NE_MutationEvolvedMovementLock)
         NE_EvolvedMovementLockSubscribed = false
-    end
-end
-
---- 100% 時: スプリント抑止・跛行の維持（毎分だけでは入力で上書きされるため）
----@param player IsoPlayer|nil
-local function NE_MutationEvolvedMovementLock(player)
-    if not player or player:isDead() then
-        return
-    end
-    if NE.Switches and NE.Switches.EnableMutation == false then
-        return
-    end
-    local md = player:getModData()
-    if not md then
-        return
-    end
-    if (md.NE_MutationLevel or 0) < 100 then
-        return
-    end
-    if type(player.setSprinting) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setSprinting(false)
-        end)
-    end
-    if type(player.setRunning) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setRunning(false)
-        end)
-    end
-    if type(player.setIgnoreRun) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setIgnoreRun(true)
-        end)
-        md.NE_MutationEvolvedIgnoreRun = true
-    end
-    if type(player.setLimped) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setLimped(true)
-        end)
-    elseif type(player.setLimping) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setLimping(true)
-        end)
     end
 end
 
@@ -529,7 +662,7 @@ local function OnEveryOneMinute()
     -- 稼働している全プレイヤー（画面分割含む）に対してループ
     for i = 0, getNumActivePlayers() - 1 do
         local player = getSpecificPlayer(i)
-        if player and not player:isDead() then
+        if NE_IsValidPlayer(player) and not player:isDead() then
             local modData = player:getModData()
 
             local x = player:getX()

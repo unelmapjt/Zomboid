@@ -1,0 +1,39 @@
+VERSION = 1
+
+option MutationBaseRate
+{
+	type = double,
+	min = 0.0,
+	max = 2.0,
+	default = 0.5,
+	page = NOX_EVO_B42,
+	translation = Sandbox_NE_MutationBaseRate,
+}
+
+option InfectionMutationIncr
+{
+	type = double,
+	min = 0.0,
+	max = 100.0,
+	default = 75.0,
+	page = NOX_EVO_B42,
+	translation = Sandbox_NE_InfectionMutationIncr,
+}
+
+option InstinctVoice
+{
+	type = boolean,
+	default = true,
+	page = NOX_EVO_B42,
+	translation = Sandbox_NE_InstinctVoice,
+}
+
+option DaysToAirstrike
+{
+	type = integer,
+	min = 7,
+	max = 365,
+	default = 50,
+	page = NOX_EVO_B42,
+	translation = Sandbox_NE_DaysToAirstrike,
+}

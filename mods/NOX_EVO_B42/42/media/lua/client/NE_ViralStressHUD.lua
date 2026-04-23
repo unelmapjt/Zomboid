@@ -4,11 +4,8 @@
 -- 描画・スケール・計測: .cursor/registry/api_whitelist.md 準拠
 -- --------------------------------------------------------------------------
 --
--- 配色物理定数（0% 水色 → 100% 毒赤、getColorForMutation で補間）
---   A 0%:   r=0.4, g=0.9, b=1.0
---   B 33%:  r=0.1, g=0.3, b=0.9
---   C 66%:  r=0.0, g=0.8, b=0.7
---   D 100%: r=0.9, g=0.1, b=0.2
+-- 配色: getColorForMutation — 0% 水色 → 33% 青 → 99.9% 濃い緑、100% 到達時のみ赤（EVOLVED）
+--   COL_CLEAN / COL_UNSTABLE / COL_DANGER / COL_EVOLVED
 -- バー塗り・ステータスチップは同一 (mr,mg,mb)。チップのみアルファを下げる。
 -- 変異に伴う視覚演出（彩度・ImprovedFog・赤霧）: NE_MutationClimateVisual.lua。
 --
@@ -40,11 +37,10 @@ local ICON_TEXTURE_PATH = "media/ui/NE_MutationIcon.png"
 -- HUD 下端からのオフセット（従来の「下から約 150px」配置）
 local HUD_BOTTOM_OFFSET_PX = 150
 
-local COL_CLEAN = { 0.4, 0.9, 1.0 }    -- Light Blue (0%)
-local COL_UNSTABLE = { 0.1, 0.3, 0.9 } -- Blue (25%)
-local COL_DANGER = { 0.0, 0.4, 0.1 }   -- Dark Green (50%)
-local COL_CRITICAL = { 0.9, 0.1, 0.2 } -- Red (75%)
-local COL_EVOLVED = { 0.9, 0.1, 0.2 }  -- Red (100%)
+local COL_CLEAN    = { 0.4, 0.9, 1.0 } -- 0%: 水色
+local COL_UNSTABLE = { 0.1, 0.4, 0.9 } -- 33%: 鮮やかな青
+local COL_DANGER   = { 0.0, 0.4, 0.1 } -- 99.9%: 濃い緑
+local COL_EVOLVED  = { 0.9, 0.1, 0.2 } -- 100%: 赤
 
 ---@param a number[]
 ---@param b number[]
@@ -59,16 +55,18 @@ end
 ---@return number, number, number
 local function getColorForMutation(pct)
     pct = tonumber(pct) or 0
-    pct = math.max(0, math.min(100, pct))
+    if pct >= 100 then
+        return COL_EVOLVED[1], COL_EVOLVED[2], COL_EVOLVED[3]
+    end
+    pct = math.max(0, pct)
     local r, g, b
-    if pct <= 25 then
-        r, g, b = lerpColor3(COL_CLEAN, COL_UNSTABLE, pct / 25)
-    elseif pct <= 50 then
-        r, g, b = lerpColor3(COL_UNSTABLE, COL_DANGER, (pct - 25) / 25)
-    elseif pct <= 75 then
-        r, g, b = lerpColor3(COL_DANGER, COL_CRITICAL, (pct - 50) / 25)
+    if pct <= 33 then
+        r, g, b = lerpColor3(COL_CLEAN, COL_UNSTABLE, pct / 33)
     else
-        r, g, b = lerpColor3(COL_CRITICAL, COL_EVOLVED, (pct - 75) / 25)
+        local span = 99.9 - 33
+        local t = (pct - 33) / span
+        t = math.max(0, math.min(1, t))
+        r, g, b = lerpColor3(COL_UNSTABLE, COL_DANGER, t)
     end
     r = tonumber(r) or 0.5
     g = tonumber(g) or 0.5
@@ -326,9 +324,18 @@ function NE_ViralStressHUD:prerender()
     mg = tonumber(mg) or 0.5
     mb = tonumber(mb) or 0.5
 
+    -- アイコンのみ: 彩度 100%〜50% 相当を L へのブレンドでパルス（バー・テキストは mr,mg,mb のまま）
+    local L = 0.299 * mr + 0.587 * mg + 0.114 * mb
+    local rwTime = getTimestampMs() / 1000.0
+    local pulseAng = rwTime * (3 + pct / 20)
+    local sFactor = 0.25 * (1 + math.sin(pulseAng))
+    local ir = mr * (1 - sFactor) + L * sFactor
+    local ig = mg * (1 - sFactor) + L * sFactor
+    local ib = mb * (1 - sFactor) + L * sFactor
+
     -- 左→右: アイコン → バー → ％。ステータスは「チップ drawRect のみ」→ その後 drawText
     if tex and self.drawTextureScaled then
-        self:drawTextureScaled(tex, iconX, iconY, iconS, iconS, 1, mr, mg, mb)
+        self:drawTextureScaled(tex, iconX, iconY, iconS, iconS, 1, ir, ig, ib)
     elseif self.drawText then
         self:drawText("Missing Icon", iconX, textY, 0.85, 0.85, 0.85, 1, font)
     end
@@ -350,7 +357,8 @@ function NE_ViralStressHUD:prerender()
         self:drawRect(chipX, chipY, chipW, chipH, CHIP_BG_ALPHA, mr, mg, mb)
     end
     if self.drawText and status ~= "" then
-        self:drawText(status, statusX, textY, mr, mg, mb, 1, font)
+        -- 文字色を白 (1, 1, 1) に固定。背景チップ(drawRect)の色は mr, mg, mb のまま維持
+        self:drawText(status, statusX, textY, 1, 1, 1, 1, font)
     end
 end
 

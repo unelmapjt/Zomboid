@@ -116,3 +116,8 @@ Antigravity が Cursor へ Lua 差分を指示する際も、上記を**絶対�
 - **`memory-bank/failures.md`** に記載された「負の知見（使用不可 API・パターン）」を決して提案・実装・推奨しない。
 - ユーザーからの要望がブラックリストに含まれる API を必要とする場合、直ちにそのリスクを報告し、安全な代替案を提示せよ。
 - **Java Userdata に対する `rawget` はブラック**（§1.9）。Mod 生成 Lua に `rawget(d, …)` のような行を書かせるな。
+
+## 3 Cursorへの指示
+- 実装は自分で行わずCursorへの指示文を作成する。
+- Cursorへの指示文の冒頭に、`EXECUTION GATE: Allowed Source registry ONLY | Unknown API BLOCK | Missing info ASK ONLY | No inference allowed
+`を付与する。
