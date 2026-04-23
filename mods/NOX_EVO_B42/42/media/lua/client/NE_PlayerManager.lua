@@ -12,22 +12,6 @@ if type(NE.MUTATION_EVOLVED_THRESHOLD) ~= "number" then
 end
 local NE_MUTATION_EVOLVED_THRESHOLD = NE.MUTATION_EVOLVED_THRESHOLD
 
---- B42: IsoPlayer 基準移動速度（setMoveSpeed 用）
-local NE_MOVE_SPEED_BASE = 0.06
-
---- 移動倍率: 75% 未満 1.0。75–100% 線形（0.06*0.75=0.045 → 0.06*0.5=0.030）。t=(mutation_0_1-0.75)/0.25、m=1-(0.25+t*0.25)
----@param mutationPct number
----@return number
-local function NE_ComputeMutationSpeedMultiplier(mutationPct)
-    local m = tonumber(mutationPct) or 0
-    if m < 75 then
-        return 1.0
-    end
-    local mutation_0_1 = math.min(1.0, math.max(0, m / 100))
-    local t = (mutation_0_1 - 0.75) / 0.25
-    return 1.0 - (0.25 + t * 0.25)
-end
-
 --- B42: getSpecificPlayer / ティック間で非 IsoPlayer が混ざるため、メソッド触り前に必須
 ---@param player any
 ---@return boolean
@@ -44,13 +28,46 @@ local function NE_IsValidPlayer(player)
     return instanceof(player, "IsoPlayer") == true
 end
 
+--- 歩行倍率（旧 NE_ComputeMutationSpeedMultiplier 相当）: 75% 未満 1.0、75〜100% で線形低下。OnPlayerUpdate での WalkSpeed/MoveDelta 再強制用。
+---@param mutationPct number
+---@return number
+local function NE_MutationSpeedMultiplierForWalk(mutationPct)
+    local m = tonumber(mutationPct) or 0
+    if m < 75 then
+        return 1.0
+    end
+    local mutation_0_1 = math.min(1.0, math.max(0, m / 100))
+    local t = (mutation_0_1 - 0.75) / 0.25
+    return 1.0 - (0.25 + t * 0.25)
+end
+
+--- B42 IsoPlayer 基準の歩行速度スケール（setVariable WalkSpeed 用）
+local NE_MOVE_SPEED_BASE = 0.06
+
+--- 速度権威（ハイブリッド）: 50% 以上で Foot_R/L の setAdditionalPain・Limp 変数を強制。99.5% 以上で setAllowRun/setAllowSprint を禁止。API は pcall で保護。
 ---@param player IsoPlayer|IsoGameCharacter|nil
----@param allowRun boolean
----@param allowSprint boolean
-local function NE_ApplyRunSprintAuthority(player, allowRun, allowSprint)
+---@param mutationPct number 変異度 0–100
+local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
     if not NE_IsValidPlayer(player) then
         return
     end
+
+    local mut = tonumber(mutationPct) or 0
+
+    local md = nil
+    if type(player.getModData) == "function" then
+        local okMd, v = pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            return player:getModData()
+        end)
+        if okMd then
+            md = v
+        end
+    end
+
+    local evolved = mut >= NE_MUTATION_EVOLVED_THRESHOLD
+    local allowRun = not evolved
+    local allowSprint = not evolved
     if type(player.setAllowRun) == "function" then
         pcall(function()
             ---@diagnostic disable-next-line: undefined-field
@@ -63,52 +80,32 @@ local function NE_ApplyRunSprintAuthority(player, allowRun, allowSprint)
             player:setAllowSprint(allowSprint)
         end)
     end
-end
-
---- 速度権威: WalkSpeed / MoveDelta（文字列）+ setMoveSpeed + setMoveDelta + setSpeedMod + setAnimationSpeedModifier（あれば）+ Torso 感染 + stats:set(PAIN)。OnTick と OnPlayerUpdate の両方から呼ばれうる
----@param player IsoPlayer|IsoGameCharacter|nil
----@param mutationPct number 変異度 0–100
-local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
-    if not NE_IsValidPlayer(player) then
-        return
+    if md and type(md) == "table" then
+        if evolved then
+            md.NE_MutationEvolvedIgnoreRun = true
+        else
+            md.NE_MutationEvolvedIgnoreRun = nil
+        end
     end
-
-    local mut = tonumber(mutationPct) or 0
-    local m = NE_ComputeMutationSpeedMultiplier(mut)
 
     if type(player.setVariable) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setVariable("WalkSpeed", tostring(0.06 * m))
-        end)
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setVariable("MoveDelta", tostring(m))
-        end)
-    end
-    if type(player.setMoveSpeed) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setMoveSpeed(NE_MOVE_SPEED_BASE * m)
-        end)
-    end
-    if type(player.setMoveDelta) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setMoveDelta(m)
-        end)
-    end
-    if type(player.setAnimationSpeedModifier) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setAnimationSpeedModifier(m)
-        end)
-    end
-    if type(player.setSpeedMod) == "function" then
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            player:setSpeedMod(m)
-        end)
+        if mut >= 50 then
+            local okL, errL = pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                player:setVariable("Limp", "true")
+            end)
+            if not okL and Z_TRACER and Z_TRACER.EmitTrace then
+                Z_TRACER.EmitTrace("NE_DIAGNOSTIC", "player:setVariable", "FAILED: " .. tostring(errL), "ERROR")
+            end
+        else
+            local okL, errL = pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                player:setVariable("Limp", "false")
+            end)
+            if not okL and Z_TRACER and Z_TRACER.EmitTrace then
+                Z_TRACER.EmitTrace("NE_DIAGNOSTIC", "player:setVariable", "FAILED: " .. tostring(errL), "ERROR")
+            end
+        end
     end
 
     local bd = nil
@@ -123,44 +120,41 @@ local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
     end
     if bd then
         local BPT = rawget(_G, "BodyPartType")
-        if BPT and BPT.Torso_Upper and type(bd.getBodyPart) == "function" then
-            local part = nil
-            local okP, p = pcall(function()
-                ---@diagnostic disable-next-line: undefined-field
-                return bd:getBodyPart(BPT.Torso_Upper)
-            end)
-            if okP then
-                part = p
+        if BPT and type(bd.getBodyPart) == "function" then
+            local footPain = 0
+            if mut >= 50 then
+                footPain = math.max(0, math.min(100, (mut - 50) / 50 * 100))
             end
-            if part then
-                pcall(function()
-                    ---@diagnostic disable-next-line: undefined-field
-                    part:setInfectedWound(mut >= 25)
-                    ---@diagnostic disable-next-line: undefined-field
-                    part:setWoundInfectionLevel(mut)
-                end)
+            local footKeys = { "Foot_L", "Foot_R" }
+            for i = 1, #footKeys do
+                local bid = BPT[footKeys[i]]
+                if bid ~= nil then
+                    local part = nil
+                    local okP, p = pcall(function()
+                        ---@diagnostic disable-next-line: undefined-field
+                        return bd:getBodyPart(bid)
+                    end)
+                    if okP then
+                        part = p
+                    end
+                    if part then
+                        if type(part.setAdditionalPain) == "function" then
+                            local okP2, errP2 = pcall(function()
+                                ---@diagnostic disable-next-line: undefined-field
+                                part:setAdditionalPain(footPain)
+                            end)
+                            if not okP2 and Z_TRACER and Z_TRACER.EmitTrace then
+                                Z_TRACER.EmitTrace("NE_DIAGNOSTIC", footKeys[i] .. ":setAdditionalPain", "FAILED: " .. tostring(errP2), "ERROR")
+                            end
+                        else
+                            if Z_TRACER and Z_TRACER.EmitTrace then
+                                Z_TRACER.EmitTrace("NE_DIAGNOSTIC", footKeys[i] .. ":setAdditionalPain", "METHOD_NOT_FOUND on part", "ERROR")
+                            end
+                        end
+                    end
+                end
             end
         end
-    end
-
-    local stats = nil
-    if type(player.getStats) == "function" then
-        local okSt, s = pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            return player:getStats()
-        end)
-        if okSt then
-            stats = s
-        end
-    end
-    local CS = rawget(_G, "CharacterStat")
-    if stats and CS and CS.PAIN and type(stats.set) == "function" then
-        local t = (mut - 75) / 25
-        local painValue = math.max(0, math.min(100, t * 100))
-        pcall(function()
-            ---@diagnostic disable-next-line: undefined-field
-            stats:set(CS.PAIN, painValue)
-        end)
     end
 end
 
@@ -587,7 +581,7 @@ function NE.ApplySymptoms(player, modData)
         end
     end
 
-    -- 移動: OnTick（NE_MutationEvolvedMovementLock）で変数+速度+SpeedMod+PAIN（NE_ApplyMutationSpeedAuthority）
+    -- 移動: OnTick（NE_MutationEvolvedMovementLock）で Foot 追加痛・Limp・AllowRun/Sprint（NE_ApplyMutationSpeedAuthority）
 
     if Z_TRACER and Z_TRACER.EmitTrace then
         local rgPanic, rgDizzy, rgFood = nil, nil, nil
@@ -613,7 +607,7 @@ function NE.ApplySymptoms(player, modData)
             "NE_SYMPTOMS",
             "ApplySymptoms",
             string.format(
-                "mutation=%.2f|setPanic=%.2f|setIntox=%.2f|setFood=%d|hpLoss=%.2f|getPanic=%s|getIntox=%s|getFood=%s|getMoveDelta=%s|worldMin=%.1f|moveAuthority=OnTick:var+speed+delta+speedMod+PAIN|healthInf=OnTick:setInfectedWound+setWoundInfectionLevel|limp=off",
+                "mutation=%.2f|setPanic=%.2f|setIntox=%.2f|setFood=%d|hpLoss=%.2f|getPanic=%s|getIntox=%s|getFood=%s|getMoveDelta=%s|worldMin=%.1f|moveAuthority=OnTick:FootPain+Limp+AllowRun|healthInf=symptoms:Torso_AddDamage|limp=OnTick>=50pct",
                 mutation,
                 neTracePanic,
                 neTraceDizzy,
@@ -635,7 +629,7 @@ function NE.ApplySymptoms(player, modData)
     end)
 end
 
---- 毎ティック: NE_ApplyMutationSpeedAuthority（速度+PAIN）+ setAllowRun / setAllowSprint（99.5%+ で走行・スプリント禁止）
+--- 毎ティック: NE_ApplyMutationSpeedAuthority（Foot 追加痛・Limp・走破禁止を一括）
 local function NE_MutationEvolvedMovementLock()
     if NE.Switches and NE.Switches.EnableMutation == false then
         return
@@ -646,24 +640,11 @@ local function NE_MutationEvolvedMovementLock()
             local md = player:getModData()
             local mut = (md and tonumber(md.NE_MutationLevel)) or 0
             NE_ApplyMutationSpeedAuthority(player, mut)
-
-            if not md or mut < 75 then
-                NE_ApplyRunSprintAuthority(player, true, true)
-                if md then
-                    md.NE_MutationEvolvedIgnoreRun = nil
-                end
-            elseif mut < NE_MUTATION_EVOLVED_THRESHOLD then
-                NE_ApplyRunSprintAuthority(player, true, true)
-                md.NE_MutationEvolvedIgnoreRun = nil
-            else
-                NE_ApplyRunSprintAuthority(player, false, false)
-                md.NE_MutationEvolvedIgnoreRun = true
-            end
         end
     end
 end
 
---- 変異度 25% 未満が全員なら OnTick から外し、Torso 感染表示・速度権威の毎ティック更新を停止（75%+ 走破禁止は NE_MutationEvolvedMovementLock 内）
+--- 変異度 25% 未満が全員なら OnTick から外し、NE_ApplyMutationSpeedAuthority の毎ティック更新を停止（EVOLVED 時の走破禁止は同関数内）
 local NE_EvolvedMovementLockSubscribed = false
 
 function NE.SyncEvolvedMovementLockGlobally()
@@ -690,10 +671,6 @@ function NE.SyncEvolvedMovementLockGlobally()
                 local md2 = p2:getModData()
                 local mut2 = (md2 and tonumber(md2.NE_MutationLevel)) or 0
                 NE_ApplyMutationSpeedAuthority(p2, mut2)
-                NE_ApplyRunSprintAuthority(p2, true, true)
-                if md2 then
-                    md2.NE_MutationEvolvedIgnoreRun = nil
-                end
             end
         end
         Events.OnTick.Remove(NE_MutationEvolvedMovementLock)
@@ -701,15 +678,24 @@ function NE.SyncEvolvedMovementLockGlobally()
     end
 end
 
---- OnPlayerUpdate: エンジン直後に速度系のみ即再適用（OnTick と二重。装備・素足の上書き対策）
+--- OnPlayerUpdate: 描画直前にエンジンへ上書きされる Limp / WalkSpeed / MoveDelta を毎フレーム再強制（痛み付与は OnTick の NE_ApplyMutationSpeedAuthority のみ）
 local NE_MutationSpeedOnPlayerUpdateHooked = false
 
 local function NE_MutationSpeedAuthorityOnPlayerUpdate(player)
     if NE.Switches and NE.Switches.EnableMutation == false then
         return
     end
-    if not NE_IsValidPlayer(player) or player:isDead() then
+    if not NE_IsValidPlayer(player) then
         return
+    end
+    if type(player.isDead) == "function" then
+        local okDead, dead = pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            return player:isDead()
+        end)
+        if okDead and dead then
+            return
+        end
     end
     local md = nil
     if type(player.getModData) == "function" then
@@ -725,7 +711,29 @@ local function NE_MutationSpeedAuthorityOnPlayerUpdate(player)
     if mut < 25 then
         return
     end
-    NE_ApplyMutationSpeedAuthority(player, mut)
+
+    local mult = NE_MutationSpeedMultiplierForWalk(mut)
+    if type(player.setVariable) == "function" then
+        if mut >= 50 then
+            pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                player:setVariable("Limp", "true")
+            end)
+        else
+            pcall(function()
+                ---@diagnostic disable-next-line: undefined-field
+                player:setVariable("Limp", "false")
+            end)
+        end
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setVariable("WalkSpeed", tostring(NE_MOVE_SPEED_BASE * mult))
+        end)
+        pcall(function()
+            ---@diagnostic disable-next-line: undefined-field
+            player:setVariable("MoveDelta", tostring(mult))
+        end)
+    end
 end
 
 local function NE_RegisterMutationSpeedOnPlayerUpdateOnce()
