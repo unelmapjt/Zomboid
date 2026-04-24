@@ -445,12 +445,10 @@ function NE.ApplySymptoms(player, modData)
     local neTraceFood = (mutation >= 75) and 40 or 0
     local neTraceHpLoss = 0.0
     local CS = rawget(_G, "CharacterStat")
-    -- Panic / INTOXICATION: 0–25→0–15、25–50→15–30、50–100→30–100（ノード間線形）
+    -- Panic / INTOXICATION: 25%未満（Clean）は 0、25–50→15–30、50–100→30–100（ノード間線形）
     local moodVal = 0
-    if mutation <= 0 then
+    if mutation < 25 then
         moodVal = 0
-    elseif mutation < 25 then
-        moodVal = mutation * (15 / 25)
     elseif mutation < 50 then
         moodVal = 15 + (mutation - 25) * (15 / 25)
     else
@@ -487,7 +485,14 @@ function NE.ApplySymptoms(player, modData)
     if stats and CS and CS.PANIC and CS.INTOXICATION and CS.FOOD_SICKNESS then
         NE_TryStatsSet(stats, CS.PANIC, neTracePanic)
         NE_TryStatsSet(stats, CS.INTOXICATION, neTraceDizzy)
-        NE_TryStatsSet(stats, CS.FOOD_SICKNESS, neTraceFood)
+        -- 副作用タイマーが有効な場合は薬の FOOD_SICKNESS を優先（上書き禁止）
+        local effectEnd = tonumber(modData.NE_DrugSideEffectEndTime) or 0
+        if worldMin < effectEnd then
+            NE_TryStatsSet(stats, CS.FOOD_SICKNESS, modData.NE_DrugSideEffectFood or neTraceFood)
+        else
+            modData.NE_DrugSideEffectEndTime = nil -- 期限切れ: クリーンアップ
+            NE_TryStatsSet(stats, CS.FOOD_SICKNESS, neTraceFood)
+        end
     end
 
     -- Danger 50%〜: 変異性の咳・吐血・HP 減少（パニック等は上記で累積適用）

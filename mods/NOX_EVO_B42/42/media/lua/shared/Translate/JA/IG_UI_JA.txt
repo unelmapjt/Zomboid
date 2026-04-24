@@ -1,0 +1,4 @@
+IG_UI_JA = {
+    IGUI_NE_Antimutagen_Success = "……効いている。変異度が %1 下がった。",
+    IGUI_NE_Retardant_Success   = "……変異の進行が 30 分間停止した。",
+}

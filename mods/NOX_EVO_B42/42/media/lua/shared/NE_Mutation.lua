@@ -260,6 +260,17 @@ function NE.UpdateMutation(player, forceRecalc)
         end
     end
 
+    -- 遅延剤（Retardant）の効果判定（保護: 上昇のみ阻止、安全圏の自然回復は許可）
+    local nowMin = NE_GetWorldMinutes()
+    local retardEnd = tonumber(modData.NE_RetardantEndTime)
+    if retardEnd and retardEnd > nowMin then
+        if delta > 0 then
+            delta = 0
+        end
+    elseif retardEnd and nowMin >= retardEnd then
+        modData.NE_RetardantEndTime = nil
+    end
+
     -- 7. NE_MutationLevel への適用 (設計書 4.13)
     local newLevel = (modData.NE_MutationLevel or 20.0) + delta
     modData.NE_MutationLevel = math.max(0, math.min(newLevel, NE.Config.MaxMutation))

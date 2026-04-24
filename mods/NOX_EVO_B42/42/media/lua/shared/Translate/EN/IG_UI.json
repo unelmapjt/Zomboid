@@ -25,5 +25,7 @@
   "UI_NE_Status_Critical": "Critical",
   "UI_NE_Status_EVOLVED": "EVOLVED",
   "IGUI_Health_Infected": "Mutation",
-  "IGUI_Health_Infected_Wound": "Mutated body part"
+  "IGUI_Health_Infected_Wound": "Mutated body part",
+  "IGUI_NE_Antimutagen_Success": "...It's working. Mutation fell by %1.",
+  "IGUI_NE_Retardant_Success": "...Mutation progress is halted for 30 minutes."
 }

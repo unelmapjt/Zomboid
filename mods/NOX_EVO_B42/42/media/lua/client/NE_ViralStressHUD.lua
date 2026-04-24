@@ -33,6 +33,7 @@ local BAR_FILL_ALPHA = 0.92
 local CHIP_BG_ALPHA = 0.3
 
 local ICON_TEXTURE_PATH = "media/ui/NE_MutationIcon.png"
+local LOCK_ICON_TEXTURE_PATH = "media/ui/lock.png"
 
 -- HUD 下端からのオフセット（従来の「下から約 150px」配置）
 local HUD_BOTTOM_OFFSET_PX = 150
@@ -108,6 +109,23 @@ local function getMutationStatusText(pct)
     return ""
 end
 
+--- 遅延薬 HUD 用: 世界経過分（NE_Mutation の NE_GetWorldMinutes と同系）
+---@return number
+local function NE_HudWorldAgeMinutes()
+    local gt = getGameTime and getGameTime() or nil
+    if not gt or not gt.getWorldAgeHours then
+        return 0
+    end
+    local ok, w = pcall(function()
+        ---@diagnostic disable-next-line: undefined-field
+        return gt:getWorldAgeHours() * 60
+    end)
+    if ok and type(w) == "number" then
+        return w
+    end
+    return 0
+end
+
 function NE_ViralStressHUD:render()
     ISPanel.render(self)
 end
@@ -124,6 +142,8 @@ function NE_ViralStressHUD:new(playerNum)
     o.layoutDirty = true
     o.iconTexture = nil
     o.iconResolved = false
+    o.lockHudTexture = nil
+    o.lockHudTextureResolved = false
     o.hudFont = UIFont.Medium
     o:initialise()
     o:setVisible(true)
@@ -220,14 +240,46 @@ function NE_ViralStressHUD:prerender()
 
     local player = getSpecificPlayer(self.playerNum)
     local pct = 0
+    local md = nil
     if player and player.getModData then
-        local md = player:getModData()
+        md = player:getModData()
         if md then
             local v = md.NE_MutationLevel
             pct = tonumber(v) or 0
         end
     end
     pct = math.max(0, math.min(100, tonumber(pct) or 0))
+
+    -- 遅延剤: NE_RetardantEndTime が未来のあいだ、保護中であることを示すタイマー＋鍵を常時表示
+    local nowWorld = NE_HudWorldAgeMinutes()
+    local retardActive = false
+    local retardStr = nil
+    if md then
+        local endT = tonumber(md.NE_RetardantEndTime)
+        if endT and endT > nowWorld then
+            retardActive = true
+            local rem = math.max(0, endT - nowWorld)
+            local mm = math.floor(rem)
+            local ss = math.floor((rem - mm) * 60 + 0.5)
+            if ss >= 60 then
+                mm = mm + math.floor(ss / 60)
+                ss = ss % 60
+            end
+            retardStr = string.format("[VIRAL RETARDANT: %02d:%02d]", mm, ss)
+        elseif endT and nowWorld >= endT then
+            md.NE_RetardantEndTime = nil
+        end
+    end
+
+    if not retardActive then
+        self.lockHudTextureResolved = false
+    elseif not self.lockHudTextureResolved then
+        self.lockHudTextureResolved = true
+        if getTexture then
+            self.lockHudTexture = getTexture(LOCK_ICON_TEXTURE_PATH)
+        end
+    end
+
     -- 表示は小数第2位まで。ステータス帯は生値で判定（ロジックの閾値と一致）
     local status = getMutationStatusText(pct)
     if type(status) ~= "string" then
@@ -274,6 +326,15 @@ function NE_ViralStressHUD:prerender()
     local barH = tonumber(self.barH) or (BASE_BAR_H * scale)
     local iconS = tonumber(self.iconS) or (BASE_ICON_S * scale)
 
+    local lockColW = (retardActive and iconS or 0)
+    local extraTop = 0
+    local wTimer = 0
+    if retardStr then
+        extraTop = math.floor(fontH + 4 * scale + 0.5)
+        wTimer = tm:MeasureStringX(font, retardStr)
+        wTimer = tonumber(wTimer) or 0
+    end
+
     local iconColW = iconS
     local tex = self.iconTexture
     if not tex then
@@ -285,6 +346,8 @@ function NE_ViralStressHUD:prerender()
         + gap
         + barTrackW
         + gap
+        + lockColW
+        + gap
         + wPct
         + gap
         + statusColW
@@ -294,8 +357,9 @@ function NE_ViralStressHUD:prerender()
         totalW = 400 * scale
     end
 
+    local baseBodyH = math.max(BASE_PANEL_H * scale, chipH + 2 * pad)
     self.width = totalW
-    self.height = math.max(BASE_PANEL_H * scale, chipH + 2 * pad)
+    self.height = baseBodyH + extraTop
 
     if self.hasUserMoved ~= self._lastHasUserMoved then
         self._lastHasUserMoved = self.hasUserMoved
@@ -309,8 +373,8 @@ function NE_ViralStressHUD:prerender()
         self.layoutDirty = false
     end
 
-    -- パネル縦中央を基準（相対 0）。各要素の上端 y = centerY - height/2
-    local centerY = (tonumber(self.height) or 40) * 0.5
+    -- メイン行は extraTop より下の帯の縦中央（上段は遅延薬タイマー）
+    local centerY = extraTop + baseBodyH * 0.5
     ---@param h number 要素の高さ（ピクセル）
     ---@return number
     local function yTopFromCenter(h)
@@ -319,7 +383,7 @@ function NE_ViralStressHUD:prerender()
 
     local iconX = pad
     local barX = iconX + iconColW + gap
-    local pctX = barX + barTrackW + gap
+    local pctX = barX + barTrackW + gap + lockColW + gap
     local chipX = pctX + wPct + gap
     local statusX = chipX + chipPadH
 
@@ -342,7 +406,16 @@ function NE_ViralStressHUD:prerender()
     local ig = mg * (1 - sFactor) + L * sFactor
     local ib = mb * (1 - sFactor) + L * sFactor
 
-    -- 左→右: アイコン → バー → ％。ステータスは「チップ drawRect のみ」→ その後 drawText
+    if retardStr and self.drawText then
+        local tr = 0.25
+        local tg = 0.65
+        local tb = 1.0
+        local tx = barX + barTrackW * 0.5 - wTimer * 0.5
+        local ty = math.max(0, (extraTop - fontH) * 0.5)
+        self:drawText(retardStr, tx, ty, tr, tg, tb, 1, font)
+    end
+
+    -- 左→右: アイコン → バー → 鍵（遅延中）→ ％。ステータスはチップ → drawText
     if tex and self.drawTextureScaled then
         self:drawTextureScaled(tex, iconX, iconY, iconS, iconS, 1, ir, ig, ib)
     elseif self.drawText then
@@ -354,6 +427,16 @@ function NE_ViralStressHUD:prerender()
         local fillW = barTrackW * ((tonumber(pct) or 0) / 100)
         if fillW == fillW and fillW > 0 then
             self:drawRect(barX, barY, fillW, barH, BAR_FILL_ALPHA, mr, mg, mb)
+        end
+    end
+
+    local lockTex = self.lockHudTexture
+    local lockX = barX + barTrackW + gap
+    if lockColW > 0 then
+        if lockTex and self.drawTextureScaled then
+            self:drawTextureScaled(lockTex, lockX, iconY, lockColW, lockColW, 1, 0.35, 0.75, 1.0)
+        elseif self.drawText then
+            self:drawText("L", lockX, textY, 0.35, 0.75, 1.0, 1, font)
         end
     end
 

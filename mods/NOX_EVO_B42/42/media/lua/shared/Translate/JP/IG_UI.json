@@ -20,5 +20,7 @@
   "IGUI_NE_Confirm_Yes": "YES",
   "IGUI_NE_Confirm_No": "NO",
   "IGUI_Health_Infected": "変異",
-  "IGUI_Health_Infected_Wound": "変異した部位"
+  "IGUI_Health_Infected_Wound": "変異した部位",
+  "IGUI_NE_Antimutagen_Success": "……効いている。変異度が %1 下がった。",
+  "IGUI_NE_Retardant_Success": "……変異の進行が 30 分間停止した。"
 }
