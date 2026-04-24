@@ -105,16 +105,8 @@ function NE.UpdateMutation(player, forceRecalc)
         return
     end
 
-    if modData.NE_MutationLevel == nil then
-        modData.NE_MutationLevel = 20.0
-        if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace(
-                "NE_MUTATION",
-                "Bootstrap",
-                "Fired|context=UpdateMutation|level=20.0",
-                "INFO"
-            )
-        end
+    if not modData.NE_MutationLevel then
+        return
     end
 
     if Z_TRACER and Z_TRACER.EmitTrace then

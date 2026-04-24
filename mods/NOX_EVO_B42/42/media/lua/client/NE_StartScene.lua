@@ -471,6 +471,7 @@ function NE.InitialEvent.setupInitialState(player)
 
     setupInitialEquipment(player)
     spawnDrHiroWithRetry(player)
+    modData.NE_MutationLevel = 20.0 -- 新規ゲーム開始時のみ、ここで明示的に初期値をセットする
     NE.InitPlayerData(player)
 end
 
@@ -617,9 +618,16 @@ local function runStartScene(player, skipCinematic)
     local modData = player:getModData()
     -- OnCreatePlayer が短時間に複数回発火すると OnTick 経由で本関数が複数積まれる。
     -- 先頭で NE_StartSceneFinished を立てる旧実装では、2 回目も teleport/setup が走り得る。
-    if modData.NE_StartSceneFinished then
+    -- B42: OnCreatePlayer 直後は modData が未同期のことがあるため、生存時間でコンティニューを判別する。
+    local survived = player:getHoursSurvived() or 0
+    if modData.NE_StartSceneFinished or survived > 0.001 then
         if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace("NE_SCENE", "StartScene", "Run:SKIP:AlreadyFinished", "DEBUG")
+            Z_TRACER.EmitTrace(
+                "NE_SCENE",
+                "StartScene",
+                "Run:SKIP|Finished=" .. tostring(modData.NE_StartSceneFinished) .. "|Survived=" .. tostring(survived),
+                "DEBUG"
+            )
         end
         return
     end

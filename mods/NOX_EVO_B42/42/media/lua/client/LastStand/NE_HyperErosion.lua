@@ -90,11 +90,16 @@ function challenge.Add()
 
     function challenge.OnCreatePlayer(_, player)
         if not isNoxErosionWorld() then return end
-        if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace("CRITICAL", "Challenge", "FORCE_START_APPLIED", "INFO")
+        if not player then return end
+        -- 新規キャラクターのみ初期化する（コンティニュー時はスキップ）
+        local survived = player:getHoursSurvived() or 0
+        if survived > 0.001 then
+            return -- コンティニュー：セーブ済みの変異度を保護
         end
-        if player then
-            player:getModData().NE_MutationLevel = 20.0
+        -- 新規ゲーム：変異度を初期値に設定
+        player:getModData().NE_MutationLevel = 20.0
+        if Z_TRACER and Z_TRACER.EmitTrace then
+            Z_TRACER.EmitTrace("CRITICAL", "Challenge", "FORCE_START_APPLIED|NewGame", "INFO")
         end
     end
 

@@ -85,7 +85,7 @@ local function NE_TryStatsGet(stats, statEnum)
     return nil
 end
 
---- 速度権威: 50%+ で Sprint 禁止・スタミナ上限、75%+ で Run 禁止・WalkInjury・スタミナ0固定（ネイティブ鈍足）。setAdditionalPain は使わない。API は pcall で保護。
+--- 速度権威: 50%+ Sprint 禁止・スタミナ上限(段階)、75%+ Run 禁止・WalkInjury、100%でスタミナ0。setAdditionalPain は使わない。API は pcall で保護。
 ---@param player IsoPlayer|IsoGameCharacter|nil
 ---@param mutationPct number 変異度 0–100
 local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
@@ -167,12 +167,20 @@ local function NE_ApplyMutationSpeedAuthority(player, mutationPct)
     end
     local CS = rawget(_G, "CharacterStat")
     if stats and CS and CS.ENDURANCE then
-        if mut >= 75 then
+        if mut >= 100 then
+            -- 100%: 完全にスタミナ消失（0固定）
             NE_TryStatsSet(stats, CS.ENDURANCE, 0.0)
+        elseif mut >= 75 then
+            -- 75%: 極度の疲労状態（上限 0.25）
+            local curr = NE_TryStatsGet(stats, CS.ENDURANCE)
+            if curr and curr > 0.25 then
+                NE_TryStatsSet(stats, CS.ENDURANCE, 0.25)
+            end
         elseif mut >= 50 then
-            local currentEndurance = NE_TryStatsGet(stats, CS.ENDURANCE)
-            if currentEndurance and currentEndurance > 0.2 then
-                NE_TryStatsSet(stats, CS.ENDURANCE, 0.2)
+            -- 50%: 疲労の始まり（上限 0.5）
+            local curr = NE_TryStatsGet(stats, CS.ENDURANCE)
+            if curr and curr > 0.5 then
+                NE_TryStatsSet(stats, CS.ENDURANCE, 0.5)
             end
         end
     end
@@ -182,40 +190,6 @@ end
 if Z_TRACER and Z_TRACER.EmitTrace then
     Z_TRACER.EmitTrace("NE_INIT", "PlayerManager", "Load:START", "INFO")
 end
-
--- --------------------------------------------------------------------------
--- 変異度: OnGameStart のみでシード（OnCreatePlayer はバニラ側リスクのため使わない）
--- --------------------------------------------------------------------------
----@param player IsoPlayer|nil
----@param sourceTag string
-local function NE_EnsureMutationLevelImmediate(player, sourceTag)
-    if not NE_IsValidPlayer(player) or player:isDead() then
-        return
-    end
-    local md = player:getModData()
-    if not md then
-        return
-    end
-    if md.NE_MutationLevel == nil then
-        md.NE_MutationLevel = 20.0
-        if Z_TRACER and Z_TRACER.EmitTrace then
-            Z_TRACER.EmitTrace(
-                "NE_MUTATION",
-                "Bootstrap",
-                "Fired|context=" .. tostring(sourceTag) .. "|level=20.0",
-                "INFO"
-            )
-        end
-    end
-end
-
-local function NE_OnGameStartMutationSeed()
-    for i = 0, getNumActivePlayers() - 1 do
-        NE_EnsureMutationLevelImmediate(getSpecificPlayer(i), "OnGameStart")
-    end
-end
-
-Events.OnGameStart.Add(NE_OnGameStartMutationSeed)
 
 -- --------------------------------------------------------------------------
 -- Dr.Hiro 導線: 離脱リマインド（最大5回）→ 鍵なしなら起床リマインド
@@ -626,11 +600,11 @@ local function NE_MutationEvolvedMovementLock()
     end
 end
 
---- 変異度 25% 未満が全員なら OnTick から外し、NE_ApplyMutationSpeedAuthority の毎ティック更新を停止（50%+ Sprint・スタミナ / 75%+ Run・スタミナ0 等は同関数内）
-local NE_EvolvedMovementLockSubscribed = false
-
+--- 変異度 25% 以上が1人でもいれば OnTick に登録し、いなければ外す（B42 冪等性対応）
 function NE.SyncEvolvedMovementLockGlobally()
     local need = false
+
+    -- スイッチがオフなら強制的に need = false
     if not (NE.Switches and NE.Switches.EnableMutation == false) then
         for i = 0, getNumActivePlayers() - 1 do
             local p = getSpecificPlayer(i)
@@ -643,20 +617,23 @@ function NE.SyncEvolvedMovementLockGlobally()
             end
         end
     end
-    if need and not NE_EvolvedMovementLockSubscribed then
+
+    -- 【重要】フラグ管理を廃止。毎回必ずRemoveして、必要な時だけAddする。
+    Events.OnTick.Remove(NE_MutationEvolvedMovementLock)
+
+    if need then
         Events.OnTick.Add(NE_MutationEvolvedMovementLock)
-        NE_EvolvedMovementLockSubscribed = true
-    elseif not need and NE_EvolvedMovementLockSubscribed then
-        for j = 0, getNumActivePlayers() - 1 do
-            local p2 = getSpecificPlayer(j)
-            if NE_IsValidPlayer(p2) and not p2:isDead() then
-                local md2 = p2:getModData()
-                local mut2 = (md2 and tonumber(md2.NE_MutationLevel)) or 0
-                NE_ApplyMutationSpeedAuthority(p2, mut2)
-            end
+    end
+
+    -- ⭕ if need then の外に出す: OnTick の登録有無に関わらず、同期のタイミングで全員に最新の状態を「1回」強制適用する。
+    -- 25%未満に下がった時も、確実に健康な状態（走れる状態）にリセットされる。
+    for j = 0, getNumActivePlayers() - 1 do
+        local p2 = getSpecificPlayer(j)
+        if NE_IsValidPlayer(p2) and not p2:isDead() then
+            local md2 = p2:getModData()
+            local mut2 = (md2 and tonumber(md2.NE_MutationLevel)) or 0
+            NE_ApplyMutationSpeedAuthority(p2, mut2)
         end
-        Events.OnTick.Remove(NE_MutationEvolvedMovementLock)
-        NE_EvolvedMovementLockSubscribed = false
     end
 end
 

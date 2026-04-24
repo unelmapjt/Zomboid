@@ -121,7 +121,7 @@ function NE.GetPhaseMult()
     return 2.5
 end
 
---- プレイヤーの初期 ModData をセットアップし、Phase 4.3 の基点を初期化する
+--- プレイヤーの初期 ModData をセットアップ（NE_MutationLevel 以外の nil キーのみ埋める。変異度は NE_StartScene で明示設定）
 ---@param player IsoPlayer
 function NE.InitPlayerData(player)
     if not player then
@@ -131,21 +131,17 @@ function NE.InitPlayerData(player)
     if not modData then
         return
     end
-    -- 1. 変異基本データ初期化（新規のみ。既存セーブ値は上書きしない）
-    if modData.NE_MutationLevel == nil then
-        modData.NE_MutationLevel = 20.0
+    if modData.NE_CurrentInternalLocMult == nil then
+        modData.NE_CurrentInternalLocMult = 1.0
     end
-    -- NE_SetupFinished は NE_StartScene.setupInitialState が専用管理（ここで触らない）
-
-    -- 2. Phase 4.3 動的汚染計算用: 初期倍率とタイムスタンプの設定（開始点 1.0）
-    modData.NE_CurrentInternalLocMult = 1.0
-    local gt = getGameTime()
-    modData.NE_LastMutationUpdateTimestamp = gt and (gt:getWorldAgeHours() * 60) or 0
-
-    -- 3. シナリオ・リマインド管理用
-    modData.NE_HiroReminderCount = 0
-    modData.NE_HiroRemindersSilenced = false
-    if Z_TRACER and Z_TRACER.EmitTrace then
-        Z_TRACER.EmitTrace("NE_INIT", "PlayerData", "Initialized:OK", "INFO")
+    if modData.NE_LastMutationUpdateTimestamp == nil then
+        local gt = getGameTime()
+        modData.NE_LastMutationUpdateTimestamp = gt and (gt:getWorldAgeHours() * 60) or 0
+    end
+    if modData.NE_HiroReminderCount == nil then
+        modData.NE_HiroReminderCount = 0
+    end
+    if modData.NE_HiroRemindersSilenced == nil then
+        modData.NE_HiroRemindersSilenced = false
     end
 end
