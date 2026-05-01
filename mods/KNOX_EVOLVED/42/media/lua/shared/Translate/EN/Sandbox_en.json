@@ -1,0 +1,17 @@
+{
+    "Sandbox_KNOX_EVOLVED": "NOX: EVOLVED Settings",
+    "Sandbox_KNOX_EVOLVED_MutationBaseRate": "Base Mutation Rate",
+    "Sandbox_KNOX_EVOLVED_MutationBaseRate_tooltip": "Base amount of virus accumulated in the body every minute. Increasing this dramatically raises survival difficulty.",
+    "Sandbox_KNOX_EVOLVED_ExpansionRate": "Contamination Expansion Rate",
+    "Sandbox_KNOX_EVOLVED_ExpansionRate_tooltip": "The radius (in tiles) that the viral contamination expands per day.",
+    "Sandbox_KNOX_EVOLVED_EnableMilestones": "Enable Evolution Milestones",
+    "Sandbox_KNOX_EVOLVED_EnableMilestones_tooltip": "Enables point distribution and self-purification (Detox) based on survival days.",
+    "Sandbox_KNOX_EVOLVED_AwakeningPoints": "Awakening Point Grant",
+    "Sandbox_KNOX_EVOLVED_AwakeningPoints_tooltip": "Number of Evolution Points (EP) granted when mutation reaches 100%.",
+    "Sandbox_KNOX_EVOLVED_MaxActiveScripts": "Max Active AI Scripts",
+    "Sandbox_KNOX_EVOLVED_MaxActiveScripts_tooltip": "Maximum number of zombies executing special AI simultaneously. Affects PC performance.",
+    "Sandbox_KNOX_EVOLVED_DistanceCulling": "AI Distance Culling",
+    "Sandbox_KNOX_EVOLVED_DistanceCulling_tooltip": "Distance from the player at which complex AI calculations are completely stopped。",
+    "Sandbox_KNOX_EVOLVED_DaysToAirstrike": "Days Until Airstrike",
+    "Sandbox_KNOX_EVOLVED_DaysToAirstrike_tooltip": "Grace period until final purification (airstrike) by the military begins."
+}

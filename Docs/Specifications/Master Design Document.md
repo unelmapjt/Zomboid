@@ -1,8 +1,8 @@
-# Project "NOX: EVOLVED" - Master Design Document (Build 42 Standard)
+# Project "KNOX: EVOLVED" - Master Design Document (Build 42 Standard)
 
 ## 第 0 章：精神的続編としての再定義とプロット調整案
 
-本 MOD は「Bandits: Week One」から 5 年経過した世界を描く叙事詩的続編として再定義する。前作の展開へのリスペクトを保ちつつ、物語の重複を回避し、NOX 独自の深みを与える。
+本 MOD は「Bandits: Week One」から 5 年経過した世界を描く叙事詩的続編として再定義する。前作の展開へのリスペクトを保ちつつ、物語の重複を回避し、KNOX 独自の深みを与える。
 
 ### 0.1 世界観の接続 (Succession)
 - **B16 事件の遺産**: 5 年前、何者かが Military Research Facility の地下16階で核攻撃を阻止したことでノックスの街は壊滅を免れた。しかしその「成功」こそが、地下深く（B17）に封じ込められていたウィルスと「禁忌の研究」を焼き払う唯一の機会を奪ってしまった。
@@ -61,7 +61,7 @@
 - **目標**: ルイビル臨時救護所から感染源への大遠征。50日間の期限内に地下17階軍事研究施設の最深部へ到達し、終末を制御する。
 - **開発環境**: Project Zomboid Build 42 / Z-System (Z_Core.lua & Z_Tracer.lua による決定論的デバッグ) / Lua 5.1
 - **リソース方針**: グラフィックの新規作成は最小限とし、B42バニラアセット（およびHEF等のB42ネイティブ基盤）をロジックで制御・置換して構成する。※B41レガシー大型MODへの依存は完全排除。
-- **MOD ID**: `NOX_EVO_B42`
+- **MOD ID**: `KNOX_EVO_B42`
 
 ### 1.1 用語の定義
 本プロジェクトでは、システム間の誤認を防ぐため、以下の用語を厳格に使い分ける。
@@ -81,7 +81,7 @@
 ### 2.1 ディレクトリ構成 (Build 42 Standard)
 Build 42 のバージョン管理およびディレクトリ標準に基づき、以下の構造を厳守する。
 
-    mods/NOX_EVO_B42/
+    mods/KNOX_EVO_B42/
     ├── mod.info           (検出用ダミー)
     ├── poster.png
     └── 42/                (Build 42 専用データ)
@@ -125,7 +125,7 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 
 ### 2.2 設定システムと依存基盤
 - **設定基盤**: `B42ModOptions` (Workshop ID: 3386860561) を利用。
-- **実装例**: `PZAPI.ModOptions:create("NOX_EVOLVED", "NOX: EVOLVED")` を使用し、ゲーム内オプションメニューに統合する。
+- **実装例**: `PZAPI.ModOptions:create("KNOX_EVOLVED", "KNOX: EVOLVED")` を使用し、ゲーム内オプションメニューに統合する。
 - **イベント基盤**: `HelicopterEventExpansionFramework` (HEF / Workshop ID: 3672792485) を利用し、終盤の空爆等のイベントを制御する。
 - **デバッグ基盤**: 同梱の `Z_Core.lua` / `Z_Tracer.lua` による決定論的デバッグを標準とする。
 
@@ -154,7 +154,7 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 #### 2.4.2 SandboxVars の安全な参照
 
 - 常に `if not SandboxVars then return end` を先頭に置くこと。
-- サブテーブルはエイリアスを考慮して `SandboxVars.NOX_EVO_B42 or SandboxVars.NOX_EVOLVED or SandboxVars.NOX_EVO` の形式で取得し、`nil` チェック後にメンバへアクセスすること。
+- サブテーブルはエイリアスを考慮して `SandboxVars.KNOX_EVO_B42 or SandboxVars.KNOX_EVOLVED or SandboxVars.KNOX_EVO` の形式で取得し、`nil` チェック後にメンバへアクセスすること。
 
 
 ## 3. プロローグと初期シーケンス (NE_StartScene.lua)
@@ -184,9 +184,9 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 #### 4. 階層型リマインダー（Dr.Hiro 導線）— `NE_PlayerManager.lua`
 基点は Dr.Hiro の公式座標 **`(15641, 3909)`**（タイル距離は平方距離 **≥ 100**、すなわち約 **10 タイル** 以上で離脱とみなす）。
 
-- **離脱リマインド（最大 5 回）**: Dr.Hiro 遺体側の導線アイテムであるマスターキー（`NOX_EVO_B42.NE_AccessKey`）および軍用身分証（`NOX_EVO_B42.NE_DrHiro_ID`）を**いずれも未所持**かつ永久停止フラグ未設定のとき、`OnTick` で **60 フレーム毎**（標準フレームレート時は約 1 秒毎）にチェックし、離脱条件を満たすたびに `player:Say(getText("UI_NE_Card_Reminder_Dist"))` を発行。`modData.NE_HiroReminderCount` で **1〜5** をカウントし、**5 回到達後は離脱系リマインドは打ち止め**。
+- **離脱リマインド（最大 5 回）**: Dr.Hiro 遺体側の導線アイテムであるマスターキー（`KNOX_EVO_B42.NE_AccessKey`）および軍用身分証（`KNOX_EVO_B42.NE_DrHiro_ID`）を**いずれも未所持**かつ永久停止フラグ未設定のとき、`OnTick` で **60 フレーム毎**（標準フレームレート時は約 1 秒毎）にチェックし、離脱条件を満たすたびに `player:Say(getText("UI_NE_Card_Reminder_Dist"))` を発行。`modData.NE_HiroReminderCount` で **1〜5** をカウントし、**5 回到達後は離脱系リマインドは打ち止め**。
 - **起床リマインド（悪夢・追奏）**: 離脱リマインドが **5 回完了**した後も、上記 **鍵・身分証の両方未取得**のとき、`Events.OnPlayerWake` で **`player:Say(getText("UI_NE_Card_Reminder_Wake"))`** を発行する。
-- **永久停止**: `player:getInventory():containsTypeRecurse("NOX_EVO_B42.NE_AccessKey")` **および** `player:getInventory():containsTypeRecurse("NOX_EVO_B42.NE_DrHiro_ID")` の**両方**を取得したことを検知したら `modData.NE_HiroRemindersSilenced = true` とし、離脱・起床の両リマインドを停止する。
+- **永久停止**: `player:getInventory():containsTypeRecurse("KNOX_EVO_B42.NE_AccessKey")` **および** `player:getInventory():containsTypeRecurse("KNOX_EVO_B42.NE_DrHiro_ID")` の**両方**を取得したことを検知したら `modData.NE_HiroRemindersSilenced = true` とし、離脱・起床の両リマインドを停止する。
 - **翻訳キー**: **`UI_NE_Card_Reminder_Dist`**（離脱）、**`UI_NE_Card_Reminder_Wake`**（起床）。JSON 上のエントリ名サフィックス `_Dist` / `_Wake` で管理する（従来の `UI_NE_Card_Reminder` は互換用として残し得る）。
 
 ### 3.3 初期アイテム・装備・配置NPC
@@ -195,9 +195,9 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 | カテゴリ         | 対象・アイテム                                                                                                                                                                                                 | 詳細                                                                                                                                                                                                 |
 | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **初期装備**     | `Base.HospitalGown`                                                                                                                                                                                            | **プレイヤー着用状態**（消耗・耐久は開始時ロジックで低めに設定）。他の初期装備はすべて削除。                                                                                                       |
-| **初期所持品**   | `Base.Hat_GasMask`, `Base.HazmatSuit`, `NOX_EVO_B42.NE_AntiMutantDrug`, `NOX_EVO_B42.NE_Retardant`, `NOX_EVO_B42.NE_QuestReport`                                                                                  | ガスマスク・防護服は**インベントリ内**（消耗・耐久低）。抗変異薬・汚染遅延剤・機密文書（君への遺書）は**スクリプト登録確認後に付与**。                                                         |
+| **初期所持品**   | `Base.Hat_GasMask`, `Base.HazmatSuit`, `KNOX_EVO_B42.NE_AntiMutantDrug`, `KNOX_EVO_B42.NE_Retardant`, `KNOX_EVO_B42.NE_QuestReport`                                                                                  | ガスマスク・防護服は**インベントリ内**（消耗・耐久低）。抗変異薬・汚染遅延剤・機密文書（君への遺書）は**スクリプト登録確認後に付与**。                                                         |
 | **隣の死体**     | **Dr.Hiro (研究員)**                                                                                                                                                                                           | **公式座標 `(15642, 3909, 0)`**。B42バグ対策として **`setIsFemale(false)` を含む厳格な男性化**を実施。白衣（`Base.JacketLong_Doctor`）およびスリッパ（`Base.Shoes_Slippers`）を着用。 |
-| **遺体インベントリ** | `Base.FirstAidKit`, `NOX_EVO_B42.NE_DrHiro_ID`, `NOX_EVO_B42.NE_AccessKey`                                                                                                                                     | **救急キット**・**軍用身分証**・**マスターキー**を配置。エンジン自動生成の `Base.IDCard` は重複回避のためスクリプトで除去。                                                                       |
+| **遺体インベントリ** | `Base.FirstAidKit`, `KNOX_EVO_B42.NE_DrHiro_ID`, `KNOX_EVO_B42.NE_AccessKey`                                                                                                                                     | **救急キット**・**軍用身分証**・**マスターキー**を配置。エンジン自動生成の `Base.IDCard` は重複回避のためスクリプトで除去。                                                                       |
 
 **【視認性・到達性保証の設計ルール】**
 - **遮蔽回避**: 生成対象のスクエア（Square）が `isBlocked()` または家具等のオブジェクトで埋まっている場合、プレイヤーから「直接視線が通る（CanSee）」かつ「最も近い」空きタイルを選択するロジックを実装すること。
@@ -240,7 +240,7 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 - **実行タイミング**: ゲーム内 **1分ごと**（`Events.EveryOneMinute`）。`NE_MutationLevel` 更新後に `ApplySymptoms` が評価する（旧稿の `DeltaMutation` 直後専用ではない）。
 - **内容**: 現在値から決まるティアについて、上表と同じキー規則で **ランダム1行**。
 - **頻度**: 世界時計（分）に基づく **クールダウン**。変異度が高いほど **発話ロール成功率が上がり**、成功後の待ち時間は **短く**なる。境界で台詞が出た直後はクールダウンを入れ、**境界と周期の二重発言**を抑える。
-- **ガード**: サンドボックス **Instinct Voice**（`SandboxVars.NOX_EVO_B42.InstinctVoice`、および互換 ID）がオフのときは、**境界・周期とも本能の声（変異台詞）を出さない**（**4.2** の身体症状などは別処理）。
+- **ガード**: サンドボックス **Instinct Voice**（`SandboxVars.KNOX_EVO_B42.InstinctVoice`、および互換 ID）がオフのときは、**境界・周期とも本能の声（変異台詞）を出さない**（**4.2** の身体症状などは別処理）。
 
 **境界の再発火**
 
@@ -310,7 +310,7 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
   - 地下（`Z < 0`）への移動を即座に検知し、地上の汚染度から解放される挙動を保証する。
 
 ### 4.5 ウィルス震源地 (Toxicity Hotspots)
-全26箇所の震源地を定義する。各地点は固有の「強度（Strength）」と「影響上限（Cap）」を持ち、汚染の起点となる。
+全27箇所の震源地を定義する。各地点は固有の「強度（Strength）」と「影響上限（Cap）」を持ち、汚染の起点となる。
 
 | 種別                 | 地点数 | 強度 (Strength) | 最大強度 (Cap) | 主要ロケーション (確定座標)                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | :------------------- | :----- | :-------------- | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -325,7 +325,7 @@ Build 42 のバージョン管理およびディレクトリ標準に基づき�
 - **初期範囲 (Day 1)**: 
   - 全震源地は Day 1 において、中心点から **半径1.5タイル（実質3x3の矩形範囲）** を初期汚染域として保持する。
 - **拡大半径の計算式**: 
-  - `radius = (currentDay - 1) * (NE.ContaminationRate * SandboxVars.NE.WorldExpansionSpeed) * hotspot.strength + 1.5`
+  - `radius = (currentDay - 1) * (NE.ContaminationRate * SandboxVars.KNOX.WorldExpansionSpeed) * hotspot.strength + 1.5`
   - `NE.ContaminationRate` は標準 80 タイル/日。
   - `SandboxVars.NE.WorldExpansionSpeed` (0.0〜5.0) により、拡大速度をプレイヤーが自由に調整可能。
 - **Military Research Facility (B17) の特殊処理**:
@@ -522,7 +522,7 @@ B42のポストプロセスシステムおよび、パーティクルエミッ�
 * **フィルター残量 (`NE_FilterLife`)**:
     * ガスマスク系アイテムは内部データ（ModData）として `NE_FilterLife` (最大100%) を持つ。
     * 汚染域に滞在している間、1分ごとにこの値を消費する。
-    * **消費計算式**: `1分あたりの消費量 = (100 / 1440) * ZoneMultiplier * SandboxVars.NE.MaskDurabilityMult`
+    * **消費計算式**: `1分あたりの消費量 = (100 / 1440) * ZoneMultiplier * SandboxVars.KNOX.MaskDurabilityMult`
     * **持続目安（Zone 1 / 12時間）**: サンドボックス設定がデフォルト（1.0x）の場合、**最も過酷な Zone 1 (2.0x) に滞在し続けた場合、フィルター 100% 分が『ゲーム内時間で 12時間』で切れる** ように設計する。Zone 3 (1.0x) であれば 24時間 持続する。
 * **機能停止と警告**:
     * `NE_FilterLife` が 0 になった瞬間、防具自体が壊れていなくても係数は自動的に `0.1` から `0.8` へ移行し、息苦しさを示す警告（セリフやSE）を発する。

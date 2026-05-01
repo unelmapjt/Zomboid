@@ -1,0 +1,9 @@
+name=KNOX:EVOLVED_B42
+id=KNOX:EVOLVED
+description=変異が始まった。ウィルスの汚染に蝕まれた世界で50日間を生き延びるハードコア・サバイバル。最後の決断は・・・。 <br> The Evolution has begun. Hardcore survival in a world consumed by viral corruption. Survive 50 days. What will your final decision be...?
+poster=poster.png
+author=UnelmaPJT
+require=B42ModOptions,HelicopterEventExpansionFramework,Bandits2
+pzversion=42
+versionMin=42.0.0
+modversion=0.5
